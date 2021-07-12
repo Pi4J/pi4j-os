@@ -11,6 +11,14 @@ jobs:
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     steps:
       ################################################################################
+      # Checkout repository with submodules
+      ################################################################################
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      ################################################################################
       # Build CrowPi image with Packer
       ################################################################################
       - name: Build CrowPi image with Packer
