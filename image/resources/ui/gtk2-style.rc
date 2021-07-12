@@ -1,0 +1,5 @@
+style "scrollbar"
+{
+	GtkRange::slider-width = 18
+	GtkRange::stepper-size = 18
+}

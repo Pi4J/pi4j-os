@@ -1,0 +1,5 @@
+[Unit]
+Description=Refresh wallpaper when file changes
+
+[Path]
+PathModified=/opt/fhnw/wallpaper-dynamic.jpg

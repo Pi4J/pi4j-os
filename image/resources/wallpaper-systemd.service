@@ -1,0 +1,6 @@
+[Unit]
+Description=Update FHNW wallpaper
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/pcmanfm --set-wallpaper=/opt/fhnw/wallpaper-dynamic.jpg --wallpaper-mode=stretch
