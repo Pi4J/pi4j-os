@@ -49,7 +49,7 @@ build {
   }
 
   provisioner "shell" {
-    script = "crowpi.sh"
+    script = "crowpi/crowpi.sh"
   }
 
   post-processor "compress" {
