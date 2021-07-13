@@ -1,0 +1,22 @@
+[all]
+# Enable X with 128MB GPU memory and custom resolution
+start_x=1
+gpu_mem=128
+hdmi_cvt 1024 600 60 6 0 0 0
+
+# Enable I2C and SPI
+dtparam=i2c_arm=on
+dtparam=spi=on
+
+# Enable audio
+dtparam=auto=on
+
+# Enable GPIO-IR
+dtoverlay=gpio-ir,gpio_pin=20
+
+# Enable DHT11
+dtoverlay=dht11,gpiopin=4
+
+# Enable DRM VC4 V3D with up to 2 frame buffers
+dtoverlay=vc4-fkms-v3d
+max_framebuffers=2

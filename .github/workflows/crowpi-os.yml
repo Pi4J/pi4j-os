@@ -31,7 +31,7 @@ jobs:
           -v /home/runner/work/_temp/_github_workflow:/github/workflow
           -v "${{ github.workspace }}:/github/workspace"
           mkaczanowski/packer-builder-arm
-          build crowpi.pkr.hcl
+          build crowpi/crowpi.pkr.hcl
 
       ################################################################################
       # Create a GitHub release

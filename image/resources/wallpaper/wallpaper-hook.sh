@@ -13,7 +13,7 @@ if [ "${reason:-}" = "ROUTERADVERT" ]; then
 fi
 
 # Skip if this does not affect our monitored interfaces
-if [ "${interface:-}" != "${LAN_INTERFACE}" ] && [ "${interface:-}" != "${WLAN_INTERFACE}" ]; then
+if [ -n "${interface:-}" ] && [ "${interface:-}" != "${LAN_INTERFACE}" ] && [ "${interface:-}" != "${WLAN_INTERFACE}" ]; then
   exit 0
 fi
 

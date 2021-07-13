@@ -1,9 +1,9 @@
 source "arm" "crowpi" {
   # Raspberry Pi OS with Desktop
   file_urls = [
-    "https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2021-03-25/2021-03-04-raspios-buster-armhf.zip"
+    "https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2021-05-28/2021-05-07-raspios-buster-armhf.zip"
   ]
-  file_checksum_url = "https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2021-03-25/2021-03-04-raspios-buster-armhf.zip.sha256"
+  file_checksum_url = "https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2021-05-28/2021-05-07-raspios-buster-armhf.zip.sha256"
   file_checksum_type = "sha256"
   file_target_extension = "zip"
 
