@@ -46,6 +46,9 @@ apt-get -qqy install \
   openjdk-11-jdk
 rm -rf /var/lib/apt/lists/*
 
+# Update system MIME database to ensure working gtk-pixbuf loader
+update-mime-database /usr/share/mime
+
 # Download and extract Gluon JavaFX
 wget -O /tmp/gluon-javafx.zip "${GLUON_JAVAFX_URL}"
 rm -rf "${GLUON_JAVAFX_VERSION_PATH}"
