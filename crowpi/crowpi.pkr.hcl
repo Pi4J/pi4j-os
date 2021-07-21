@@ -49,7 +49,7 @@ build {
   }
 
   provisioner "shell" {
-    script = "crowpi/crowpi.sh"
+    script = "./crowpi.sh"
   }
 
   post-processor "compress" {
@@ -67,6 +67,6 @@ build {
     checksum_types = [
       "sha256"
     ]
-    output = "crowpi.img.zip.sha256"
+    output = "crowpi.img.sha256"
   }
 }
