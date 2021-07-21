@@ -1,0 +1,59 @@
+name: pi4j-os
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  main:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Prepare build environment
+        id: env
+        run: |
+          echo ::set-output name=RELEASE_VERSION::$(echo "${GITHUB_REF#refs/*/}" | sed 's/\//-/g' | tr -cd '[:alnum:]-')
+
+      - name: Build CrowPi OS image with Packer
+        id: build
+        if: >-
+          (github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')))
+          ||
+          (github.event_name == 'pull_request')
+        env:
+          WORKSPACE_PATH: ${{ github.workspace }}
+        run: >-
+          docker run
+          --rm --privileged
+          --workdir /github/workspace/crowpi
+          -v /dev:/dev
+          -v /home/runner/work/_temp/_github_home:/github/home
+          -v /home/runner/work/_temp/_github_workflow:/github/workflow
+          -v "${WORKSPACE_PATH}:/github/workspace"
+          mkaczanowski/packer-builder-arm
+          build crowpi.pkr.hcl
+
+      - name: Upload CrowPi OS image as build artifact
+        if: steps.build.outcome == 'success'
+        uses: actions/upload-artifact@v2
+        with:
+          name: crowpi-image
+          path: crowpi/crowpi.img.zip
+
+      - name: Publish OS images to external repository
+        if: >-
+          github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/'))
+        env:
+          WEBDAV_BASE_URL: ${{ secrets.REPO_BASE_URL }}
+          WEBDAV_USERNAME: ${{ secrets.REPO_WEBDAV_USERNAME }}
+          WEBDAV_PASSWORD: ${{ secrets.REPO_WEBDAV_PASSWORD }}
+          RELEASE_VERSION: ${{ steps.env.outputs.RELEASE_VERSION }}
+        run: >-
+          curl
+          --user "${WEBDAV_USERNAME}:${WEBDAV_PASSWORD}"
+          --upload-file crowpi/crowpi.img.zip
+          "${WEBDAV_BASE_URL}/${RELEASE_VERSION}-crowpi.img.zip"
+          --upload-file crowpi/crowpi.img.sha256
+          "${WEBDAV_BASE_URL}/${RELEASE_VERSION}-crowpi.img.sha256"
