@@ -1,0 +1,15 @@
+[Unit]
+Description=Pi4J OS: Update system MIME database once
+DefaultDependencies=no
+After=sysinit.target local-fs.target
+Before=basic.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/update-mime-database /usr/share/mime
+ExecStartPost=/usr/bin/systemctl disable pi4j-update-mime-db.service
+ExecStartPost=/usr/bin/rm /etc/systemd/system/pi4j-update-mime-db.service
+Restart=no
+
+[Install]
+WantedBy=basic.target

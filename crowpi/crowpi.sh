@@ -46,9 +46,6 @@ apt-get -qqy install \
   openjdk-11-jdk
 rm -rf /var/lib/apt/lists/*
 
-# Update system MIME database to ensure working gtk-pixbuf loader
-update-mime-database /usr/share/mime
-
 # Download and extract Gluon JavaFX
 wget -O /tmp/gluon-javafx.zip "${GLUON_JAVAFX_URL}"
 rm -rf "${GLUON_JAVAFX_VERSION_PATH}"
@@ -71,6 +68,10 @@ install -Dm 0644 /tmp/resources/system/config.txt /boot/config.txt
 
 # Deploy default WiFi configuration
 install -Dm 0644 /tmp/resources/system/wpa-supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+# Deploy and enable MIME database regeneration script for first boot
+install -Dm 0644 /tmp/resources/system/pi4j-update-mime-db.service /etc/systemd/system/pi4j-update-mime-db.service
+systemctl enable pi4j-update-mime-db.service
 
 # Disable getting started wizard
 rm /etc/xdg/autostart/piwiz.desktop
