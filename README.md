@@ -63,7 +63,9 @@ You can support the project or show interest by simply starring the repo or beco
 
 ### Companies, schools and universities
 - [Karakun](https://karakun.com)
-  <img src="sponsor-logos/KARAKUN_Logo.jpg" width="200" />
+  
+  <img src="sponsor-logos/KARAKUN_Logo.jpg" width="300" />
+  
 - [Gluon](https://gluonhq.com)  
 - _your company is missed here_ 
 
