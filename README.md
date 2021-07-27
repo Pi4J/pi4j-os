@@ -67,6 +67,9 @@ You can support the project or show interest by simply starring the repo or beco
   <img src="sponsor-logos/KARAKUN_Logo.jpg" width="300" />
   
 - [Gluon](https://gluonhq.com)  
+  
+  <img src="sponsor-logos/Gluon_Logo.png" width="300" />
+  
 - _your company is missed here_ 
 
 
