@@ -46,14 +46,12 @@ jobs:
         if: >-
           github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/'))
         env:
-          WEBDAV_BASE_URL: ${{ secrets.REPO_BASE_URL }}
-          WEBDAV_USERNAME: ${{ secrets.REPO_WEBDAV_USERNAME }}
-          WEBDAV_PASSWORD: ${{ secrets.REPO_WEBDAV_PASSWORD }}
+          SFTP_SERVER: ${{ secrets.REPO_SFTP_SERVER }}
+          SFTP_USERNAME: ${{ secrets.REPO_SFTP_USERNAME }}
+          SSHPASS: ${{ secrets.REPO_SFTP_PASSWORD }}
           RELEASE_VERSION: ${{ steps.env.outputs.RELEASE_VERSION }}
-        run: >-
-          curl
-          --user "${WEBDAV_USERNAME}:${WEBDAV_PASSWORD}"
-          --upload-file crowpi/crowpi.img.zip
-          "${WEBDAV_BASE_URL}/${RELEASE_VERSION}-crowpi.img.zip"
-          --upload-file crowpi/crowpi.img.sha256
-          "${WEBDAV_BASE_URL}/${RELEASE_VERSION}-crowpi.img.sha256"
+        run: |
+          sshpass -e sftp -oBatchMode=no -oStrictHostKeyChecking=no -b - "${SFTP_USERNAME}@${SFTP_SERVER}" << EOS
+          put crowpi/crowpi.img.zip "${RELEASE_VERSION}-crowpi.img.zip"
+          put crowpi/crowpi.img.sha256 "${RELEASE_VERSION}-crowpi.img.sha256"
+          EOS
