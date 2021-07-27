@@ -96,3 +96,6 @@ install -Dm 0644 /tmp/resources/wallpaper/wallpaper-static.jpg /opt/fhnw/wallpap
 
 # Deploy java-kiosk helper script for JavaFX apps
 sudo install -Dm 0755 /tmp/resources/java/java-kiosk.py /usr/local/bin/java-kiosk
+
+# Deploy a music sample
+sudo install -Dm 0644 /tmp/resources/Music/* /home/pi/Music

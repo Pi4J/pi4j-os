@@ -5,7 +5,7 @@
 
 
 This project provides pre-built versions of custom OS images with all you need to develop 100% pure Java applications for specific Raspberry Pi setups. It is based on the latest official [Raspberry Pi OS](https://www.raspberrypi.org/software/) and automatically built using Packer. By using these images, you will get:
-- user account `pi`, password `pi`
+- user account `pi`, password `crowpi`
 - Preconfigured locale (en_US), keyboard (US) and timezone (Europe/Zurich)
 - Preconfigured wireless country (Switzerland) by default
 - Remote management via SSH and VNC enabled by default
@@ -25,7 +25,7 @@ You may download the zip-compressed archives, extract it and flash it with the i
 
 - **CrowPi OS**
   - support for [CrowPi](https://www.elecrow.com/crowpi-compact-raspberry-pi-educational-kit.html)
-  - can be used as a basis for all kind of Pi4J- , JavaFX-, FXGL-projects  
+  - can be used as a basis for all kind of Pi4J- , JavaFX-, or FXGL-projects  
   - comes with `lirc` preinstalled to run the IR receiver component
   - use [CrowPi template project](https://github.com/Pi4J/pi4j-example-crowpi) to start your CrowPi project
   - use [Java template project]() to start your plain JavaFX, FXGL, or Pi4J project 
@@ -55,14 +55,15 @@ Our OS images for Java are used here
 
 
 ## Sponsors
-You can support the project or show interest by simply starring the repo or becoming a sponsor. Contact us via email.
+You can support the project or show interest by simply starring the repo or becoming a sponsor to let it live long and prosper.
 
-###Individual sponsors
+### Individual sponsors
 - Pascal Mathis
 - _your name can be listed here_
 
 ### Companies, schools and universities
-- [Karakun](https://karakun.com)![Karakun](sponsor-logos/KARAKUN_Logo.jpg)
+- [Karakun](https://karakun.com)
+  <img src="sponsor-logos/KARAKUN_Logo.jpg" width="200" />
 - [Gluon](https://gluonhq.com)  
 - _your company is missed here_ 
 
