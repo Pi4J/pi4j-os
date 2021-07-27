@@ -9,6 +9,7 @@ import time
 
 # Absolute path to Gluon JavaFX directory
 SYSTEM_INIT_BIN = "/usr/sbin/init"
+DETECT_PRIMARY_CARD_BIN = "/usr/local/bin/detect-primary-card"
 GLUON_JAVAFX_PATH = "/opt/javafx-sdk"
 JAVA_KIOSK_LOG = "/tmp/java-kiosk.log"
 
@@ -105,9 +106,24 @@ class Runner(object):
 
 # Helper method to split JVM properties specified as -Dkey=value
 def jvm_property(data):
+    # Trim -D prefix from property if still present
+    if data.startswith('-D'):
+        data = data[2:]
+
+    # Split at first equal sign and return as tuple
     parts = tuple(str(data).split('=', 1))
     return parts if len(parts) == 2 else (parts[0], '')
 
+
+# Parse known arguments and preserve others
+parser = argparse.ArgumentParser(description='Gluon JavaFX Kiosk Launcher', allow_abbrev=False)
+parser.add_argument('--add-modules', default='')
+parser.add_argument('-p', '--module-path', default='')
+args, unknown_args = parser.parse_known_args()
+
+# Ensure we are running as root
+if os.geteuid() != 0:
+    parser.error("Unable to execute 'java-kiosk' without running as root")
 
 # Initialize formatter for unified debug logs
 formatter = logging.Formatter('%(asctime)s %(levelname)-8s %(message)s')
@@ -128,12 +144,21 @@ logger.addHandler(streamHandler)
 logger.addHandler(fileHandler)
 logger.setLevel(logging.DEBUG)
 
-# Parse known arguments and preserve others
-parser = argparse.ArgumentParser(description='Gluon JavaFX Kiosk Launcher', allow_abbrev=False)
-parser.add_argument('--add-modules', default='')
-parser.add_argument('-p', '--module-path', default='')
-parser.add_argument('-D', default=[], action='append', type=jvm_property, dest='properties')
-args, unknown_args = parser.parse_known_args()
+# Search for absolute path of JVM
+jvm_path = shutil.which('java')
+if jvm_path is None:
+    parser.error("Unable to find 'java' binary in current PATH")
+logger.debug('Found JVM to launch Java kiosk application: %s', jvm_path)
+
+# Parse Java properties specified as `-D<key>=<value>` or `-D<key>` stored in unknown arguments
+# This can not be done with argparse as space or equals sign between argument and value is required
+prop_args = list(filter(lambda arg: arg.startswith('-D'), unknown_args))
+properties = dict(map(jvm_property, prop_args))
+logger.debug('Parsed user-specified JVM properties: %s', prop_args)
+
+# Remove parsed Java properties from unknown arguments
+unknown_args = [arg for arg in unknown_args if arg not in prop_args]
+logger.debug('Additional JVM arguments: %s', unknown_args)
 
 # Patch '--module-path' option
 module_path = list(filter(None, args.module_path.split(':')))
@@ -146,15 +171,35 @@ add_modules.insert(0, 'javafx.controls')
 logger.debug('Patched `--add-modules`: %s', add_modules)
 
 # Patch generic properties
-properties = dict(filter(None, args.properties))
 properties.setdefault('glass.platform', 'Monocle')
 properties.setdefault('monocle.platform', 'EGL')
 properties.setdefault('monocle.platform.traceConfig', 'false')
 properties.setdefault('monocle.egl.lib', GLUON_JAVAFX_PATH + '/lib/libgluon_drm.so')
-properties.setdefault('egl.displayid', '/dev/dri/card0')
 properties.setdefault('javafx.verbose', 'false')
 properties.setdefault('prism.verbose', 'false')
-logger.debug('Patched properties: %s', properties)
+
+# Use auto-detection if egl.displayid was not specified by user
+if 'egl.displayid' not in properties:
+    # Run helper binary to determine primary video card
+    logger.debug('Executing helper for primary video card detection: %s', DETECT_PRIMARY_CARD_BIN)
+    result = None
+    try:
+        result = subprocess.run([DETECT_PRIMARY_CARD_BIN], capture_output=True)
+        [logger.debug('> ' + line.decode('utf-8')) for line in result.stderr.splitlines()]
+    except Exception as exc:
+        logger.debug('Could not run helper executable: %s', exc)
+
+    # Use detect card if successful, otherwise fail
+    if result is not None and result.returncode == 0:
+        properties['egl.displayid'] = result.stdout.strip().decode('utf-8')
+        logger.debug('Auto-detected primary video card: %s', properties['egl.displayid'])
+    else:
+        parser.error('Could not auto-detect primary video card, please manually specify `-Degl.displayid=/dev/dri/card<X>` property')
+else:
+    logger.debug('Skipping auto-detection of primary video card due to user-specified value: %s', properties['egl.displayid'])
+
+# Log final set of JVM properties
+logger.debug('Patched JVM properties: %s', properties)
 
 # Patch 'java.library.path' property
 java_library_path = list(filter(None, properties.get('java.library.path', '').split(':')))
@@ -175,16 +220,6 @@ jvm_args = [
 jvm_args.extend(['-D' + key + '=' + value for key, value in properties.items()])
 jvm_args.extend(unknown_args)
 logger.debug('Final JVM arguments: %s', jvm_args)
-
-# Search for absolute path of JVM
-jvm_path = shutil.which('java')
-if jvm_path is None:
-    parser.error("Unable to find 'java' binary in current PATH")
-logger.debug('Found JVM to launch Java kiosk application: %s', jvm_path)
-
-# Ensure we are running as root
-if os.geteuid() != 0:
-    parser.error("Unable to execute 'java-kiosk' without running as root")
 
 # Run application in kiosk mode
 runner = Runner([jvm_path] + jvm_args, env=jvm_env, logger=logger)
