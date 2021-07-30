@@ -102,7 +102,7 @@ sudo install -Dm 0755 /tmp/resources/java/java-kiosk.py /usr/local/bin/java-kios
 sudo install -Dm 0644 /tmp/resources/music/* /home/pi/Music
 
 # Deploy audio configuration
-sudo install -Dm 0644 /tmp/resources/system/asound.conf /etc
+sudo install -Dm 0644 /tmp/resources/system/asound.conf /root/.asoundrc
 
 # Compile and deploy helper executable for detecting primary video card
 gcc -I/usr/include/libdrm -ldrm -o /usr/local/bin/detect-primary-card /tmp/resources/system/detect-primary-card.c
