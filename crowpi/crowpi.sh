@@ -99,7 +99,7 @@ install -Dm 0644 /tmp/resources/wallpaper/wallpaper-static.jpg /opt/fhnw/wallpap
 sudo install -Dm 0755 /tmp/resources/java/java-kiosk.py /usr/local/bin/java-kiosk
 
 # Deploy a music sample
-sudo install -Dm 0644 /tmp/resources/music/* /home/pi/Music
+sudo install -Dm 0644 /tmp/resources/music/StarTrekTheme.mp3  /home/pi/Music/StarTrekTheme.mp3
 
 # Deploy audio configuration
 sudo install -Dm 0644 /tmp/resources/system/asound.conf /root/.asoundrc
