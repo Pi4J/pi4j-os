@@ -9,7 +9,7 @@ dtparam=i2c_arm=on
 dtparam=spi=on
 
 # Enable audio
-dtparam=auto=on
+dtparam=audio=on
 
 # Enable GPIO-IR
 dtoverlay=gpio-ir,gpio_pin=20
