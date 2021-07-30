@@ -37,7 +37,7 @@ class Runner(object):
 
             # Launch JVM with patched options
             self._logger.debug('Launching JVM with previously determined arguments...')
-            self._logger.debug(' '.join(*self._args))
+            self._logger.debug(' '.join(self._args))
             self._run_process(*self._args, **self._kwargs)
 
             # JVM has exited, proceed with shutdown
