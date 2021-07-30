@@ -37,6 +37,7 @@ class Runner(object):
 
             # Launch JVM with patched options
             self._logger.debug('Launching JVM with previously determined arguments...')
+            self._logger.debug(' '.join(self._args))
             self._run_process(*self._args, **self._kwargs)
 
             # JVM has exited, proceed with shutdown
@@ -167,6 +168,7 @@ logger.debug('Patched `--module-path`: %s', module_path)
 
 # Patch '--add-modules' option
 add_modules = list(filter(None, args.add_modules.split(',')))
+add_modules.insert(0, 'javafx.media')
 add_modules.insert(0, 'javafx.controls')
 logger.debug('Patched `--add-modules`: %s', add_modules)
 
