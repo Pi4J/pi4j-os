@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 import argparse
+import json
 import logging
 import os
 import shutil
 import signal
 import subprocess
+import sys
 import time
 
-# Absolute path to Gluon JavaFX directory
+# Hardcoded configuration values
 SYSTEM_INIT_BIN = "/usr/sbin/init"
 DETECT_PRIMARY_CARD_BIN = "/usr/local/bin/detect-primary-card"
 GLUON_JAVAFX_PATH = "/opt/javafx-sdk"
@@ -37,7 +39,7 @@ class Runner(object):
 
             # Launch JVM with patched options
             self._logger.debug('Launching JVM with previously determined arguments...')
-            self._logger.debug(' '.join(self._args))
+            self._logger.debug(' '.join(*self._args))
             self._run_process(*self._args, **self._kwargs)
 
             # JVM has exited, proceed with shutdown
@@ -117,7 +119,7 @@ def jvm_property(data):
 
 
 # Parse known arguments and preserve others
-parser = argparse.ArgumentParser(description='Gluon JavaFX Kiosk Launcher', allow_abbrev=False)
+parser = argparse.ArgumentParser(description='JavaFX Kiosk Launcher', allow_abbrev=False)
 parser.add_argument('--add-modules', default='')
 parser.add_argument('-p', '--module-path', default='')
 args, unknown_args = parser.parse_known_args()
@@ -222,6 +224,22 @@ jvm_args = [
 jvm_args.extend(['-D' + key + '=' + value for key, value in properties.items()])
 jvm_args.extend(unknown_args)
 logger.debug('Final JVM arguments: %s', jvm_args)
+
+# Attempt to store arguments of current java-kiosk invocation for java-last-kiosk
+try:
+    if not os.environ.get('JAVA_KIOSK_VOLATILE'):
+        persistence_path = os.path.join(os.path.expanduser('~'), '.java-last-kiosk')
+        logger.debug('Determined path to last-java-kiosk persistence file: %s', persistence_path)
+        with open(persistence_path, 'w') as persistence_file:
+            json.dump({
+                'cwd': os.getcwd(),
+                'args': sys.argv,
+            }, persistence_file)
+        logger.debug('Successfully persisted current invocation for last-java-kiosk')
+    else:
+        logger.debug('Skipping update of last-java-kiosk persistence file due to volatile mode')
+except Exception as exc:
+    logger.warning('Could not store current java-kiosk invocation for java-last-kiosk: %s', exc)
 
 # Run application in kiosk mode
 runner = Runner([jvm_path] + jvm_args, env=jvm_env, logger=logger)
