@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script configuration
-declare -gr GLUON_JAVAFX_URL="https://gluonhq.com/download/javafx-17-ea-sdk-linux-arm32/"
+declare -gr GLUON_JAVAFX_URL="https://download2.gluonhq.com/openjfx/17/openjfx-17-ea+17_linux-arm32_bin-sdk.zip"
 declare -gr GLUON_JAVAFX_PATH="/opt/javafx-sdk"
 declare -gr GLUON_JAVAFX_VERSION_PATH="/opt/javafx-sdk-17"
 
@@ -111,8 +111,10 @@ gcc -I/usr/include/libdrm -ldrm -o /usr/local/bin/detect-primary-card /tmp/resou
 # Deploy Pi4J libraries
 mkdir /home/pi/deploy
 mv /tmp/resources/deploy/* /home/pi/deploy
+sudo chown -R pi /home/pi/deploy/
 
 # Deploy minimal Java samples for JavaFX and Pi4J
 mkdir /home/pi/java-examples
 mv /tmp/resources/java-examples/* /home/pi/java-examples
+sudo chown -R pi /home/pi/java-examples/
 

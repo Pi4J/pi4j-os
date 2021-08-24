@@ -103,7 +103,7 @@ Compile the JavaFX application
 
 ----
 cd /home/pi/java-examples/pure-javafx
-javac --module-path /opt/javafx-sdk/lib --add-modules=javafx.controls hellofx/HelloFX.java
+javac --module-path /opt/javafx-sdk/lib --add-modules=javafx.controls,javafx.media hellofx/HelloFX.java
 ----
 
 To start `HelloFX` in DRM
@@ -113,9 +113,9 @@ sudo java-kiosk hellofx.HelloFX
 
 `java-kiosk` is a command provided by our image. It assures to call `java` with the correct (and huge) set of parameters.
 
-To start `HelloFX` in X11
+To start `HelloFX` in X11-Mode
 ----
-currently not working in JavaFX-ea17
+DISPLAY=:0 XAUTHORITY=/home/pi/.Xauthority sudo -E java --module-path /opt/javafx-sdk/lib --add-modules javafx.controls,javafx.media -Dglass.platform=gtk hellofx.HelloFX
 ----
 
 === Pure Pi4J Application
