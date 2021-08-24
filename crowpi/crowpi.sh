@@ -106,3 +106,13 @@ sudo install -Dm 0644 /tmp/resources/system/asound.conf /root/.asoundrc
 
 # Compile and deploy helper executable for detecting primary video card
 gcc -I/usr/include/libdrm -ldrm -o /usr/local/bin/detect-primary-card /tmp/resources/system/detect-primary-card.c
+
+
+# Deploy Pi4J libraries
+mkdir /home/pi/deploy
+mv /tmp/resources/deploy/* /home/pi/deploy
+
+# Deploy minimal Java samples for JavaFX and Pi4J
+mkdir /home/pi/java-examples
+mv /tmp/resources/java-examples/* /home/pi/java-examples
+
