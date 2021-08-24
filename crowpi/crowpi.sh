@@ -110,8 +110,11 @@ gcc -I/usr/include/libdrm -ldrm -o /usr/local/bin/detect-primary-card /tmp/resou
 
 # Deploy Pi4J libraries
 mkdir /home/pi/deploy
-mv /tmp/resources/deploy/* /home/pi/deploy
+mv /tmp/resources/deploy/pom.xml /home/pi/deploy
 sudo chown -R pi /home/pi/deploy/
+cd /home/pi/deploy || return
+mvn dependency:copy-dependencies -DoutputDirectory=. -Dhttps.protocols=TLSv1.2
+cd /home/pi || return
 
 # Deploy minimal Java samples for JavaFX and Pi4J
 mkdir /home/pi/java-examples
