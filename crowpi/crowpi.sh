@@ -99,7 +99,7 @@ install -Dm 0644 /tmp/resources/wallpaper/wallpaper-static.jpg /opt/fhnw/wallpap
 sudo install -Dm 0755 /tmp/resources/java/java-kiosk.py /usr/local/bin/java-kiosk
 
 # Deploy a music sample
-sudo install -Dm 0644 /tmp/resources/music/StarTrekTheme.mp3  /home/pi/Music/StarTrekTheme.mp3
+sudo -u pi install -Dm 0644 /tmp/resources/music/* -t /home/pi/Music/
 
 # Deploy audio configuration
 sudo install -Dm 0644 /tmp/resources/system/asound.conf /root/.asoundrc
@@ -107,17 +107,9 @@ sudo install -Dm 0644 /tmp/resources/system/asound.conf /root/.asoundrc
 # Compile and deploy helper executable for detecting primary video card
 gcc -I/usr/include/libdrm -ldrm -o /usr/local/bin/detect-primary-card /tmp/resources/system/detect-primary-card.c
 
-
 # Deploy Pi4J libraries
-mkdir /home/pi/deploy
-mv /tmp/resources/deploy/pom.xml /home/pi/deploy
-sudo chown -R pi /home/pi/deploy/
-cd /home/pi/deploy
-mvn dependency:copy-dependencies -DoutputDirectory=. -Dhttps.protocols=TLSv1.2
-cd /home/pi
+sudo -u pi install -Dm 0644 /tmp/resources/java-deploy/pom.xml /home/pi/deploy/pom.xml
+sudo -u pi mvn -f /home/pi/deploy/pom.xml dependency:copy-dependencies -DoutputDirectory=. -Dhttps.protocols=TLSv1.2
 
 # Deploy minimal Java samples for JavaFX and Pi4J
-mkdir /home/pi/java-examples
-mv /tmp/resources/java-examples/* /home/pi/java-examples
-sudo chown -R pi /home/pi/java-examples/
-
+sudo -u pi cp -r /tmp/resources/java-examples /home/pi/java-examples
