@@ -8,9 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+//import javafx.scene.media.AudioClip;
+//import javafx.scene.media.Media;
+//import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -33,17 +33,17 @@ public class HelloFX extends Application {
         String javaVersion   = System.getProperty("java.version");
         String javafxVersion = System.getProperty("javafx.version");
 
-        MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("bgm.mp3").toExternalForm()));
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.play();
+//        MediaPlayer mediaPlayer = new MediaPlayer(new Media(getClass().getResource("bgm.mp3").toExternalForm()));
+//        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+//        mediaPlayer.play();
 
         Label lbl = new Label("JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
 
-        AudioClip dropSound = new AudioClip(getClass().getResource("drop.wav").toExternalForm());
+//        AudioClip dropSound = new AudioClip(getClass().getResource("drop.wav").toExternalForm());
         Button btn = new Button("Say Hello");
         btn.setOnAction(event -> {
             lbl.setText("Hello");
-            dropSound.play();
+//            dropSound.play();
         });
 
         ImageView imgView = new ImageView(new Image(HelloFX.class.getResourceAsStream("openduke.png")));
