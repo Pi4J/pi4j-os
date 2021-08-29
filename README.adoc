@@ -1,0 +1,145 @@
+= Pi4J V2 :: Raspberry Pi OS for Java
+
+image:https://img.shields.io/github/contributors/Pi4J/pi4j-os[Contributors,link=https://github.com/Pi4J/pi4j-os/graphs/contributors]
+image:https://img.shields.io/github/license/Pi4J/pi4j-os[License,link=https://github.com/Pi4J/pi4j-os/i/blob/main/LICENSE]
+
+This project provides pre-built versions of custom OS images with all you need to develop 100% pure Java applications for specific Raspberry Pi setups. It is based on the latest official https://www.raspberrypi.org/software/[Raspberry Pi OS] and automatically built using Packer. By using these images, you will get:
+
+* user account `pi`, password `crowpi`
+* preconfigured locale (en_US), keyboard (US) and timezone (Europe/Zurich)
+* preconfigured wireless country (Switzerland) by default
+* remote management via `SSH` and `VNC` enabled by default
+* preinstalled https://openjdk.java.net[OpenJDK 11] with latest https://openjfx.io[JavaFX]
+** currently `JavaFX-17-ea+17`
+* starter script to launch JavaFX-apps in DRM (aka kiosk-mode)
+* preconfigured `/boot/config.txt` supporting all components out of the box
+* dynamic wallpaper that shows Ethernet/WLAN address and hostname
+* default WLAN connection
+** setup a hotspot, for example on your smartphone, and you are ready to go.
+*** ssid: `Pi4J-Spot`
+*** password: `MayTheCodeBeWithYou!`
+** your laptop has to be in the same WLAN as the RaspPi
+
+The zip-compressed archives can be downloaded from https://pi4j-download.com[pi4j-download.com].
+
+* Extract it and flash it with the imaging tool of your choice to get started.
+** We recommend to use https://www.raspberrypi.org/blog/raspberry-pi-imager-imaging-utility/[Raspberry Pi Imager].
+
+== Provided OS versions
+
+=== CrowPi OS
+
+* support for https://www.elecrow.com/crowpi-compact-raspberry-pi-educational-kit.html[CrowPi]
+* can be used as a basis for all kind of Pi4J- , JavaFX-, or FXGL-projects
+* comes with `lirc` preinstalled to run the IR receiver component
+* use https://github.com/Pi4J/pi4j-example-crowpi[CrowPi template project] to start your CrowPi project
+* use link:[Java template project] to start your plain JavaFX, FXGL, or Pi4J project
+
+
+=== Picade OS (available soon)
+
+* all of CrowPi OS
+* support for https://shop.pimoroni.com/products/picade-console[Picade Console]
+* use link:[FXGL template project] to start your Picade project
+
+
+=== Game HAT OS (available soon)
+
+* all of CrowPi OS
+* support for https://www.waveshare.com/wiki/Game_HAT[Game HAT]
+* use link:[FXGL template project] to start your Game HAT project
+
+== Community
+
+Our OS images for Java are used here
+
+* https://www.fhnw.ch/en/degree-programmes/engineering/computer-sciences[FHNW School of Engineering | Computer Science Bachelor]
+* _drop us a note if you want to be listed here_
+
+== Contact
+
+* link:mailto:frank@webtechie.be[Frank Delporte]
+* link:mailto:dieter.holz@fhnw.ch[Dieter Holz]
+* link:http://pi4j.slack.com[Pi4J Slack Channel]
+
+== Sponsors
+
+You can support the project or show interest by simply starring the repo or becoming a sponsor to let it live long and prosper.
+
+=== Individual sponsors
+
+* Pascal Mathis
+* _your name can be listed here_
+
+=== Companies, schools and universities
+
+* https://karakun.com[Karakun]
+
+image::sponsor-logos/KARAKUN_Logo.jpg[Karakun, 300]
+
+* https://gluonhq.com[Gluon]
+
+image::sponsor-logos/Gluon_Logo.png[Gluon, 300]
+
+
+* _your company is missed here_
+
+== Test the CrowPi-Image
+
+The image contains two simple applications in directory `java-examples` and a sample file to test the audio channel. Start them via `ssh`.
+
+=== Audio Test
+
+----
+cd /home/pi
+nvlc Music/StarTrekTheme.mp3
+----
+
+=== Pure JavaFX Application
+
+Currently audio is not supported by JavaFX on Raspberry Pi.
+
+Compile the JavaFX application
+
+----
+cd /home/pi/java-examples/pure-javafx
+javac --module-path /opt/javafx-sdk/lib --add-modules=javafx.controls,javafx.media hellofx/HelloFX.java
+----
+
+To start `HelloFX` in DRM
+----
+sudo java-kiosk hellofx.HelloFX
+----
+
+`java-kiosk` is a command provided by our image. It assures to call `java` with the correct (and huge) set of parameters.
+
+To start `HelloFX` in X11-Mode
+----
+DISPLAY=:0 XAUTHORITY=/home/pi/.Xauthority sudo -E java --module-path /opt/javafx-sdk/lib --add-modules javafx.controls,javafx.media -Dglass.platform=gtk hellofx.HelloFX
+----
+
+=== Pure Pi4J Application
+
+Attach a button to `pin 25`. 
+
+- on CrowPi that's the `left`-button. 
+- on Picade Console that's the `button-4`-button. 
+- Otherwise:
+
+image::MinimalPi4J.png[Button on Pin 25]
+
+Compile and start the Java application
+----
+cd /home/pi/java-examples/pure-pi4j
+javac -cp "/home/pi/deploy/*:." hellopi4j/MinimalPi4J.java
+sudo java -cp "/home/pi/deploy/*:." hellopi4j.MinimalPi4J
+----
+
+== LICENSE
+
+This repository is licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+License. You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and
+limitations under the License.
