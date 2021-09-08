@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script configuration
-declare -gr GLUON_JAVAFX_URL="https://download2.gluonhq.com/openjfx/17/openjfx-17-ea+17_linux-arm32_bin-sdk.zip"
+declare -gr GLUON_JAVAFX_URL="https://download2.gluonhq.com/openjfx/17/openjfx-17_linux-arm32_bin-sdk.zip"
 declare -gr GLUON_JAVAFX_PATH="/opt/javafx-sdk"
 declare -gr GLUON_JAVAFX_VERSION_PATH="/opt/javafx-sdk-17"
 
