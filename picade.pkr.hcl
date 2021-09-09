@@ -1,4 +1,4 @@
-source "arm" "crowpi" {
+source "arm" "raspios" {
   # Raspberry Pi OS with Desktop
   file_urls = [
     "https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2021-05-28/2021-05-07-raspios-buster-armhf.zip"
@@ -9,7 +9,7 @@ source "arm" "crowpi" {
 
   # Image Options
   image_build_method = "resize"
-  image_path = "crowpi.img"
+  image_path = "picade.img"
   image_type = "dos"
   image_size = "6G"
 
@@ -40,26 +40,35 @@ source "arm" "crowpi" {
 
 build {
   sources = [
-    "sources.arm.crowpi"
+    "sources.arm.raspios"
   ]
 
   provisioner "file" {
-    source = "./resources"
-    destination = "/tmp/resources"
+    source = "./base/resources"
+    destination = "/tmp/res-base"
+  }
+
+  provisioner "file" {
+    source = "./picade/resources"
+    destination = "/tmp/resources/picade"
   }
 
   provisioner "shell" {
-    script = "./crowpi.sh"
+    script = "./base/base.sh"
+  }
+
+  provisioner "shell" {
+    script = "./picade/picade.sh"
   }
 
   post-processor "compress" {
-    output = "crowpi.img.zip"
+    output = "picade.img.zip"
     compression_level = 6
   }
 
   post-processor "artifice" {
     files = [
-      "crowpi.img.zip"
+      "picade.img.zip"
     ]
   }
 
@@ -67,6 +76,6 @@ build {
     checksum_types = [
       "sha256"
     ]
-    output = "crowpi.img.sha256"
+    output = "picade.img.sha256"
   }
 }
