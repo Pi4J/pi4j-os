@@ -1,6 +1,6 @@
 [all]
-# Enable picade overlay
-dtoverlay=picade,up=103,down=108,left=105,right=106,enter=28,escape=1
+# Disable builtin audio overlay
+dtparam=audio=off
 
 # Enable I2C and SPI
 dtparam=i2c_arm=on
@@ -13,5 +13,11 @@ hdmi_force_hotplug=1
 dtoverlay=vc4-fkms-v3d
 max_framebuffers=2
 
-# Disable builtin audio overlay
-dtparam=audio=off
+# Enable picade overlay
+dtoverlay=picade
+dtparam=up=103
+dtparam=down=108
+dtparam=left=105
+dtparam=right=106
+dtparam=enter=28
+dtparam=escape=1
