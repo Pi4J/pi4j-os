@@ -52,6 +52,6 @@ jobs:
           RELEASE_VERSION: ${{ steps.env.outputs.RELEASE_VERSION }}
         run: |
           sshpass -e sftp -oBatchMode=no -oStrictHostKeyChecking=no -b - "${SFTP_USERNAME}@${SFTP_SERVER}" << EOS
-          put crowpi/crowpi.img.zip "${RELEASE_VERSION}-crowpi.img.zip"
-          put crowpi/crowpi.img.sha256 "${RELEASE_VERSION}-crowpi.img.sha256"
+          put crowpi/crowpi.img.zip "crowpi-${RELEASE_VERSION}.img.zip"
+          put crowpi/crowpi.img.sha256 "crowpi-${RELEASE_VERSION}.img.sha256"
           EOS
