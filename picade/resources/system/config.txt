@@ -1,0 +1,17 @@
+[all]
+# Enable picade overlay
+dtoverlay=picade,up=103,down=108,left=105,right=106,enter=28,escape=1
+
+# Enable I2C and SPI
+dtparam=i2c_arm=on
+dtparam=spi=on
+
+# Enable HDMI hotplugging
+hdmi_force_hotplug=1
+
+# Enable DRM VC4 V3D with up to 2 frame buffers
+dtoverlay=vc4-fkms-v3d
+max_framebuffers=2
+
+# Disable builtin audio overlay
+dtparam=audio=off
