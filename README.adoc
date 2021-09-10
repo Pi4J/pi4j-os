@@ -75,11 +75,11 @@ You can support the project or show interest by simply starring the repo or beco
 
 * https://karakun.com[Karakun]
 
-image::sponsor-logos/KARAKUN_Logo.jpg[Karakun, 300]
+image::assets/logo-karakun.jpg[Karakun, 300]
 
 * https://gluonhq.com[Gluon]
 
-image::sponsor-logos/Gluon_Logo.png[Gluon, 300]
+image::assets/logo-gluon.png[Gluon, 300]
 
 
 * _your company is missed here_
@@ -126,7 +126,7 @@ Attach a button to `pin 25`.
 - on Picade Console that's the `button-4`-button. 
 - Otherwise:
 
-image::MinimalPi4J.png[Button on Pin 25]
+image::assets/pi4j-minimal.png[Button on Pin 25]
 
 Compile and start the Java application
 ----

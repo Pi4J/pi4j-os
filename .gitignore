@@ -1,1 +1,14 @@
-.idea/
+# Packer Output
+/*.img
+/*.img.zip
+/*.img.zip.sha256
+
+# Packer Build
+/packer_cache/
+/build.hwm
+/build.pwd
+/build.pwi
+
+# Development
+/.idea/
+/local/

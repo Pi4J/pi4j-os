@@ -7,6 +7,12 @@ on:
 jobs:
   main:
     runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor:
+          - crowpi
+          - picade
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -16,7 +22,7 @@ jobs:
         run: |
           echo ::set-output name=RELEASE_VERSION::$(echo "${GITHUB_REF#refs/*/}" | sed 's/\//-/g' | tr -cd '[:alnum:]-')
 
-      - name: Build CrowPi OS image with Packer
+      - name: Build OS image with Packer
         id: build
         if: >-
           (github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')))
@@ -27,22 +33,22 @@ jobs:
         run: >-
           docker run
           --rm --privileged
-          --workdir /github/workspace/crowpi
+          --workdir /github/workspace
           -v /dev:/dev
           -v /home/runner/work/_temp/_github_home:/github/home
           -v /home/runner/work/_temp/_github_workflow:/github/workflow
           -v "${WORKSPACE_PATH}:/github/workspace"
           mkaczanowski/packer-builder-arm
-          build crowpi.pkr.hcl
+          build "${{ matrix.flavor }}.pkr.hcl"
 
-      - name: Upload CrowPi OS image as build artifact
+      - name: Upload OS image as build artifact
         if: steps.build.outcome == 'success'
         uses: actions/upload-artifact@v2
         with:
-          name: crowpi-image
-          path: crowpi/crowpi.img.zip
+          name: ${{ matrix.flavor }}-image
+          path: ${{ matrix.flavor }}.img.zip
 
-      - name: Publish OS images to external repository
+      - name: Publish OS image to external repository
         if: >-
           github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/'))
         env:
@@ -52,6 +58,6 @@ jobs:
           RELEASE_VERSION: ${{ steps.env.outputs.RELEASE_VERSION }}
         run: |
           sshpass -e sftp -oBatchMode=no -oStrictHostKeyChecking=no -b - "${SFTP_USERNAME}@${SFTP_SERVER}" << EOS
-          put crowpi/crowpi.img.zip "crowpi-${RELEASE_VERSION}.img.zip"
-          put crowpi/crowpi.img.sha256 "crowpi-${RELEASE_VERSION}.img.sha256"
+          put "${{ matrix.flavor }}.img.zip" "${{ matrix.flavor }}-${RELEASE_VERSION}.img.zip"
+          put "${{ matrix.flavor }}.img.sha256" "${{ matrix.flavor }}-${RELEASE_VERSION}.img.sha256"
           EOS
