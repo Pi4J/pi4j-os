@@ -99,3 +99,6 @@ sudo -u pi install -Dm 0644 /tmp/res-base/music/* -t /home/pi/Music/
 # Deploy Pi4J libraries
 sudo -u pi install -Dm 0644 /tmp/res-base/java-deploy/pom.xml /home/pi/deploy/pom.xml
 sudo -u pi mvn -f /home/pi/deploy/pom.xml dependency:copy-dependencies -DoutputDirectory=. -Dhttps.protocols=TLSv1.2
+
+# Deploy minimal Java samples for JavaFX and Pi4J
+sudo -u pi cp -r /tmp/res-base/java-examples /home/pi/java-examples
