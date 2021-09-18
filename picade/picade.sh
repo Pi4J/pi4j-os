@@ -34,3 +34,7 @@ make -C /tmp/picade-hat
 
 # Install previously built device-tree overlay
 install -Dm 0644 /tmp/picade-hat/picade.dtbo /boot/overlays/picade.dtbo
+
+# Deploy picade-specific minimal Java samples
+sudo -u pi mkdir -p /home/pi/java-examples
+sudo -u pi cp -rn /tmp/res-picade/java-examples/. /home/pi/java-examples
