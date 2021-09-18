@@ -1,5 +1,6 @@
 #!/bin/bash
-set -x
+set -euxo pipefail
+IFS=$'\n\t'
 
 # Script configuration
 declare -gr PICADE_GIT_URL="https://github.com/pimoroni/picade-hat.git"

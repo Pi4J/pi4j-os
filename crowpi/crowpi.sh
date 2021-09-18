@@ -1,5 +1,6 @@
 #!/bin/bash
-set -x
+set -euxo pipefail
+IFS=$'\n\t'
 
 # Basic configuration
 raspi-config nonint do_hostname crowpi

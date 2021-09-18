@@ -50,7 +50,7 @@ build {
 
   provisioner "file" {
     source = "./picade/resources"
-    destination = "/tmp/resources/picade"
+    destination = "/tmp/res-picade"
   }
 
   provisioner "shell" {
