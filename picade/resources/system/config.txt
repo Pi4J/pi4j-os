@@ -15,9 +15,3 @@ max_framebuffers=2
 
 # Enable picade overlay
 dtoverlay=picade
-dtparam=up=103
-dtparam=down=108
-dtparam=left=105
-dtparam=right=106
-dtparam=enter=28
-dtparam=escape=1

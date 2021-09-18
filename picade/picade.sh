@@ -28,7 +28,8 @@ install -Dm 0644 /tmp/picade-hat/etc/udev/rules.d/10-picade.rules /etc/udev/rule
 # Copy ALSA configuration from picade-hat repository
 install -Dm 0644 /tmp/picade-hat/etc/asound.conf /etc/asound.conf
 
-# Build device-tree overlay of picade-hat repository
+# Patch and build device-tree overlay for picade-hat
+patch -u /tmp/picade-hat/picade.dts -i /tmp/res-picade/system/picade.dts.patch
 make -C /tmp/picade-hat
 
 # Install previously built device-tree overlay
