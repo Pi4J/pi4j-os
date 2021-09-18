@@ -2,9 +2,10 @@
 set -x
 
 # Script configuration
-declare -gr GLUON_JAVAFX_URL="https://download2.gluonhq.com/openjfx/17/openjfx-17_linux-arm32_bin-sdk.zip"
+declare -gr GLUON_JAVAFX_VERSION="17.0.0.1"
+declare -gr GLUON_JAVAFX_URL="https://download2.gluonhq.com/openjfx/${GLUON_JAVAFX_VERSION}/openjfx-${GLUON_JAVAFX_VERSION}_linux-arm32_bin-sdk.zip"
 declare -gr GLUON_JAVAFX_PATH="/opt/javafx-sdk"
-declare -gr GLUON_JAVAFX_VERSION_PATH="/opt/javafx-sdk-17"
+declare -gr GLUON_JAVAFX_VERSION_PATH="/opt/javafx-sdk-${GLUON_JAVAFX_VERSION}"
 
 # Change localization options
 raspi-config nonint do_change_locale en_US.UTF-8
@@ -46,7 +47,7 @@ wget -O /tmp/gluon-javafx.zip "${GLUON_JAVAFX_URL}"
 rm -rf "${GLUON_JAVAFX_VERSION_PATH}"
 unzip -d /tmp /tmp/gluon-javafx.zip
 rm -f /tmp/gluon-javafx.zip
-mv /tmp/javafx-sdk-17 "${GLUON_JAVAFX_VERSION_PATH}"
+mv "/tmp/javafx-sdk-${GLUON_JAVAFX_VERSION}" "${GLUON_JAVAFX_VERSION_PATH}"
 ln -sf "${GLUON_JAVAFX_VERSION_PATH}" "${GLUON_JAVAFX_PATH}"
 
 # Create symlink to newest libgluon_drm
