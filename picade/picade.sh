@@ -1,5 +1,6 @@
 #!/bin/bash
-set -x
+set -euxo pipefail
+IFS=$'\n\t'
 
 # Script configuration
 declare -gr PICADE_GIT_URL="https://github.com/pimoroni/picade-hat.git"
@@ -27,8 +28,13 @@ install -Dm 0644 /tmp/picade-hat/etc/udev/rules.d/10-picade.rules /etc/udev/rule
 # Copy ALSA configuration from picade-hat repository
 install -Dm 0644 /tmp/picade-hat/etc/asound.conf /etc/asound.conf
 
-# Build device-tree overlay of picade-hat repository
+# Patch and build device-tree overlay for picade-hat
+patch -u /tmp/picade-hat/picade.dts -i /tmp/res-picade/system/picade.dts.patch
 make -C /tmp/picade-hat
 
 # Install previously built device-tree overlay
 install -Dm 0644 /tmp/picade-hat/picade.dtbo /boot/overlays/picade.dtbo
+
+# Deploy picade-specific minimal Java samples
+sudo -u pi mkdir -p /home/pi/java-examples
+sudo -u pi cp -rn /tmp/res-picade/java-examples/. /home/pi/java-examples
