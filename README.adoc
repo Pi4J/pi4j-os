@@ -149,7 +149,33 @@ Attach a monitor for the JavaFX tests.
 
 === Pure Picade Application
 
-Check the mapping of the Picade buttons
+Check the mapping of the Picade buttons to JavaFX KeyCodes:
+
+|===
+|Picade |KeyCode
+
+|Joystick up
+|KeyCode.UP
+
+|Joystick down
+|KeyCode.DOWN
+
+|Joystick left
+|KeyCode.LEFT
+
+|Joystick down
+|KeyCode.DOWN
+
+|right side black button
+|KeyCode.ENTER
+
+|left side black button
+|KeyCode.ESCAPE
+
+|all other buttons
+|no mapping
+|===
+
 
 Compile the JavaFX application
 
