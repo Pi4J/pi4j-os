@@ -29,7 +29,7 @@ The zip-compressed archives can be downloaded from https://pi4j-download.com[pi4
 === CrowPi OS
 
 * support for https://www.elecrow.com/crowpi-compact-raspberry-pi-educational-kit.html[CrowPi]
-* link:https://pi4j-download.com/crowpi-main.img.zip[Download Latest CrowPi Image]
+* link:https://pi4j-download.com/latest.php?flavor=crowpi[Download Latest CrowPi Image]
 * user account `pi`, password `crowpi`
 * can be used as a basis for all kind of Pi4J- , JavaFX-, or FXGL-projects
 * comes with `lirc` preinstalled to run the IR receiver component
@@ -41,7 +41,7 @@ The zip-compressed archives can be downloaded from https://pi4j-download.com[pi4
 
 * all of CrowPi OS
 * support for https://shop.pimoroni.com/products/picade-console[Picade Console]
-* link:https://pi4j-download.com/picade-main.img.zip[Download Picade Image]
+* link:https://pi4j-download.com/latest.php?flavor=picade[Download Picade Image]
 * user account `pi`, password `picade`
 * use link:[FXGL template project] to start your Picade project (available soon)
 
@@ -163,8 +163,8 @@ Check the mapping of the Picade buttons to JavaFX KeyCodes:
 |Joystick left
 |KeyCode.LEFT
 
-|Joystick down
-|KeyCode.DOWN
+|Joystick right
+|KeyCode.RIGHT
 
 |right side black button
 |KeyCode.ENTER
