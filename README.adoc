@@ -5,12 +5,11 @@ image:https://img.shields.io/github/license/Pi4J/pi4j-os[License,link=https://gi
 
 This project provides pre-built versions of custom OS images with all you need to develop 100% pure Java applications for specific Raspberry Pi setups. It is based on the latest official https://www.raspberrypi.org/software/[Raspberry Pi OS] and automatically built using Packer. By using these images, you will get:
 
-* user account `pi`, password `crowpi`
 * preconfigured locale (en_US), keyboard (US) and timezone (Europe/Zurich)
 * preconfigured wireless country (Switzerland) by default
 * remote management via `SSH` and `VNC` enabled by default
 * preinstalled https://openjdk.java.net[OpenJDK 11] with latest https://openjfx.io[JavaFX]
-** currently `JavaFX-17`
+** currently `JavaFX-17.0.0.1`
 * starter script to launch JavaFX-apps in DRM (aka kiosk-mode)
 * preconfigured `/boot/config.txt` supporting all components out of the box
 * dynamic wallpaper that shows Ethernet/WLAN address and hostname
@@ -30,17 +29,21 @@ The zip-compressed archives can be downloaded from https://pi4j-download.com[pi4
 === CrowPi OS
 
 * support for https://www.elecrow.com/crowpi-compact-raspberry-pi-educational-kit.html[CrowPi]
+* link:https://pi4j-download.com/crowpi-main.img.zip[Download Latest CrowPi Image]
+* user account `pi`, password `crowpi`
 * can be used as a basis for all kind of Pi4J- , JavaFX-, or FXGL-projects
 * comes with `lirc` preinstalled to run the IR receiver component
-* use https://github.com/Pi4J/pi4j-example-crowpi[CrowPi template project] to start your CrowPi project
-* use link:[Java template project] to start your plain JavaFX, FXGL, or Pi4J project
+* use https://github.com/Pi4J/pi4j-example-crowpi[CrowPi template project] to start your CrowPi experiments
+* use link:[Java template project] to start your plain JavaFX, FXGL, or Pi4J project (available soon)
 
 
 === Picade OS
 
 * all of CrowPi OS
 * support for https://shop.pimoroni.com/products/picade-console[Picade Console]
-* use link:[FXGL template project] to start your Picade project
+* link:https://pi4j-download.com/picade-main.img.zip[Download Picade Image]
+* user account `pi`, password `picade`
+* use link:[FXGL template project] to start your Picade project (available soon)
 
 
 === Game HAT OS (available soon)
@@ -60,7 +63,7 @@ Our OS images for Java are used here
 
 * link:mailto:frank@webtechie.be[Frank Delporte]
 * link:mailto:dieter.holz@fhnw.ch[Dieter Holz]
-* link:http://pi4j.slack.com[Pi4J Slack Channel]
+* link:https://join.slack.com/t/pi4j/shared_invite/zt-w1znjtnk-fYF58iO0oc4GH9LtQmvGTg[Pi4J Slack Channel]
 
 == Sponsors
 
@@ -146,7 +149,33 @@ Attach a monitor for the JavaFX tests.
 
 === Pure Picade Application
 
-Check the mapping of the Picade buttons
+Check the mapping of the Picade buttons to JavaFX KeyCodes:
+
+|===
+|Picade |KeyCode
+
+|Joystick up
+|KeyCode.UP
+
+|Joystick down
+|KeyCode.DOWN
+
+|Joystick left
+|KeyCode.LEFT
+
+|Joystick down
+|KeyCode.DOWN
+
+|right side black button
+|KeyCode.ENTER
+
+|left side black button
+|KeyCode.ESCAPE
+
+|all other buttons
+|no mapping
+|===
+
 
 Compile the JavaFX application
 
