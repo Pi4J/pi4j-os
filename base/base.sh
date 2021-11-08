@@ -2,8 +2,8 @@
 set -x
 
 # Script configuration
-declare -gr GLUON_JAVAFX_VERSION="17.0.0.1"
-declare -gr GLUON_JAVAFX_URL="https://download2.gluonhq.com/openjfx/${GLUON_JAVAFX_VERSION}/openjfx-${GLUON_JAVAFX_VERSION}_linux-arm32_bin-sdk.zip"
+declare -gr GLUON_JAVAFX_VERSION="17.0.1"
+declare -gr GLUON_JAVAFX_URL="https://download2.gluonhq.com/openjfx/${GLUON_JAVAFX_VERSION}/openjfx-${GLUON_JAVAFX_VERSION}_linux-aarch64_bin-sdk.zip"
 declare -gr GLUON_JAVAFX_PATH="/opt/javafx-sdk"
 declare -gr GLUON_JAVAFX_VERSION_PATH="/opt/javafx-sdk-${GLUON_JAVAFX_VERSION}"
 
