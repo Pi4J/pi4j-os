@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set -euxo pipefail
 
 # Script configuration
 declare -gr GLUON_JAVAFX_VERSION="17.0.1"
