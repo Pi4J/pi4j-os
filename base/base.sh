@@ -92,7 +92,7 @@ sudo install -Dm 0755 /tmp/res-base/java/java-kiosk.py /usr/local/bin/java-kiosk
 sudo install -Dm 0755 /tmp/res-base/java/java-last-kiosk.py /usr/local/bin/java-last-kiosk
 
 # Compile and deploy helper executable for detecting primary video card
-gcc -I/usr/include/libdrm -ldrm -o /usr/local/bin/detect-primary-card /tmp/res-base/system/detect-primary-card.c
+gcc -I/usr/include/libdrm -o /usr/local/bin/detect-primary-card /tmp/res-base/system/detect-primary-card.c -ldrm
 
 # Deploy music samples
 sudo -u pi install -Dm 0644 /tmp/res-base/music/* -t /home/pi/Music/
