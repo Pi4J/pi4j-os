@@ -39,7 +39,7 @@ apt-get -qqy install \
   libdrm-dev \
   lirc \
   maven \
-  openjdk-11-jdk
+  openjdk-17-jdk
 rm -rf /var/lib/apt/lists/*
 
 # Download and extract Gluon JavaFX
