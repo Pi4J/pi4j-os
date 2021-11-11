@@ -31,9 +31,9 @@ done
 
 # Install and upgrade software packages
 export DEBIAN_FRONTEND=noninteractive
-apt-get -qqy update
-apt-get -qqy -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' upgrade
-apt-get -qqy install \
+apt-get -y update
+apt-get -y -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' upgrade
+apt-get -y install \
   git \
   imagemagick \
   libdrm-dev \
