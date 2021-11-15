@@ -16,7 +16,7 @@ This project provides pre-built versions of custom OS images with all you need t
 * default WLAN connection
 ** setup a hotspot, for example on your smartphone, and you are ready to go.
 *** ssid: `Pi4J-Spot`
-*** password: `MayTheCodeBeWithYou!`
+*** password: `MayTheSourceBeWithYou!`
 ** your laptop has to be in the same WLAN as the RaspPi
 
 The zip-compressed archives can be downloaded from https://pi4j-download.com[pi4j-download.com].
