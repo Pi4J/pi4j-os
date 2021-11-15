@@ -4,4 +4,5 @@ Description=Update FHNW wallpaper
 [Service]
 Type=oneshot
 ExecStartPre=/usr/bin/timeout 5 /bin/bash -c 'while ! pgrep --count -xf "pcmanfm --desktop --profile LXDE-pi" &>/dev/null; do sleep 0.5; done'
+ExecStartPre=/usr/bin/timeout 5 /bin/bash -c 'while ! test -S "${XDG_RUNTIME_DIR}/pcmanfm-socket-$(echo "${DISPLAY}" | cut -d':' -sf1)-$(echo "${DISPLAY}" | cut -d':' -sf2)"; do sleep 0.5; done'
 ExecStart=/usr/bin/pcmanfm --set-wallpaper=/opt/fhnw/wallpaper-dynamic.jpg --wallpaper-mode=stretch

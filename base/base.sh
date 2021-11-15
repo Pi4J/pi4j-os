@@ -1,9 +1,9 @@
 #!/bin/bash
-set -x
+set -euxo pipefail
 
 # Script configuration
-declare -gr GLUON_JAVAFX_VERSION="17.0.0.1"
-declare -gr GLUON_JAVAFX_URL="https://download2.gluonhq.com/openjfx/${GLUON_JAVAFX_VERSION}/openjfx-${GLUON_JAVAFX_VERSION}_linux-arm32_bin-sdk.zip"
+declare -gr GLUON_JAVAFX_VERSION="17.0.1"
+declare -gr GLUON_JAVAFX_URL="https://download2.gluonhq.com/openjfx/${GLUON_JAVAFX_VERSION}/openjfx-${GLUON_JAVAFX_VERSION}_monocle-linux-aarch64_bin-sdk.zip"
 declare -gr GLUON_JAVAFX_PATH="/opt/javafx-sdk"
 declare -gr GLUON_JAVAFX_VERSION_PATH="/opt/javafx-sdk-${GLUON_JAVAFX_VERSION}"
 
@@ -31,15 +31,15 @@ done
 
 # Install and upgrade software packages
 export DEBIAN_FRONTEND=noninteractive
-apt-get -qqy update
-apt-get -qqy -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' upgrade
-apt-get -qqy install \
+apt-get -y update
+apt-get -y -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' dist-upgrade
+apt-get -y install \
   git \
   imagemagick \
   libdrm-dev \
   lirc \
   maven \
-  openjdk-11-jdk
+  openjdk-17-jdk
 rm -rf /var/lib/apt/lists/*
 
 # Download and extract Gluon JavaFX
@@ -92,7 +92,7 @@ sudo install -Dm 0755 /tmp/res-base/java/java-kiosk.py /usr/local/bin/java-kiosk
 sudo install -Dm 0755 /tmp/res-base/java/java-last-kiosk.py /usr/local/bin/java-last-kiosk
 
 # Compile and deploy helper executable for detecting primary video card
-gcc -I/usr/include/libdrm -ldrm -o /usr/local/bin/detect-primary-card /tmp/res-base/system/detect-primary-card.c
+gcc -I/usr/include/libdrm -o /usr/local/bin/detect-primary-card /tmp/res-base/system/detect-primary-card.c -ldrm
 
 # Deploy music samples
 sudo -u pi install -Dm 0644 /tmp/res-base/music/* -t /home/pi/Music/
