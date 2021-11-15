@@ -32,7 +32,7 @@ done
 # Install and upgrade software packages
 export DEBIAN_FRONTEND=noninteractive
 apt-get -y update
-apt-get -y -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' upgrade --fix-broken
+apt-get -y -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' dist-upgrade
 apt-get -y install \
   git \
   imagemagick \
