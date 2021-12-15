@@ -176,6 +176,7 @@ logger.debug('Patched `--add-modules`: %s', add_modules)
 
 # Patch generic properties
 properties.setdefault('glass.platform', 'Monocle')
+properties.setdefault('embedded', 'monocle')
 properties.setdefault('monocle.platform', 'EGL')
 properties.setdefault('monocle.platform.traceConfig', 'false')
 properties.setdefault('monocle.egl.lib', GLUON_JAVAFX_PATH + '/lib/libgluon_drm.so')
