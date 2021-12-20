@@ -33,7 +33,7 @@ The zip-compressed archives can be downloaded from https://pi4j-download.com[pi4
 * can be used as a basis for all kind of Pi4J- , JavaFX-, or FXGL-projects
 * comes with `lirc` preinstalled to run the IR receiver component
 * use https://github.com/Pi4J/pi4j-example-crowpi[CrowPi template project] to start your CrowPi experiments
-* use link:[Java template project] to start your plain JavaFX, FXGL, or Pi4J project (available soon)
+* use https://github.com/Pi4J/pi4j-template-javafx[RaspiFX template project] to start your JavaFX/Pi4J or plain Pi4J project
 
 
 === Picade OS
@@ -98,8 +98,6 @@ nvlc Music/StarTrekTheme.mp3
 ----
 
 === Pure JavaFX Application
-
-Currently audio is not supported by JavaFX on Raspberry Pi.
 
 Compile the JavaFX application
 
