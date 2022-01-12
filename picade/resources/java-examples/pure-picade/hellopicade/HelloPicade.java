@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.Screen;
 
 /**
  * A tiny tool to check the basic setup of Picade Console.
@@ -81,6 +83,14 @@ public class HelloPicade extends Application {
                                      event -> System.out.println(event.getCode() + " released "));
 
         stage.setTitle("Picade KeyEvent Test");
+        //if started in DRM, make stage full-screen
+        if (System.getProperty("monocle.egl.lib") != null) {
+            Rectangle2D bounds = Screen.getPrimary().getBounds();
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
+        }
         stage.setScene(scene);
         stage.show();
     }
