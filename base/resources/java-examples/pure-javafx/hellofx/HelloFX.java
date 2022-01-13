@@ -50,14 +50,14 @@ public class HelloFX extends Application {
             dropSound.play();
         });
 
-        ImageView imgView = new ImageView(new Image(HelloFXOS.class.getResourceAsStream("openduke.png")));
+        ImageView imgView = new ImageView(new Image(HelloFX.class.getResourceAsStream("openduke.png")));
         imgView.setFitHeight(200);
         imgView.setPreserveRatio(true);
 
         VBox rootPane = new VBox(50, mediaView, imgView, lbl, btn);
         rootPane.setAlignment(Pos.CENTER);
 
-        rootPane.getStylesheets().add(HelloFXOS.class.getResource("styles.css").toExternalForm());
+        rootPane.getStylesheets().add(HelloFX.class.getResource("styles.css").toExternalForm());
 
         Scene scene = new Scene(rootPane, 640, 480);
 

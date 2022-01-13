@@ -138,7 +138,7 @@ sudo java -cp "/home/pi/deploy/*:." hellopi4j.MinimalPi4J
 
 
 == Test the Picade-Image
-Apply all the test for CrowPi-Image.
+Apply all the tests for CrowPi-Image.
 
 The audio test should use the internal loudspeaker.
 

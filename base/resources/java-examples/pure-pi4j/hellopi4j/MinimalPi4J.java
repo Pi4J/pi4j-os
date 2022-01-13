@@ -59,10 +59,10 @@ public class MinimalPi4J {
         // specify some action, that will be triggered whenever the button's state changed
         button.addListener(e -> {
             switch (e.state()) {
-                case HIGH:
+                case LOW:
                     System.out.println("Button was depressed!");
                     break;
-                case LOW:
+                case HIGH:
                     System.out.println("Button was pressed!");
                     break;
                 case UNKNOWN:
