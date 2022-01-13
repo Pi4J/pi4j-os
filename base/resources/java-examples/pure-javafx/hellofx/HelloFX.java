@@ -2,6 +2,7 @@ package hellofx;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,6 +13,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -44,6 +46,7 @@ public class HelloFX extends Application {
         Button btn = new Button("Say Hello");
         btn.setOnAction(event -> {
             lbl.setText("Hello");
+            dropSound.stop();
             dropSound.play();
         });
 
@@ -57,6 +60,15 @@ public class HelloFX extends Application {
         rootPane.getStylesheets().add(HelloFX.class.getResource("styles.css").toExternalForm());
 
         Scene scene = new Scene(rootPane, 640, 480);
+
+        //if started in DRM, make stage full-screen
+        if (System.getProperty("monocle.egl.lib") != null) {
+            Rectangle2D bounds = Screen.getPrimary().getBounds();
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
+        }
         stage.setTitle("Plain JavaFX App");
         stage.setScene(scene);
         stage.show();
