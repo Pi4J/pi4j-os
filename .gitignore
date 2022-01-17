@@ -14,6 +14,9 @@
 .project
 .settings/
 
+# Binaries
+/base/resources/system/detect-video-cards
+
 # Development
 /.vscode/
 /.idea/
