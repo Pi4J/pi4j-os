@@ -86,7 +86,7 @@ image::assets/logo-gluon.png[Gluon, 300]
 
 * _your company is missed here_
 
-== Test the CrowPi-Image
+== Test the Pi4J-OS-Image
 
 The image contains two simple applications in directory `java-examples` and a sample file to test the audio channel. Start them via `ssh`.
 
