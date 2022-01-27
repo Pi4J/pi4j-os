@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Configuration variables
-BASE_PATH="/opt/fhnw"
+BASE_PATH="/opt/pi4j-os"
 LAN_INTERFACE="eth0"
 WLAN_INTERFACE="wlan0"
 WP_INPUT_FILE="${BASE_PATH}/wallpaper-static.jpg"
