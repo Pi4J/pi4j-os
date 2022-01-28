@@ -1,4 +1,4 @@
 [Desktop Entry]
 Type=Application
-Name=FHNW Wallpaper
-Exec=/usr/bin/systemctl --user start fhnw-wallpaper.path fhnw-wallpaper.service
+Name=Desktop Pi4J OS Wallpaper
+Exec=/usr/bin/systemctl --user start pi4j-os-wallpaper.path pi4j-os-wallpaper.service
