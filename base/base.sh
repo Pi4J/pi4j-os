@@ -2,7 +2,7 @@
 set -euxo pipefail
 
 # Script configuration
-declare -gr GLUON_JAVAFX_VERSION="17.0.2"
+declare -gr GLUON_JAVAFX_VERSION="18.0.2"
 declare -gr GLUON_JAVAFX_URL="https://download2.gluonhq.com/openjfx/${GLUON_JAVAFX_VERSION}/openjfx-${GLUON_JAVAFX_VERSION}_monocle-linux-aarch64_bin-sdk.zip"
 declare -gr GLUON_JAVAFX_PATH="/opt/javafx-sdk"
 declare -gr GLUON_JAVAFX_VERSION_PATH="/opt/javafx-sdk-${GLUON_JAVAFX_VERSION}"
@@ -39,7 +39,7 @@ apt-get -y install \
   libdrm-dev \
   lirc \
   maven \
-  openjdk-17-jdk \
+  temurin-18-jdk \
   zip
 rm -rf /var/lib/apt/lists/*
 
