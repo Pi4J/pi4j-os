@@ -39,7 +39,7 @@ apt-get -y install \
   libdrm-dev \
   lirc \
   maven \
-  temurin-18-jdk \
+  openjdk-17-jdk \
   zip
 rm -rf /var/lib/apt/lists/*
 
