@@ -5,7 +5,7 @@ source "arm" "raspios" {
   ]
   file_checksum_url = "https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2022-04-07/2022-04-04-raspios-bullseye-arm64.img.xz.sha256"
   file_checksum_type = "sha256"
-  file_target_extension = "zip"
+  file_target_extension = "xz"
 
   # Image Options
   image_build_method = "resize"
