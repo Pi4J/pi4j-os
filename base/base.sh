@@ -91,8 +91,8 @@ sed -i 's/wallpaper_mode=.*/wallpaper_mode=stretch/g' /etc/xdg/pcmanfm/LXDE-pi/d
 sudo -u pi install -Dm 0644 /tmp/res-base/wallpaper/wallpaper-autostart.desktop /home/pi/.config/autostart/pi4j-os-wallpaper.desktop
 sudo -u pi install -Dm 0644 /tmp/res-base/wallpaper/wallpaper-systemd.service /home/pi/.config/systemd/user/pi4j-os-wallpaper.service
 sudo -u pi install -Dm 0644 /tmp/res-base/wallpaper/wallpaper-systemd.path /home/pi/.config/systemd/user/pi4j-os-wallpaper.path
-install -Dm 0755 /tmp/res-base/wallpaper/wallpaper-hook.sh /lib/dhcpcd/dhcpcd-hooks/99-pi4j-os
-install -Dm 0644 /tmp/res-base/wallpaper/wallpaper-static.jpg /opt/pi4j-os/wallpaper-static.jpg
+#install -Dm 0755 /tmp/res-base/wallpaper/wallpaper-hook.sh /lib/dhcpcd/dhcpcd-hooks/99-pi4j-os
+#install -Dm 0644 /tmp/res-base/wallpaper/wallpaper-static.jpg /opt/pi4j-os/wallpaper-static.jpg
 
 # Deploy java-kiosk helper script for JavaFX apps
 sudo install -Dm 0755 /tmp/res-base/java/java-kiosk.py /usr/local/bin/java-kiosk
