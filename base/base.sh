@@ -44,6 +44,7 @@ apt-get -y install \
 rm -rf /var/lib/apt/lists/*
 
 curl -s "https://get.sdkman.io" | bash
+source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk install java "${JDK}"
 
 
