@@ -2,7 +2,8 @@
 set -euxo pipefail
 
 # Script configuration
-declare -gr GLUON_JAVAFX_VERSION="18.0.2"
+declare -gr JDK="17.0.7-tem"
+declare -gr GLUON_JAVAFX_VERSION="20.0.1"
 declare -gr GLUON_JAVAFX_URL="https://download2.gluonhq.com/openjfx/${GLUON_JAVAFX_VERSION}/openjfx-${GLUON_JAVAFX_VERSION}_monocle-linux-aarch64_bin-sdk.zip"
 declare -gr GLUON_JAVAFX_PATH="/opt/javafx-sdk"
 declare -gr GLUON_JAVAFX_VERSION_PATH="/opt/javafx-sdk-${GLUON_JAVAFX_VERSION}"
@@ -39,9 +40,12 @@ apt-get -y install \
   libdrm-dev \
   lirc \
   maven \
-  openjdk-17-jdk \
   zip
 rm -rf /var/lib/apt/lists/*
+
+curl -s "https://get.sdkman.io" | bash
+sdk install java "${JDK}"
+
 
 # Download and extract Gluon JavaFX
 wget -O /tmp/gluon-javafx.zip "${GLUON_JAVAFX_URL}"
