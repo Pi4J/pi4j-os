@@ -43,8 +43,8 @@ apt-get -y install \
   zip
 rm -rf /var/lib/apt/lists/*
 
-curl -s "https://get.sdkman.io" | bash
-source "/root/.sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="/usr/local/sdkman" && curl -s "https://get.sdkman.io" | bash
+source "/usr/local/sdkman/bin/sdkman-init.sh"
 sdk install java "${JDK}"
 
 
