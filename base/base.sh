@@ -51,7 +51,7 @@ apt-get -y install \
   openjdk-17-jdk
 rm -rf /var/lib/apt/lists/*
 
-export curl -s "https://get.sdkman.io" | bash
+curl -s "https://get.sdkman.io" | bash
 source "$HOME/sdkman/bin/sdkman-init.sh"
 sdk install java "${JDK}"
 
