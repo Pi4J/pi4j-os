@@ -4,6 +4,9 @@ declare password=crowpi
 adduser  --gecos "" --disabled-password $username
 chpasswd <<<"$username:$password"
 
+sudo -i -u "${username}"
+whoami
+
 set -euxo pipefail
 
 # Script configuration
@@ -49,9 +52,9 @@ apt-get -y install \
   openjdk-17-jdk
 rm -rf /var/lib/apt/lists/*
 
-su -c "curl -s "https://get.sdkman.io" | bash" -p $username
-su -c "source /home/${username}/.sdkman/bin/sdkman-init.sh" -p $username
-su -c "sdk install java ${username}"
+curl -s "https://get.sdkman.io" | bash
+source "/home/${username}/.sdkman/bin/sdkman-init.sh"
+sdk install java "${JDK}"
 
 
 # Download and extract Gluon JavaFX
