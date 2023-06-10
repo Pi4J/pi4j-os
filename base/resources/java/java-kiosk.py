@@ -55,7 +55,7 @@ class Runner(object):
         finally:
             # Switch back to runlevel 5 to start X11
             self._logger.debug('Switching back to runlevel 5 to start X11...')
-            self._run_process([SYSTEM_INIT_BIN, '5']).wait()
+            self._popen([SYSTEM_INIT_BIN, '5'])
 
             # All done!
             self._logger.debug('java-kiosk has completed and will now exit')
