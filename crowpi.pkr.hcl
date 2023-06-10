@@ -1,20 +1,20 @@
 source "arm" "raspios" {
   # Raspberry Pi OS with Desktop
-#    file_urls = [
-#      "https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2022-01-28/2022-01-28-raspios-bullseye-arm64.zip"
-#    ]
-#    file_checksum_url = "https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2022-01-28/2022-01-28-raspios-bullseye-arm64.zip.sha256"
-#    file_checksum_type = "sha256"
-#    file_target_extension = "zip"
+    file_urls = [
+      "https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2022-01-28/2022-01-28-raspios-bullseye-arm64.zip"
+    ]
+    file_checksum_url = "https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2022-01-28/2022-01-28-raspios-bullseye-arm64.zip.sha256"
+    file_checksum_type = "sha256"
+    file_target_extension = "zip"
 
 
-  file_urls = [
-    "https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2023-05-03/2023-05-03-raspios-bullseye-arm64.img.xz"
-  ]
-  file_checksum_url = "https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2023-05-03/2023-05-03-raspios-bullseye-arm64.img.xz.sha256"
-  file_checksum_type = "sha256"
-  file_target_extension = "xz"
-  file_unarchive_cmd = ["xz", "--decompress", "$ARCHIVE_PATH"]
+  # file_urls = [
+  #   "https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2023-05-03/2023-05-03-raspios-bullseye-arm64.img.xz"
+  # ]
+  # file_checksum_url = "https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2023-05-03/2023-05-03-raspios-bullseye-arm64.img.xz.sha256"
+  # file_checksum_type = "sha256"
+  # file_target_extension = "xz"
+  # file_unarchive_cmd = ["xz", "--decompress", "$ARCHIVE_PATH"]
 
   # Image Options
   image_build_method = "resize"

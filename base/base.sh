@@ -1,8 +1,8 @@
 #!/bin/bash
-declare username=pi
-declare password=crowpi
-adduser  --gecos "" --disabled-password $username
-chpasswd <<<"$username:$password"
+#declare username=pi
+#declare password=crowpi
+#adduser  --gecos "" --disabled-password $username
+#chpasswd <<<"$username:$password"
 
 set -euxo pipefail
 
