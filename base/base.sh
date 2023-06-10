@@ -3,8 +3,6 @@ declare username=pi
 declare password=crowpi
 adduser  --gecos "" --disabled-password $username
 chpasswd <<<"$username:$password"
-sudo -i -u "$username"
-
 
 set -euxo pipefail
 
@@ -51,12 +49,9 @@ apt-get -y install \
   openjdk-17-jdk
 rm -rf /var/lib/apt/lists/*
 
-whoami
-sudo -i -u "$username"
-whoami
-curl -s "https://get.sdkman.io" | bash
-source "$HOME/.sdkman/bin/sdkman-init.sh"
-sdk install java "${JDK}"
+su -c "curl -s "https://get.sdkman.io" | bash" -p $username
+su -c "source /home/${username}/.sdkman/bin/sdkman-init.sh" -p $username
+su -c "sdk install java ${username}"
 
 
 # Download and extract Gluon JavaFX
