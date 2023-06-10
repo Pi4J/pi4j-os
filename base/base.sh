@@ -51,8 +51,11 @@ apt-get -y install \
   openjdk-17-jdk
 rm -rf /var/lib/apt/lists/*
 
+whoami
+sudo -i -u "$username"
+whoami
 curl -s "https://get.sdkman.io" | bash
-source "$HOME/sdkman/bin/sdkman-init.sh"
+source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk install java "${JDK}"
 
 
