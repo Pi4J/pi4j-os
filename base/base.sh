@@ -74,14 +74,14 @@ install -Dm 0644 /tmp/res-base/system/pi4j-update-mime-db.service /etc/systemd/s
 systemctl enable pi4j-update-mime-db.service
 
 # Disable getting started wizard
-rm /etc/xdg/autostart/piwiz.desktop
+#rm /etc/xdg/autostart/piwiz.desktop
 
 # Disable screen blanking by default
 mkdir -p /etc/X11/xorg.conf.d/
 cp /usr/share/raspi-config/10-blanking.conf /etc/X11/xorg.conf.d/
 
 # Remove default backgrounds
-rm /usr/share/rpd-wallpaper/*.jpg
+#rm /usr/share/rpd-wallpaper/*.jpg
 
 # Override system-wide default wallpaper
 # sed -i 's/wallpaper=.*/wallpaper=\/opt\/pi4j-os\/wallpaper-static.jpg/g' /etc/xdg/pcmanfm/LXDE-pi/desktop-items-*.conf
