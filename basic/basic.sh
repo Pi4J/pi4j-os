@@ -3,7 +3,7 @@ set -euxo pipefail
 IFS=$'\n\t'
 
 # Basic configuration
-raspi-config nonint do_hostname crowpi
+raspi-config nonint do_hostname pi4j
 
 # Change default account passwords
 echo 'root:pi4j' | chpasswd

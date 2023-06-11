@@ -11,9 +11,9 @@ jobs:
       fail-fast: false
       matrix:
         flavor:
-          - basic
-          - crowpi
-          - picade
+          - Basic
+          - CrowPi
+          - Picade
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
