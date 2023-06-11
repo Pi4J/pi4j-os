@@ -22,8 +22,8 @@ This project provides pre-built versions of OS images with all you need to devel
 
 The zip-compressed archives can be downloaded from https://pi4j-download.com[pi4j-download.com].
 
-* Extract it and flash it with the imaging tool of your choice to get started.
-** We recommend to use https://www.raspberrypi.org/blog/raspberry-pi-imager-imaging-utility/[Raspberry Pi Imager].
+* Extract it and flash it using https://www.raspberrypi.org/blog/raspberry-pi-imager-imaging-utility/[Raspberry Pi Imager]
+** Use its 'Advanced Options' to create a new user `pi`, password `pi4j`
 
 == Provided OS versions
 

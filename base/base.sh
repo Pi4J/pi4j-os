@@ -1,8 +1,9 @@
 #!/bin/bash
-declare username=pi
-declare password=pi4j
-adduser --gecos "" --disabled-password $username
-chpasswd <<<"${username}:${password}"
+
+# declare username=pi
+# declare password=pi4j
+# adduser --gecos "" --disabled-password $username
+# chpasswd <<<"${username}:${password}"
 
 set -euxo pipefail
 
@@ -79,7 +80,7 @@ install -Dm 0644 /tmp/res-base/system/pi4j-update-mime-db.service /etc/systemd/s
 systemctl enable pi4j-update-mime-db.service
 
 # Disable getting started wizard
-rm /etc/xdg/autostart/piwiz.desktop
+#rm /etc/xdg/autostart/piwiz.desktop
 
 # Disable screen blanking by default
 mkdir -p /etc/X11/xorg.conf.d/
