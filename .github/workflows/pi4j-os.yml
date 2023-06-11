@@ -21,7 +21,7 @@ jobs:
       - name: Prepare build environment
         id: env
         run: |
-          echo ::set-output name=RELEASE_VERSION::$(echo "${GITHUB_REF#refs/*/}" | sed 's/\//-/g' | tr -cd '[0-9a-zA-Z.]-')
+          echo "RELEASE_VERSION=$(echo "${GITHUB_REF#refs/*/}" | sed 's/\//-/g' | tr -cd '[0-9a-zA-Z.]-')" >> $GITHUB_OUTPUT
 
       - name: Build OS image with Packer
         id: build

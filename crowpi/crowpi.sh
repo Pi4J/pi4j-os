@@ -6,8 +6,7 @@ IFS=$'\n\t'
 raspi-config nonint do_hostname crowpi
 
 # Change default account passwords
-echo 'root:crowpi' | chpasswd
-echo 'pi:crowpi' | chpasswd
+echo 'root:pi4j' | chpasswd
 
 # Deploy system configuration via /boot/config.txt
 install -Dm 0644 /tmp/res-crowpi/system/config.txt /boot/config.txt

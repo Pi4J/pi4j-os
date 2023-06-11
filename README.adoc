@@ -12,11 +12,13 @@ This project provides pre-built versions of OS images with all you need to devel
 * starter script to launch JavaFX-apps in DRM (aka kiosk-mode)
 * preconfigured `/boot/config.txt` supporting all components out of the box
 * dynamic wallpaper that shows Ethernet/WLAN address and hostname
+* user account `pi`, password `pi4j`
 * default WLAN connection
 ** setup a hotspot, for example on your smartphone, and you are ready to go.
 *** ssid: `Pi4J-Spot`
 *** password: `MayTheSourceBeWithYou!`
 ** your laptop has to be in the same WLAN as the RaspPi
+
 
 The zip-compressed archives can be downloaded from https://pi4j-download.com[pi4j-download.com].
 
@@ -28,7 +30,6 @@ The zip-compressed archives can be downloaded from https://pi4j-download.com[pi4
 === Pi4J-Basis-OS
 * support for building 100% pure Java applications using https://pi4j.com[Pi4J], https://openjfx.io[JavaFX]
 * link:https://pi4j-download.com/latest.php?flavor=basic[download Latest Pi4J-Basic-OS Image]
-* user account `pi`, password `pi4j`
 * can be used for all kind of Pi4J- , JavaFX-, or FXGL-projects
 * use https://github.com/Pi4J/pi4j-template-javafx[RaspiFX template project] to start your JavaFX/Pi4J or plain Pi4J project
 
@@ -37,7 +38,6 @@ The zip-compressed archives can be downloaded from https://pi4j-download.com[pi4
 * all of Pi4J-Basic-OS
 * support for https://www.elecrow.com/crowpi-compact-raspberry-pi-educational-kit.html[CrowPi]
 * link:https://pi4j-download.com/latest.php?flavor=crowpi[download latest CrowPi Image]
-* user account `pi`, password `crowpi`
 * comes with `lirc` preinstalled to run the IR receiver component
 * use https://github.com/Pi4J/pi4j-example-crowpi[CrowPi template project] to start your CrowPi experiments
 
@@ -47,7 +47,6 @@ The zip-compressed archives can be downloaded from https://pi4j-download.com[pi4
 * all of Pi4J-Basic-OS
 * support for https://shop.pimoroni.com/products/picade-console[Picade Console]
 * link:https://pi4j-download.com/latest.php?flavor=picade[Download Picade Image]
-* user account `pi`, password `picade`
 * use link:[FXGL template project] to start your Picade project (available soon)
 
 
