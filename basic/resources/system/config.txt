@@ -1,0 +1,16 @@
+[all]
+# Enable X with 128MB GPU memory and custom resolution
+start_x=1
+gpu_mem=128
+hdmi_cvt 1024 600 60 6 0 0 0
+
+# Enable I2C and SPI
+dtparam=i2c_arm=on
+dtparam=spi=on
+
+# Enable audio
+dtparam=audio=on
+
+# Enable DRM VC4 V3D with up to 2 frame buffers
+dtoverlay=vc4-fkms-v3d
+max_framebuffers=2

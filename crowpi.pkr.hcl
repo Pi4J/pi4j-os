@@ -18,7 +18,7 @@ source "arm" "raspios" {
 
   # Image Options
   image_build_method = "resize"
-  image_path = "crowpi.img"
+  image_path = "Pi4J-CrowPi-OS.img"
   image_type = "dos"
   image_size = "6G"
 
@@ -71,13 +71,13 @@ build {
   }
 
   post-processor "compress" {
-    output = "crowpi.img.zip"
+    output = "Pi4J-CrowPi-OS.img.zip"
     compression_level = 6
   }
 
   post-processor "artifice" {
     files = [
-      "crowpi.img.zip"
+      "Pi4J-CrowPi-OS.img.zip"
     ]
   }
 
@@ -85,6 +85,6 @@ build {
     checksum_types = [
       "sha256"
     ]
-    output = "crowpi.img.sha256"
+    output = "Pi4J-CrowPi-OS.img.sha256"
   }
 }

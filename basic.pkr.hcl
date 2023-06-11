@@ -9,7 +9,7 @@ source "arm" "raspios" {
 
   # Image Options
   image_build_method = "resize"
-  image_path = "Pi4J-Picade-OS.img"
+  image_path = "Pi4J-Basic-OS.img"
   image_type = "dos"
   image_size = "6G"
 
@@ -34,8 +34,8 @@ source "arm" "raspios" {
   }
 
   # QEMU Toolchain
-  qemu_binary_source_path = "/usr/bin/qemu-arm-static"
-  qemu_binary_destination_path = "/usr/bin/qemu-arm-static"
+  qemu_binary_source_path = "/usr/bin/qemu-aarch64-static"
+  qemu_binary_destination_path = "/usr/bin/qemu-aarch64-static"
 }
 
 build {
@@ -49,8 +49,8 @@ build {
   }
 
   provisioner "file" {
-    source = "./picade/resources"
-    destination = "/tmp/res-picade"
+    source = "./basic/resources"
+    destination = "/tmp/res-basic"
   }
 
   provisioner "shell" {
@@ -58,17 +58,17 @@ build {
   }
 
   provisioner "shell" {
-    script = "./picade/picade.sh"
+    script = "./basic/basic.sh"
   }
 
   post-processor "compress" {
-    output = "Pi4J-Picade-OS.img.zip"
+    output = "Pi4J-Basic-OS.img.zip"
     compression_level = 6
   }
 
   post-processor "artifice" {
     files = [
-      "Pi4J-Picade-OS.img.zip"
+      "Pi4J-Basic-OS.img.zip"
     ]
   }
 
@@ -76,6 +76,6 @@ build {
     checksum_types = [
       "sha256"
     ]
-    output = "Pi4J-Picade-OS.img.sha256"
+    output = "Pi4J-Basic-OS.img.sha256"
   }
 }

@@ -8,7 +8,7 @@ This project provides pre-built versions of custom OS images with all you need t
 * preconfigured locale (en_US), keyboard (US) and timezone (Europe/Zurich)
 * preconfigured wireless country (Switzerland) by default
 * remote management via `SSH` and `VNC` enabled by default
-* preinstalled https://openjdk.java.net[OpenJDK 17] with latest https://gluonhq.com/products/javafx/[Gluon JavaFX 18]
+* preinstalled https://openjdk.java.net[OpenJDK 17] with latest https://gluonhq.com/products/javafx/[Gluon JavaFX 20]
 * starter script to launch JavaFX-apps in DRM (aka kiosk-mode)
 * preconfigured `/boot/config.txt` supporting all components out of the box
 * dynamic wallpaper that shows Ethernet/WLAN address and hostname
