@@ -16,7 +16,7 @@ jobs:
           - Picade
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Prepare build environment
         id: env
@@ -44,7 +44,7 @@ jobs:
 
       - name: Upload OS image as build artifact
         if: steps.build.outcome == 'success'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Pi4J-${{ matrix.flavor }}-OS-image
           path: Pi4J-${{ matrix.flavor }}-OS.img.zip
