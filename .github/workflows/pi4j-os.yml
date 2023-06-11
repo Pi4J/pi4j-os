@@ -46,8 +46,8 @@ jobs:
         if: steps.build.outcome == 'success'
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.flavor }}-image
-          path: ${{ matrix.flavor }}.img.zip
+          name: Pi4J-${{ matrix.flavor }}-OS-image
+          path: Pi4J-${{ matrix.flavor }}-OS.img.zip
 
       - name: Publish OS image to external repository
         if: >-
@@ -59,8 +59,8 @@ jobs:
           RELEASE_VERSION: ${{ steps.env.outputs.RELEASE_VERSION }}
         run: |
           sshpass -e sftp -oBatchMode=no -oStrictHostKeyChecking=no -b - "${SFTP_USERNAME}@${SFTP_SERVER}" << EOS
-          put "${{ matrix.flavor }}.img.zip" "${{ matrix.flavor }}-${RELEASE_VERSION}.img.zip"
-          put "${{ matrix.flavor }}.img.sha256" "${{ matrix.flavor }}-${RELEASE_VERSION}.img.sha256"
+          put "Pi4J-${{ matrix.flavor }}-OS.img.zip" "Pi4J-${{ matrix.flavor }}-OS-${RELEASE_VERSION}.img.zip"
+          put "Pi4J-${{ matrix.flavor }}-OS.img.sha256" "Pi4J-${{ matrix.flavor }}-OS-${RELEASE_VERSION}.img.sha256"
           EOS
 
   update-download-readme:
