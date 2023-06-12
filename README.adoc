@@ -29,8 +29,9 @@ The zip-compressed archives can be downloaded from https://pi4j-download.com[pi4
 
 === Pi4J-Basis-OS
 * support for building 100% pure Java applications using https://pi4j.com[Pi4J], https://openjfx.io[JavaFX]
-* link:https://pi4j-download.com/latest.php?flavor=basic[download Latest Pi4J-Basic-OS Image]
+* link:https://pi4j-download.com/latest.php?flavor=basic[download latest Pi4J-Basic-OS Image]
 * can be used for all kind of Pi4J- , JavaFX-, or FXGL-projects
+* use https://pi4j.com/examples/components/[Pi4J Component Catalogue] and https://github.com/Pi4J/pi4j-example-components[Components on GitHub] to experiment with popular hardware components attached to your RaspPi.
 * use https://github.com/Pi4J/pi4j-template-javafx[RaspiFX template project] to start your JavaFX/Pi4J or plain Pi4J project
 
 === Pi4J-CrowPi-OS
@@ -46,7 +47,7 @@ The zip-compressed archives can be downloaded from https://pi4j-download.com[pi4
 
 * all of Pi4J-Basic-OS
 * support for https://shop.pimoroni.com/products/picade-console[Picade Console]
-* link:https://pi4j-download.com/latest.php?flavor=picade[Download Picade Image]
+* link:https://pi4j-download.com/latest.php?flavor=picade[download Picade Image]
 * use link:[FXGL template project] to start your Picade project (available soon)
 
 
@@ -104,17 +105,16 @@ Compile the JavaFX application
 cd /home/pi/java-examples/pure-javafx
 javac --module-path /opt/javafx-sdk/lib --add-modules=javafx.controls,javafx.media hellofx/HelloFX.java
 
-
-To start `HelloFX` in DRM
-[source, shell]
-sudo java-kiosk hellofx.HelloFX
-
-
-`java-kiosk` is a command provided by our image. It assures to call `java` with the correct (and huge) set of parameters.
-
 To start `HelloFX` in X11-Mode
 [source, shell]
 DISPLAY=:0 XAUTHORITY=/home/pi/.Xauthority sudo -E java --module-path /opt/javafx-sdk/lib --add-modules javafx.controls,javafx.media -Dglass.platform=gtk hellofx.HelloFX
+
+To start `HelloFX` in DRM (Direct Rendering Mode)
+[source, shell]
+sudo java-kiosk hellofx.HelloFX
+
+`java-kiosk` is a command provided by our image. It assures to call `java` with the correct (and huge) set of parameters.
+
 
 
 === Pure Pi4J Application
@@ -137,6 +137,25 @@ sudo java -cp "/home/pi/deploy/*:." hellopi4j.MinimalPi4J
 == Additional Test for Pi4J-Picade-OS Image
 
 The audio test should use the internal loudspeaker.
+
+
+Compile the JavaFX application
+
+[source, shell]
+cd /home/pi/java-examples/pure-picade
+javac --module-path /opt/javafx-sdk/lib --add-modules=javafx.controls,javafx.media hellopicade/HelloPicade.java
+
+
+To start `HelloPicade` in X11-Mode
+[source, shell]
+DISPLAY=:0 XAUTHORITY=/home/pi/.Xauthority sudo -E java --module-path /opt/javafx-sdk/lib --add-modules javafx.controls,javafx.media -Dglass.platform=gtk hellopicade.HelloPicade
+
+
+To start `HelloPicade` in DRM
+
+[source, shell]
+sudo java-kiosk hellopicade.HelloPicade
+
 
 Check the mapping of the Picade buttons to JavaFX KeyCodes:
 
@@ -164,24 +183,6 @@ Check the mapping of the Picade buttons to JavaFX KeyCodes:
 |all other buttons
 |no mapping
 |===
-
-
-Compile the JavaFX application
-
-[source, shell]
-cd /home/pi/java-examples/pure-picade
-javac --module-path /opt/javafx-sdk/lib --add-modules=javafx.controls,javafx.media hellopicade/HelloPicade.java
-
-
-To start `HelloPicade` in DRM
-
-[source, shell]
-sudo java-kiosk hellopicade.HelloPicade
-
-
-To start `HelloPicade` in X11-Mode
-[source, shell]
-DISPLAY=:0 XAUTHORITY=/home/pi/.Xauthority sudo -E java --module-path /opt/javafx-sdk/lib --add-modules javafx.controls,javafx.media -Dglass.platform=gtk hellopicade.HelloPicade
 
 
 == LICENSE
