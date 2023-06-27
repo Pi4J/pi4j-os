@@ -34,8 +34,8 @@ source "arm" "raspios" {
   }
 
   # QEMU Toolchain
-  qemu_binary_source_path = "/usr/bin/qemu-arm-static"
-  qemu_binary_destination_path = "/usr/bin/qemu-arm-static"
+  qemu_binary_source_path = "/usr/bin/qemu-aarch64-static"
+  qemu_binary_destination_path = "/usr/bin/qemu-aarch64-static"
 }
 
 build {
