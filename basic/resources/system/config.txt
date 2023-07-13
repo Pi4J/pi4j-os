@@ -4,6 +4,14 @@ start_x=1
 gpu_mem=128
 hdmi_cvt 1024 600 60 6 0 0 0
 
+# for better SPI stability
+arm_freq_min=900
+arm_freq=900
+arm_boost=0
+
+# Enable UART
+enable_uart=1
+
 # Enable I2C and SPI
 dtparam=i2c_arm=on
 dtparam=spi=on

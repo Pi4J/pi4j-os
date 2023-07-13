@@ -47,7 +47,9 @@ apt-get -y install \
   lirc \
   maven \
   zip  \
-  openjdk-17-jdk
+  openjdk-17-jdk \
+  gpsd \
+  gpsd-clients
 rm -rf /var/lib/apt/lists/*
 
 #curl -s "https://get.sdkman.io" | bash
