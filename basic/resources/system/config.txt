@@ -1,4 +1,6 @@
 [all]
+camera_auto_detect=1
+
 # Enable X with 128MB GPU memory and custom resolution
 start_x=1
 gpu_mem=128
@@ -15,12 +17,12 @@ enable_uart=1
 # Enable I2C and SPI
 dtparam=i2c_arm=on
 dtparam=spi=on
+dtoverlay=spi1-3cs
 
 # Enable audio
 dtparam=audio=on
 
 # Enable DRM VC4 V3D with up to 2 frame buffers
-dtoverlay=vc4-fkms-v3d
+dtoverlay=vc4-kms-v3d
 max_framebuffers=2
 
-dtoverlay=spi1-3cs
