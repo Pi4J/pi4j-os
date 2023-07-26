@@ -30,7 +30,7 @@ The zip-compressed archives of released versions can be downloaded from https://
 
 == Provided OS versions
 
-=== Pi4J-Basis-OS
+=== Pi4J-Basic-OS
 * support for building 100% pure Java applications using https://pi4j.com[Pi4J], https://openjfx.io[JavaFX]
 * download latest release of link:https://pi4j-download.com/latest.php?flavor=basic[ Pi4J-Basic-OS Image]
 * can be used for all kind of Pi4J- , or JavaFX-projects
