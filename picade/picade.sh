@@ -10,8 +10,8 @@ declare -gr PICADE_GIT_REVISION="df02844c0cd773af5b908f47eac5fb1f7f361531"
 raspi-config nonint do_hostname picade
 
 # Change default account passwords
-echo 'root:picade' | chpasswd
-echo 'pi:picade' | chpasswd
+echo 'root:pi4j' | chpasswd
+echo 'pi:pi4j' | chpasswd
 
 # Deploy system configuration via /boot/config.txt
 install -Dm 0644 /tmp/res-picade/system/config.txt /boot/config.txt

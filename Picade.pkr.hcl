@@ -1,15 +1,15 @@
 source "arm" "raspios" {
-  # Raspberry Pi OS with Desktop
   file_urls = [
-    "https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2022-01-28/2022-01-28-raspios-bullseye-arm64.zip"
+    "https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2023-05-03/2023-05-03-raspios-bullseye-arm64.img.xz"
   ]
-  file_checksum_url = "https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2022-01-28/2022-01-28-raspios-bullseye-arm64.zip.sha256"
+  file_checksum_url = "https://downloads.raspberrypi.org/raspios_arm64/images/raspios_arm64-2023-05-03/2023-05-03-raspios-bullseye-arm64.img.xz.sha256"
   file_checksum_type = "sha256"
-  file_target_extension = "zip"
+  file_target_extension = "xz"
+  file_unarchive_cmd = ["xz", "--decompress", "$ARCHIVE_PATH"]
 
   # Image Options
   image_build_method = "resize"
-  image_path = "crowpi.img"
+  image_path = "Pi4J-Picade-OS.img"
   image_type = "dos"
   image_size = "6G"
 
@@ -49,8 +49,8 @@ build {
   }
 
   provisioner "file" {
-    source = "./crowpi/resources"
-    destination = "/tmp/res-crowpi"
+    source = "./picade/resources"
+    destination = "/tmp/res-picade"
   }
 
   provisioner "shell" {
@@ -58,17 +58,17 @@ build {
   }
 
   provisioner "shell" {
-    script = "./crowpi/crowpi.sh"
+    script = "./picade/picade.sh"
   }
 
   post-processor "compress" {
-    output = "crowpi.img.zip"
+    output = "Pi4J-Picade-OS.img.zip"
     compression_level = 6
   }
 
   post-processor "artifice" {
     files = [
-      "crowpi.img.zip"
+      "Pi4J-Picade-OS.img.zip"
     ]
   }
 
@@ -76,6 +76,6 @@ build {
     checksum_types = [
       "sha256"
     ]
-    output = "crowpi.img.sha256"
+    output = "Pi4J-Picade-OS.img.sha256"
   }
 }
