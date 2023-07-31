@@ -44,6 +44,7 @@ apt-get -y install \
   git \
   imagemagick \
   libdrm-dev \
+  libjson-c-dev \
   lirc \
   maven \
   zip  \
@@ -106,8 +107,13 @@ install -Dm 0644 /tmp/res-base/wallpaper/wallpaper-static.jpg /opt/pi4j-os/wallp
 sudo install -Dm 0755 /tmp/res-base/java/java-kiosk.py /usr/local/bin/java-kiosk
 sudo install -Dm 0755 /tmp/res-base/java/java-last-kiosk.py /usr/local/bin/java-last-kiosk
 
-# Compile and deploy helper executable for detecting primary video card
-gcc -I/usr/include/libdrm -o /usr/local/bin/detect-primary-card /tmp/res-base/system/detect-primary-card.c -ldrm
+# Compile and deploy helper executable for detecting monitors
+gcc \
+  -I/usr/include/json-c \
+  -I/usr/include/libdrm \
+  -o /usr/local/bin/detect-video-cards \
+  /tmp/res-base/system/detect-video-cards.c \
+  -ldrm -ljson-c
 
 # Deploy music samples
 sudo -u pi install -Dm 0644 /tmp/res-base/music/* -t /home/pi/Music/
