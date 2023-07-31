@@ -3,56 +3,34 @@
 image:https://img.shields.io/github/contributors/Pi4J/pi4j-os[Contributors,link=https://github.com/Pi4J/pi4j-os/graphs/contributors]
 image:https://img.shields.io/github/license/Pi4J/pi4j-os[License,link=https://github.com/Pi4J/pi4j-os/i/blob/main/LICENSE]
 
-This project provides pre-built versions of OS images with all you need to develop 100% pure Java applications for specific Raspberry Pi setups. They are based on the latest official https://www.raspberrypi.org/software/[Raspberry Pi OS] and are automatically built using Packer. By using these images, you will get:
+This project provides pre-built versions of OS images with all you need to develop 100% pure Java applications for specific Raspberry Pi setups. They are based on the latest official https://www.raspberrypi.org/software/[Raspberry Pi OS] and are automatically built using Packer.
 
-* preconfigured locale (en_US), keyboard (US) and timezone (Europe/Zurich)
-* preconfigured wireless country (Switzerland) by default
-* remote management via `SSH` and `VNC` enabled by default
-* preinstalled https://openjdk.java.net[OpenJDK 17] with latest https://gluonhq.com/products/javafx/[JavaFX 20]
-* starter script to launch JavaFX-apps in DRM (aka kiosk-mode)
-* preconfigured `/boot/config.txt` supporting all components out of the box
-* dynamic wallpaper showing Ethernet/WLAN address and hostname
-* user account `pi`, password `pi4j`
-** you have to set the corresponding preferences in Raspberry Pi Imager
-* default WLAN connection
-** setup a hotspot, for example on your smartphone, and you are ready to go.
-*** ssid: `Pi4J-Spot`
-*** password: `MayTheSourceBeWithYou!`
-** your laptop has to be in the same WLAN as the RaspPi
+== What's in the box?
 
+By using these images, you will get a lot of preconfigurations (locale, keyboard, wireless,...), pre-installations (Java, JavaFX, starter scripts), and a very useful desktop background showing the Ethernet and/or WLAN address and hostname.
+
+For a full list see: https://pi4j.com/pi4j-os/[pi4j.com/pi4j-os].
+
+=== Get it!
 
 The zip-compressed archives of released versions can be downloaded from https://pi4j-download.com[pi4j-download.com].
 
-* for the snapshot releases have a look at the https://github.com/Pi4J/pi4j-os/actions[Actions tab.]
+* For the snapshot releases have a look at the https://github.com/Pi4J/pi4j-os/actions[Actions tab.]
 
 * Extract it and flash it using https://www.raspberrypi.org/blog/raspberry-pi-imager-imaging-utility/[Raspberry Pi Imager]
 ** Use its 'Advanced Options' to create a new user `pi`, password `pi4j`
 
-== Provided OS versions
+=== Provided OS versions
 
-=== Pi4J-Basic-OS
-* support for building 100% pure Java applications using https://pi4j.com[Pi4J], https://openjfx.io[JavaFX]
-* download latest release of link:https://pi4j-download.com/latest.php?flavor=basic[ Pi4J-Basic-OS Image]
-* can be used for all kind of Pi4J- , or JavaFX-projects
-* use https://pi4j.com/examples/components/[Pi4J Component Catalogue] and corresponding https://github.com/Pi4J/pi4j-example-components[GitHub project] to experiment with popular hardware components attached to your RaspPi.
-* use https://github.com/Pi4J/pi4j-template-javafx[RaspiFX template project] to start your own JavaFX/Pi4J or plain Pi4J project
+* Pi4J-Basic-OS
+* Pi4J-CrowPi-OS (= Pi4J-Basic-OS + support for https://www.elecrow.com/crowpi-compact-raspberry-pi-educational-kit.html[CrowPi])
+* Pi4J-Picade-OS (= Pi4J-Basic-OS + support for https://shop.pimoroni.com/products/picade-console[Picade Console] and https://shop.pimoroni.com/products/picade-x-hat-usb-c?variant=29156918558803[Picade X HAT USB-C])
 
-=== Pi4J-CrowPi-OS
+For all the info about what's included in each version: https://pi4j.com/pi4j-os/[pi4j.com/pi4j-os].
 
-* all of Pi4J-Basic-OS
-* support for https://www.elecrow.com/crowpi-compact-raspberry-pi-educational-kit.html[CrowPi]
-* download latest release of link:https://pi4j-download.com/latest.php?flavor=crowpi[CrowPi Image]
-* comes with `lirc` preinstalled to run the IR receiver component
-* use https://github.com/Pi4J/pi4j-example-crowpi[CrowPi template project] to start your CrowPi experiments
+=== Test the Pi4J OS-Images
 
-
-=== Pi4J-Picade-OS
-
-* all of Pi4J-Basic-OS
-* support for https://shop.pimoroni.com/products/picade-console[Picade Console] and https://shop.pimoroni.com/products/picade-x-hat-usb-c?variant=29156918558803[Picade X HAT USB-C]
-* download release of link:https://pi4j-download.com/latest.php?flavor=picade[Picade Image]
-* use link:[FXGL template project] to start your Picade project (available soon)
-
+Once you have an SD card with one of the Pi4J OS versions, you can perform a few included tests as described on https://pi4j.com/pi4j-os/test-pi4j-basic-os/[https://pi4j.com/pi4j-os/test-pi4j-basic-os].
 
 == Community
 
@@ -86,107 +64,7 @@ image::assets/logo-karakun.jpg[Karakun, 200]
 
 image::assets/logo-gluon.png[Gluon, 200]
 
-
 * _your company is missed here_
-
-== Test the Pi4J OS-Images
-
-The images contain two simple applications in directory `java-examples` and a sample file to test the audio channel. Start them via `ssh`.
-
-=== Audio Test
-
-[source, shell]
-cd /home/pi
-nvlc Music/StarTrekTheme.mp3
-
-
-=== Pure JavaFX Application
-
-Compile the JavaFX application
-
-[source, shell]
-cd /home/pi/java-examples/pure-javafx
-javac --module-path /opt/javafx-sdk/lib --add-modules=javafx.controls,javafx.media hellofx/HelloFX.java
-
-To start `HelloFX` in X11-Mode
-[source, shell]
-DISPLAY=:0 XAUTHORITY=/home/pi/.Xauthority sudo -E java --module-path /opt/javafx-sdk/lib --add-modules javafx.controls,javafx.media -Dglass.platform=gtk hellofx.HelloFX
-
-To start `HelloFX` in DRM (Direct Rendering Mode)
-[source, shell]
-sudo java-kiosk hellofx.HelloFX
-
-`java-kiosk` is a command provided by our image. It assures to call `java` with the correct (and huge) set of parameters.
-
-
-
-=== Pure Pi4J Application
-
-Attach a button to `pin 25`. 
-
-- on CrowPi that's the `left`-button. 
-- on Picade Console that's the `button-4`-button. 
-- Otherwise:
-
-image::assets/pi4j-minimal.png[Button on Pin 25]
-
-Compile and start the Java application
-[source, shell]
-cd /home/pi/java-examples/pure-pi4j
-javac -cp "/home/pi/deploy/*:." hellopi4j/MinimalPi4J.java
-sudo java -cp "/home/pi/deploy/*:." hellopi4j.MinimalPi4J
-
-
-== Additional Test for Pi4J-Picade-OS Image
-
-The audio test should use the internal loudspeaker.
-
-
-Compile the JavaFX application
-
-[source, shell]
-cd /home/pi/java-examples/pure-picade
-javac --module-path /opt/javafx-sdk/lib --add-modules=javafx.controls,javafx.media hellopicade/HelloPicade.java
-
-
-To start `HelloPicade` in X11-Mode
-[source, shell]
-DISPLAY=:0 XAUTHORITY=/home/pi/.Xauthority sudo -E java --module-path /opt/javafx-sdk/lib --add-modules javafx.controls,javafx.media -Dglass.platform=gtk hellopicade.HelloPicade
-
-
-To start `HelloPicade` in DRM
-
-[source, shell]
-sudo java-kiosk hellopicade.HelloPicade
-
-
-Check the mapping of the Picade buttons to JavaFX KeyCodes:
-
-|===
-|Picade |KeyCode
-
-|Joystick up
-|KeyCode.UP
-
-|Joystick down
-|KeyCode.DOWN
-
-|Joystick left
-|KeyCode.LEFT
-
-|Joystick right
-|KeyCode.RIGHT
-
-|right side black button
-|KeyCode.ENTER
-
-|left side black button
-|KeyCode.ESCAPE
-
-|all other buttons
-|no mapping
-|===
-
 
 == LICENSE
 
