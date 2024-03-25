@@ -11,8 +11,8 @@
 
     <!-- BUILD PROPERTIES -->
     <properties>
-        <pi4j.version>2.3.0</pi4j.version>
-        <slf4j.version>1.7.32</slf4j.version>
+        <pi4j.version>2.5.1</pi4j.version>
+        <slf4j.version>2.0.12</slf4j.version>
         <!-- Maven Plugin Versions -->
         <maven-dependency-plugin.version>3.2.0</maven-dependency-plugin.version>
     </properties>

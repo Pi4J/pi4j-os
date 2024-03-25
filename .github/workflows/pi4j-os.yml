@@ -3,6 +3,7 @@ name: pi4j-os
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   main:
