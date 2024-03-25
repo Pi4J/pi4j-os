@@ -8,7 +8,7 @@
 set -euxo pipefail
 
 # Script configuration
-declare -gr JDK="17.0.8-tem"
+declare -gr JDK="22-zulu"
 declare -gr GLUON_JAVAFX_VERSION="20.0.2"
 declare -gr GLUON_JAVAFX_URL="https://download2.gluonhq.com/openjfx/${GLUON_JAVAFX_VERSION}/openjfx-${GLUON_JAVAFX_VERSION}_monocle-linux-aarch64_bin-sdk.zip"
 declare -gr GLUON_JAVAFX_PATH="/opt/javafx-sdk"
