@@ -11,7 +11,7 @@ source "arm" "raspios" {
   image_build_method = "resize"
   image_path = "Pi4J-Picade-OS.img"
   image_type = "dos"
-  image_size = "6G"
+  image_size = "8G"
 
   # Boot Partition
   image_partitions {
