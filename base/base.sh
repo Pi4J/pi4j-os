@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# add a default user
 declare username=pi
 declare password=pi4j
 adduser --gecos "" --disabled-password $username
