@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # add a default user
-declare username=pi
-declare password=pi4j
-adduser --gecos "" --disabled-password $username
-echo -e "${password}\${password}" | passwd ${username}
+# declare username=pi
+# declare password=pi4j
+# adduser --gecos "" --disabled-password $username
+# echo -e "${password}\${password}" | passwd ${username}
 
 set -euxo pipefail
 
@@ -16,8 +16,8 @@ declare -gr GLUON_JAVAFX_PATH="/opt/javafx-sdk"
 declare -gr GLUON_JAVAFX_VERSION_PATH="/opt/javafx-sdk-${GLUON_JAVAFX_VERSION}"
 
 # Change localization options
-raspi-config nonint do_change_locale en_US.UTF-8
-raspi-config nonint do_configure_keyboard us
+raspi-config nonint do_change_locale de_CH.UTF-8
+raspi-config nonint do_configure_keyboard ch
 raspi-config nonint do_change_timezone Europe/Zurich
 
 # Enable remote management
@@ -84,29 +84,29 @@ systemctl enable pi4j-update-mime-db.service
 #rm /etc/xdg/autostart/piwiz.desktop
 
 # Disable screen blanking by default
-mkdir -p /etc/X11/xorg.conf.d/
-cp /usr/share/raspi-config/10-blanking.conf /etc/X11/xorg.conf.d/
+# mkdir -p /etc/X11/xorg.conf.d/
+# cp /usr/share/raspi-config/10-blanking.conf /etc/X11/xorg.conf.d/
 
 # Remove default backgrounds
-rm /usr/share/rpd-wallpaper/*.jpg
+# rm /usr/share/rpd-wallpaper/*.jpg
 
 # Override system-wide default wallpaper
-sed -i 's/wallpaper=.*/wallpaper=\/opt\/pi4j-os\/wallpaper-static.jpg/g' /etc/xdg/pcmanfm/LXDE-pi/desktop-items-*.conf
-sed -i 's/wallpaper_mode=.*/wallpaper_mode=stretch/g' /etc/xdg/pcmanfm/LXDE-pi/desktop-items-*.conf
+# sed -i 's/wallpaper=.*/wallpaper=\/opt\/pi4j-os\/wallpaper-static.jpg/g' /etc/xdg/pcmanfm/LXDE-pi/desktop-items-*.conf
+# sed -i 's/wallpaper_mode=.*/wallpaper_mode=stretch/g' /etc/xdg/pcmanfm/LXDE-pi/desktop-items-*.conf
 
 # Deploy dynamic wallpaper script and resources
-sudo -u pi install -Dm 0644 /tmp/res-base/wallpaper/wallpaper-autostart.desktop /home/pi/.config/autostart/pi4j-os-wallpaper.desktop
-sudo -u pi install -Dm 0644 /tmp/res-base/wallpaper/wallpaper-systemd.service /home/pi/.config/systemd/user/pi4j-os-wallpaper.service
-sudo -u pi install -Dm 0644 /tmp/res-base/wallpaper/wallpaper-systemd.path /home/pi/.config/systemd/user/pi4j-os-wallpaper.path
-install -Dm 0755 /tmp/res-base/wallpaper/wallpaper-hook.sh /lib/dhcpcd/dhcpcd-hooks/99-pi4j-os
-install -Dm 0644 /tmp/res-base/wallpaper/wallpaper-static.jpg /opt/pi4j-os/wallpaper-static.jpg
+# sudo -u pi install -Dm 0644 /tmp/res-base/wallpaper/wallpaper-autostart.desktop /home/pi/.config/autostart/pi4j-os-wallpaper.desktop
+# sudo -u pi install -Dm 0644 /tmp/res-base/wallpaper/wallpaper-systemd.service /home/pi/.config/systemd/user/pi4j-os-wallpaper.service
+# sudo -u pi install -Dm 0644 /tmp/res-base/wallpaper/wallpaper-systemd.path /home/pi/.config/systemd/user/pi4j-os-wallpaper.path
+# install -Dm 0755 /tmp/res-base/wallpaper/wallpaper-hook.sh /lib/dhcpcd/dhcpcd-hooks/99-pi4j-os
+# install -Dm 0644 /tmp/res-base/wallpaper/wallpaper-static.jpg /opt/pi4j-os/wallpaper-static.jpg
 
 # Deploy java-kiosk helper script for JavaFX apps
-sudo install -Dm 0755 /tmp/res-base/java/java-kiosk.py /usr/local/bin/java-kiosk
-sudo install -Dm 0755 /tmp/res-base/java/java-last-kiosk.py /usr/local/bin/java-last-kiosk
+# sudo install -Dm 0755 /tmp/res-base/java/java-kiosk.py /usr/local/bin/java-kiosk
+# sudo install -Dm 0755 /tmp/res-base/java/java-last-kiosk.py /usr/local/bin/java-last-kiosk
 
 # Compile and deploy helper executable for detecting primary video card
-gcc -I/usr/include/libdrm -o /usr/local/bin/detect-primary-card /tmp/res-base/system/detect-primary-card.c -ldrm
+# gcc -I/usr/include/libdrm -o /usr/local/bin/detect-primary-card /tmp/res-base/system/detect-primary-card.c -ldrm
 
 # Deploy music samples
 sudo -u pi install -Dm 0644 /tmp/res-base/music/* -t /home/pi/Music/
