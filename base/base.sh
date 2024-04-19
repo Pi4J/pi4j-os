@@ -25,17 +25,17 @@ raspi-config nonint do_ssh 0
 raspi-config nonint do_vnc 0
 
 # Ensure required kernel modules are loaded
-truncate -s0 /etc/modprobe.d/raspi-blacklist.conf
-grep -qxF 'i2c-dev' || echo 'i2c-dev' >>/etc/modules
+# truncate -s0 /etc/modprobe.d/raspi-blacklist.conf
+# grep -qxF 'i2c-dev' || echo 'i2c-dev' >>/etc/modules
 
 # Enable additional interfaces
 raspi-config nonint do_i2c 0
 raspi-config nonint do_spi 0
 
 # Enable WiFi by default
-for file in /var/lib/systemd/rfkill/*:wlan; do
-  echo 0 > "${file}"
-done
+# for file in /var/lib/systemd/rfkill/*:wlan; do
+#   echo 0 > "${file}"
+# done
 
 # Install and upgrade software packages
 export DEBIAN_FRONTEND=noninteractive
@@ -74,11 +74,11 @@ ln -sf "${GLUON_JAVAFX_VERSION_PATH}" "${GLUON_JAVAFX_PATH}"
 # fi
 
 # Deploy default WiFi configuration
-install -Dm 0644 /tmp/res-base/system/wpa-supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
+#install -Dm 0644 /tmp/res-base/system/wpa-supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 
 # Deploy and enable MIME database regeneration script for first boot
-install -Dm 0644 /tmp/res-base/system/pi4j-update-mime-db.service /etc/systemd/system/pi4j-update-mime-db.service
-systemctl enable pi4j-update-mime-db.service
+# install -Dm 0644 /tmp/res-base/system/pi4j-update-mime-db.service /etc/systemd/system/pi4j-update-mime-db.service
+# systemctl enable pi4j-update-mime-db.service
 
 # Disable getting started wizard
 #rm /etc/xdg/autostart/piwiz.desktop
