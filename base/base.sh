@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# declare username=pi
-# declare password=pi4j
-# adduser --gecos "" --disabled-password $username
-# chpasswd <<<"${username}:${password}"
+declare username=pi
+declare password=pi4j
+adduser --gecos "" --disabled-password $username
+echo -e "${password}\${password}" | passwd ${username}
 
 set -euxo pipefail
 
 # Script configuration
-declare -gr JDK="22-zulu"
-declare -gr GLUON_JAVAFX_VERSION="20.0.2"
-declare -gr GLUON_JAVAFX_URL="https://download2.gluonhq.com/openjfx/${GLUON_JAVAFX_VERSION}/openjfx-${GLUON_JAVAFX_VERSION}_monocle-linux-aarch64_bin-sdk.zip"
+declare -gr JDK="temurin-21-jdk"
+declare -gr GLUON_JAVAFX_VERSION="22.0.1"
+declare -gr GLUON_JAVAFX_URL="https://download2.gluonhq.com/openjfx/${GLUON_JAVAFX_VERSION}/openjfx-${GLUON_JAVAFX_VERSION}_linux-aarch64_bin-sdk.zip"
 declare -gr GLUON_JAVAFX_PATH="/opt/javafx-sdk"
 declare -gr GLUON_JAVAFX_VERSION_PATH="/opt/javafx-sdk-${GLUON_JAVAFX_VERSION}"
 
@@ -38,6 +38,8 @@ done
 
 # Install and upgrade software packages
 export DEBIAN_FRONTEND=noninteractive
+wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo tee /etc/apt/trusted.gpg.d/myrepo.asc
+echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list
 apt-get -y update
 apt-get -y -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confold' dist-upgrade
 apt-get -y install \
@@ -47,15 +49,10 @@ apt-get -y install \
   lirc \
   maven \
   zip  \
-  openjdk-17-jdk \
+  ${JDK} \
   gpsd \
   gpsd-clients
 rm -rf /var/lib/apt/lists/*
-
-#curl -s "https://get.sdkman.io" | bash
-#source "${HOME}/.sdkman/bin/sdkman-init.sh"
-#sdk install java "${JDK}"
-
 
 # Download and extract Gluon JavaFX
 wget -O /tmp/gluon-javafx.zip "${GLUON_JAVAFX_URL}"
@@ -65,14 +62,15 @@ rm -f /tmp/gluon-javafx.zip
 mv "/tmp/javafx-sdk-${GLUON_JAVAFX_VERSION}" "${GLUON_JAVAFX_VERSION_PATH}"
 ln -sf "${GLUON_JAVAFX_VERSION_PATH}" "${GLUON_JAVAFX_PATH}"
 
+# DRM isn't supported any more (OK, it never was really supported)
 # Create symlink to newest libgluon_drm
-GLUON_JAVAFX_DRM="$(ls -v "${GLUON_JAVAFX_VERSION_PATH}"/lib/libgluon_drm-*.so | tail -n1)"
-if [[ -n "${GLUON_JAVAFX_DRM}" ]]; then
-  ln -sf "${GLUON_JAVAFX_DRM}" "${GLUON_JAVAFX_VERSION_PATH}/lib/libgluon_drm.so"
-else
-  echo "Unable to determine latest version of libgluon_drm"
-  exit 1
-fi
+# GLUON_JAVAFX_DRM="$(ls -v "${GLUON_JAVAFX_VERSION_PATH}"/lib/libgluon_drm-*.so | tail -n1)"
+# if [[ -n "${GLUON_JAVAFX_DRM}" ]]; then
+#   ln -sf "${GLUON_JAVAFX_DRM}" "${GLUON_JAVAFX_VERSION_PATH}/lib/libgluon_drm.so"
+# else
+#   echo "Unable to determine latest version of libgluon_drm"
+#   exit 1
+# fi
 
 # Deploy default WiFi configuration
 install -Dm 0644 /tmp/res-base/system/wpa-supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
