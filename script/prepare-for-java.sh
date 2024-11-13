@@ -65,28 +65,28 @@ echo "-------------------------"
 echo "   "
 
 echo "Install SDKMAN"
-sudo -u "$NON_SUDO_USER" curl -s "https://get.sdkman.io" | bash
-sudo -u "$NON_SUDO_USER" source "$HOME/.sdkman/bin/sdkman-init.sh"
+sudo -u "$NON_SUDO_USER" bash -c 'curl -s "https://get.sdkman.io" | bash'
+sudo -u "$NON_SUDO_USER" bash -c 'source "$HOME/.sdkman/bin/sdkman-init.sh"'
 echo "Installed SDKMAN version:"
-sudo -u "$NON_SUDO_USER" sdk version
+sudo -u "$NON_SUDO_USER" bash -c 'sdk version'
 
 echo "   "
 echo "-------------------------"
 echo "   "
 
 echo "Install Maven"
-sudo -u "$NON_SUDO_USER" sdk install maven
+sudo -u "$NON_SUDO_USER" bash -c 'sdk install maven'
 echo "Installed Maven version:"
-sudo -u "$NON_SUDO_USER" mvn -v
+sudo -u "$NON_SUDO_USER" bash -c 'mvn -v'
 
 echo "   "
 echo "-------------------------"
 echo "   "
 
 echo "Install JBang"
-sudo -u "$NON_SUDO_USER" sdk install jbang
+sudo -u "$NON_SUDO_USER" bash -c 'sdk install jbang'
 echo "Installed JBang version:"
-sudo -u "$NON_SUDO_USER" jbang --version
+sudo -u "$NON_SUDO_USER" bash -c 'jbang --version'
 
 echo "   "
 echo "-------------------------"
