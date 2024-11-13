@@ -1,5 +1,0 @@
-[Unit]
-Description=Refresh wallpaper when file changes
-
-[Path]
-PathModified=/opt/pi4j-os/wallpaper-dynamic.jpg
