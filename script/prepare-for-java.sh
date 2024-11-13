@@ -3,7 +3,10 @@
 # Ensure the script is running as sudo
 
 if [ "$EUID" -ne 0 ]; then
-  echo "Please run as sudo"
+  echo "   "
+  echo "Please run with sudo!"
+  echo "Sorry, can't continue..."
+  echo "   "
   exit
 fi
 
