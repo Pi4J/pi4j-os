@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Ensure the script is running as sudo
+
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run as sudo"
+  exit
+fi
+
+# Define the non-sudo user (= the currently logged-in user)
+
+NON_SUDO_USER=$(logname)
+
 # System updates
 
 echo "Update the list of available packages and their versions"
@@ -54,31 +65,31 @@ echo "-------------------------"
 echo "   "
 
 echo "Install SDKMAN"
-curl -s "https://get.sdkman.io" | bash
-source "$HOME/.sdkman/bin/sdkman-init.sh"
+sudo -u "$NON_SUDO_USER" curl -s "https://get.sdkman.io" | bash
+sudo -u "$NON_SUDO_USER" source "$HOME/.sdkman/bin/sdkman-init.sh"
 echo "Installed SDKMAN version:"
-sdk version
+sudo -u "$NON_SUDO_USER" sdk version
 
 echo "   "
 echo "-------------------------"
 echo "   "
 
 echo "Install Maven"
-sdk install maven
+sudo -u "$NON_SUDO_USER" sdk install maven
 echo "Installed Maven version:"
-mvn -v
+sudo -u "$NON_SUDO_USER" mvn -v
 
 echo "   "
 echo "-------------------------"
 echo "   "
 
 echo "Install JBang"
-sdk install jbang
+sudo -u "$NON_SUDO_USER" sdk install jbang
 echo "Installed JBang version:"
-jbang --version
+sudo -u "$NON_SUDO_USER" jbang --version
 
 echo "   "
 echo "-------------------------"
 echo "   "
 
-echo "Done! Have fun..."
+echo "All done! Have fun..."
