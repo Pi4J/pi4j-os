@@ -13,7 +13,7 @@ This project provides some scripts to extend the official Raspberry Pi Operating
 4. Make sure the board is connected to WiFi or cabled internet.
 5. Open the terminal and run this command:
     ```shell
-    curl -sL https://raw.githubusercontent.com/Pi4J/pi4j-os/main/script/prepare-for-java.sh | bash
+    curl -sL https://raw.githubusercontent.com/Pi4J/pi4j-os/main/script/prepare-for-java.sh | sudo bash
     ```
 6. You're done! Check [the Pi4J website > Getting Started With Pi4J](https://www.pi4j.com/getting-started/) for the next steps. Have fun with #JavaOnRaspberryPi.
 
