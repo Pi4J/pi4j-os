@@ -1,3 +1,8 @@
+///usr/bin/env jbang "$0" "$@" ; exit $?
+
+//DEPS com.pi4j:pi4j-core:2.7.0
+
+import com.pi4j.Pi4J;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.Enumeration;
 import java.util.List;
 
+
 /**
  * Code to create a wallpaper image with system information.
  *
@@ -25,17 +31,27 @@ import java.util.List;
  *
  * Example usages:
  * cd wallpaper
- * java GenerateWallpaperInfoImage.java wallpaper-2-1920x1080.png wallpaper-out.png
+ * jbang GenerateWallpaperInfoImage.java wallpaper-2-1920x1080.png wallpaper-out.png 1280 800
  */
 public class GenerateWallpaperInfoImage {
 
     public static void main(String[] args) {
-        if (args.length != 2) {
-            System.out.println("Usage: java <input-image-path> <output-image-path>");
+        if (args.length != 4) {
+            System.out.println("Usage: java <input-image-path> <output-image-path> <width> <height>");
             return;
         }
 
-        var outputFile = generateSystemInfoImage(args[0], args[1]);
+        var width = 0;
+        var height = 0;
+
+        try {
+            width = Integer.parseInt(args[2]);
+            height = Integer.parseInt(args[3]);
+        } catch (Exception e) {
+            System.err.println("Could not parse the width and/or height");
+        }
+
+        var outputFile = generateSystemInfoImage(args[0], args[1], width, height);
 
         if (outputFile == null) {
             System.err.println("No output image could be created...");
@@ -52,21 +68,17 @@ public class GenerateWallpaperInfoImage {
         }
     }
 
-    public static File generateSystemInfoImage(String inputImagePath, String outputImagePath) {
+    public static File generateSystemInfoImage(String inputImagePath, String outputImagePath, int width, int height) {
         try {
             // Read the input image
             BufferedImage originalImage = ImageIO.read(new File(inputImagePath));
 
             // Create a copy of the image
-            BufferedImage newImage = new BufferedImage(
-                    originalImage.getWidth(),
-                    originalImage.getHeight(),
-                    BufferedImage.TYPE_INT_ARGB
-            );
+            BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
             // Draw the original image
             Graphics2D g2d = newImage.createGraphics();
-            g2d.drawImage(originalImage, 0, 0, null);
+            g2d.drawImage(originalImage, 0, 0, width, height, null);
 
             // Configure text rendering
             g2d.setRenderingHint(
@@ -125,9 +137,10 @@ public class GenerateWallpaperInfoImage {
         info.add("   Runtime: " + System.getProperty("java.runtime.version"));
         info.add("   Vendor: " + System.getProperty("java.vendor"));
 
-        // Java Version
+        // Raspberry Pi info
+        var pi4j = Pi4J.newAutoContext();
         info.add("Raspberry Pi");
-        info.add("   Board model: " + execute(Arrays.asList("cat", "/proc/cpuinfo", "|", "grep", "'Revision'", "|", "awk", "'{print $3}'")));
+        info.add("   Board model: " + pi4j.boardInfo().getBoardModel().getLabel());
 
         // IP Addresses
         info.add("Network");

@@ -22,16 +22,16 @@ This project provides some scripts to extend the official Raspberry Pi Operating
 
 ### Wallpaper
 
-An additional Java script is available to turn the desktop wallpaper into an information screen. This script will take an image as input, overlay some useful info as text (IP, Java version, etc.), and save this as a new image. This generated image is then pushed as the new wallpaper to the desktop.
+An additional Java (JBang) script is available to turn the desktop wallpaper into an information screen. This script will take an image as input, overlay some useful info as text (IP, Java version, etc.), and save this as a new image. This generated image is then pushed as the new wallpaper to the desktop.
 
 ```shell
 mkdir wallpaper
 cd wallpaper
-curl -sL https://raw.githubusercontent.com/Pi4J/pi4j-os/main/wallpaper/GenerateWallpaperInfoImage.java
+wget https://raw.githubusercontent.com/Pi4J/pi4j-os/main/wallpaper/GenerateWallpaperInfoImage.java
 # Add an image, or download one of the examples
-curl -sL https://raw.githubusercontent.com/Pi4J/pi4j-os/main/wallpaper/wallpaper-2-1920x1080.png
+wget https://raw.githubusercontent.com/Pi4J/pi4j-os/main/wallpaper/wallpaper-2-1920x1080.png
 # Run the command to test it
-java GenerateWallpaperInfoImage.java wallpaper-1-1920x1080.png wallpaper-out.png
+jbang GenerateWallpaperInfoImage.java wallpaper-1-1920x1080.png wallpaper-out.png 1280 800
 ```
 
 ## History Of This Repository
