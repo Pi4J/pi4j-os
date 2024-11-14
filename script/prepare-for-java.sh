@@ -13,7 +13,7 @@ fi
 # System updates
 
 echo "Update the list of available packages and their versions"
-apt update
+sudo apt update
 
 echo "   "
 echo "-------------------------"
