@@ -3,7 +3,8 @@
 //DEPS com.pi4j:pi4j-core:2.7.0
 
 import com.pi4j.Pi4J;
-import javax.imageio.ImageIO;
+import com.sun.management.OperatingSystemMXBean;
+import java.lang.management.ManagementFactory;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.Enumeration;
 import java.util.List;
-
+import javax.imageio.ImageIO;
 
 /**
  * Code to create a wallpaper image with system information.
@@ -162,15 +163,13 @@ public class GenerateWallpaperInfoImage {
             info.add("Error retrieving network interfaces: " + e.getMessage());
         }
 
-        // System resources
-        Runtime runtime = Runtime.getRuntime();
-        long maxMemory = runtime.maxMemory() / (1024 * 1024);
-        long totalMemory = runtime.totalMemory() / (1024 * 1024);
-        long freeMemory = runtime.freeMemory() / (1024 * 1024);
-        info.add("Memory");
-        info.add("   Max: " + maxMemory + "MB");
-        info.add("   Total: " + totalMemory + "MB");
-        info.add("   Free: " + freeMemory + "MB");
+        // Overall system memory using OperatingSystemMXBean
+        OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+        long totalPhysicalMemorySize = osBean.getTotalPhysicalMemorySize() / (1024 * 1024);
+        long freePhysicalMemorySize = osBean.getFreePhysicalMemorySize() / (1024 * 1024);
+        info.add("System Memory");
+        info.add("   Total: " + totalPhysicalMemorySize + "MB");
+        info.add("   Free: " + freePhysicalMemorySize + "MB");
 
         // Timestap
         info.add("Generated on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
