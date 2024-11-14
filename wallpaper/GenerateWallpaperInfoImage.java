@@ -26,11 +26,12 @@ import javax.imageio.ImageIO;
 /**
  * Code to create a wallpaper image with system information.
  *
- * The input and output image must be provided as args.
- * As no dependencies are used, this can be executed with java instead of jbang:
- * java <input-image-path> <output-image-path>
+ * The input image, output image, and width and height for the output image must be provided as args.
+ * The Pi4J dependency is used to detect the type of Raspberry Pi board.
+ * You can execute this script with JBang:
+ * java <input-image-path> <output-image-path> <output-image-width> <output-image-height>
  *
- * Example usages:
+ * Example usage to generate a wallpaper for a 1280x800 screen:
  * cd wallpaper
  * jbang GenerateWallpaperInfoImage.java wallpaper-2-1920x1080.png wallpaper-out.png 1280 800
  */

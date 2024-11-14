@@ -34,6 +34,12 @@ wget https://raw.githubusercontent.com/Pi4J/pi4j-os/main/wallpaper/wallpaper-2-1
 jbang GenerateWallpaperInfoImage.java wallpaper-1-1920x1080.png wallpaper-out.png 1280 800
 ```
 
+If you want to run this script automatically, you can use a watch in the terminal. The following example will refresh the background every 10 seconds:
+
+```shell
+watch -n 10 jbang GenerateWallpaperInfoImage.java wallpaper-1-1920x1080.png wallpaper-out.png 1280 800
+```
+
 ## History Of This Repository
 
 The original goal of this repository was to provide a build of the official Raspberry Pi OS with additional tools to prepare it for Java(FX) and Pi4J projects. Because it became difficult to support because of changes in the OS for the Raspberry Pi 5, we decided to stop this goal, and provide some scripts here that can help you to achieve the same result. You can still find the latest sources of the Pi4J OS here with the tag [end-of-os](https://github.com/Pi4J/pi4j-os/releases/tag/end-of-os).
