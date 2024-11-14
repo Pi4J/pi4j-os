@@ -127,7 +127,6 @@ public class GenerateWallpaperInfoImage {
         // OS Information
         info.add("Operating System");
         info.add("   Name: " + System.getProperty("os.name"));
-        info.add("   Version: " + System.getProperty("os.version"));
         info.add("   Arch: " + System.getProperty("os.arch"));
         if (System.getProperty("os.name").toLowerCase().contains("linux")) {
             info.add("   Kernel: " + execute(Arrays.asList("uname", "-r")));
