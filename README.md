@@ -34,6 +34,10 @@ wget https://raw.githubusercontent.com/Pi4J/pi4j-os/main/wallpaper/wallpaper-2-1
 jbang GenerateWallpaperInfoImage.java wallpaper-1-1920x1080.png wallpaper-out.png 1280 800
 ```
 
+This will generate a result like this:
+
+![Screenshot of a generated wallpaper](screenshot/generated-wallpaper.png)
+
 If you want to run this script automatically, you can use a watch in the terminal. The following example will refresh the background every 10 seconds:
 
 ```shell
