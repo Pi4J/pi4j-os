@@ -29,7 +29,7 @@ mkdir wallpaper
 cd wallpaper
 wget https://raw.githubusercontent.com/Pi4J/pi4j-os/main/wallpaper/GenerateWallpaperInfoImage.java
 # Add an image, or download one of the examples
-wget https://raw.githubusercontent.com/Pi4J/pi4j-os/main/wallpaper/wallpaper-2-1920x1080.png
+wget https://raw.githubusercontent.com/Pi4J/pi4j-os/main/wallpaper/wallpaper-1-1920x1080.png
 # Run the command to test it
 jbang GenerateWallpaperInfoImage.java wallpaper-1-1920x1080.png wallpaper-out.png 1280 800
 ```
