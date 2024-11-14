@@ -7,6 +7,8 @@ This project provides some scripts to extend the official Raspberry Pi Operating
 
 ## How To Use
 
+### Script to Setup for Java
+
 1. Prepare an SD Card with the 64-bit version of the Raspberry Pi Operating System, see [the Pi4J website > Prepare a Raspberry Pi > Write OS to SD card](https://www.pi4j.com/prepare/sd-card/).
 2. Put the SD Card in your Raspberry Pi and start it.
 3. The board will probably reboot to do some basic settings.
@@ -17,6 +19,20 @@ This project provides some scripts to extend the official Raspberry Pi Operating
     ```
 6. Make sure you see `All done! Have fun...` if the script finished. If not, you may need to run it again as one of the intermediate steps has stopped it.
 7. You're done! Check [the Pi4J website > Getting Started With Pi4J](https://www.pi4j.com/getting-started/) for the next steps. Have fun with #JavaOnRaspberryPi.
+
+### Wallpaper
+
+An additional Java script is available to turn the desktop wallpaper into an information screen. This script will take an image as input, overlay some useful info as text (IP, Java version, etc.), and save this as a new image. This generated image is then pushed as the new wallpaper to the desktop.
+
+```shell
+mkdir wallpaper
+cd wallpaper
+curl -sL https://raw.githubusercontent.com/Pi4J/pi4j-os/main/wallpaper/GenerateWallpaperInfoImage.java
+# Add an image, or download one of the examples
+curl -sL https://raw.githubusercontent.com/Pi4J/pi4j-os/main/wallpaper/wallpaper-2-1920x1080.png
+# Run the command to test it
+java GenerateWallpaperInfoImage.java wallpaper-1-1920x1080.png wallpaper-out.png
+```
 
 ## History Of This Repository
 

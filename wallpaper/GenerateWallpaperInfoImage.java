@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +24,8 @@ import java.util.List;
  * java <input-image-path> <output-image-path>
  *
  * Example usages:
- * java GenerateWallpaperInfoImage.java data/wallpaper-2-1920x1080.jpg wallpaper.png
+ * cd wallpaper
+ * java GenerateWallpaperInfoImage.java wallpaper-2-1920x1080.png wallpaper-out.png
  */
 public class GenerateWallpaperInfoImage {
 
@@ -118,8 +121,9 @@ public class GenerateWallpaperInfoImage {
 
         // Java Version
         info.add("Java");
-        info.add("   Java Version: " + System.getProperty("java.runtime.version") + ", " + System.getProperty("java.vendor"));
-        info.add("   JavaFX Version: " + System.getProperty("javafx.runtime.version"));
+        info.add("   Version: " + System.getProperty("java.version"));
+        info.add("   Runtime: " + System.getProperty("java.runtime.version"));
+        info.add("   Vendor: " + System.getProperty("java.vendor"));
 
         // Java Version
         info.add("Raspberry Pi");
@@ -154,6 +158,9 @@ public class GenerateWallpaperInfoImage {
         info.add("   Max: " + maxMemory + "MB");
         info.add("   Total: " + totalMemory + "MB");
         info.add("   Free: " + freeMemory + "MB");
+
+        // Timestap
+        info.add("Generated on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
         return info;
     }
