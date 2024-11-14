@@ -1,4 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Desktop Pi4J OS Wallpaper
-Exec=/usr/bin/systemctl --user start pi4j-os-wallpaper.path pi4j-os-wallpaper.service
