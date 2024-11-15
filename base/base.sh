@@ -91,7 +91,7 @@ ln -sf "${GLUON_JAVAFX_VERSION_PATH}" "${GLUON_JAVAFX_PATH}"
 # rm /usr/share/rpd-wallpaper/*.jpg
 
 # Override system-wide default wallpaper
-# sed -i 's/wallpaper=.*/wallpaper=\/opt\/pi4j-os\/wallpaper-static.jpg/g' /etc/xdg/pcmanfm/LXDE-pi/desktop-items-*.conf
+# sed -i 's/wallpaper=.*/wallpaper=\/opt\/pi4j-os\/wallpaper-sqtatic.jpg/g' /etc/xdg/pcmanfm/LXDE-pi/desktop-items-*.conf
 # sed -i 's/wallpaper_mode=.*/wallpaper_mode=stretch/g' /etc/xdg/pcmanfm/LXDE-pi/desktop-items-*.conf
 
 # Deploy dynamic wallpaper script and resources
