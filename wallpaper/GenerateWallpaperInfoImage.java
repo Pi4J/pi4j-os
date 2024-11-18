@@ -1,4 +1,10 @@
-import javax.imageio.ImageIO;
+///usr/bin/env jbang "$0" "$@" ; exit $?
+
+//DEPS com.pi4j:pi4j-core:2.7.0
+
+import com.pi4j.Pi4J;
+import com.sun.management.OperatingSystemMXBean;
+import java.lang.management.ManagementFactory;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -8,31 +14,46 @@ import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.Enumeration;
 import java.util.List;
+import javax.imageio.ImageIO;
 
 /**
  * Code to create a wallpaper image with system information.
  *
- * The input and output image must be provided as args.
- * As no dependencies are used, this can be executed with java instead of jbang:
- * java <input-image-path> <output-image-path>
+ * The input image, output image, and width and height for the output image must be provided as args.
+ * The Pi4J dependency is used to detect the type of Raspberry Pi board.
+ * You can execute this script with JBang:
+ * java <input-image-path> <output-image-path> <output-image-width> <output-image-height>
  *
- * Example usages:
- * java GenerateWallpaperInfoImage.java data/wallpaper-2-1920x1080.jpg wallpaper.png
+ * Example usage to generate a wallpaper for a 1280x800 screen:
+ * cd wallpaper
+ * jbang GenerateWallpaperInfoImage.java wallpaper-2-1920x1080.png wallpaper-out.png 1280 800
  */
 public class GenerateWallpaperInfoImage {
 
     public static void main(String[] args) {
-        if (args.length != 2) {
-            System.out.println("Usage: java <input-image-path> <output-image-path>");
+        if (args.length != 4) {
+            System.out.println("Usage: java <input-image-path> <output-image-path> <width> <height>");
             return;
         }
 
-        var outputFile = generateSystemInfoImage(args[0], args[1]);
+        var width = 0;
+        var height = 0;
+
+        try {
+            width = Integer.parseInt(args[2]);
+            height = Integer.parseInt(args[3]);
+        } catch (Exception e) {
+            System.err.println("Could not parse the width and/or height");
+        }
+
+        var outputFile = generateSystemInfoImage(args[0], args[1], width, height);
 
         if (outputFile == null) {
             System.err.println("No output image could be created...");
@@ -49,21 +70,17 @@ public class GenerateWallpaperInfoImage {
         }
     }
 
-    public static File generateSystemInfoImage(String inputImagePath, String outputImagePath) {
+    public static File generateSystemInfoImage(String inputImagePath, String outputImagePath, int width, int height) {
         try {
             // Read the input image
             BufferedImage originalImage = ImageIO.read(new File(inputImagePath));
 
             // Create a copy of the image
-            BufferedImage newImage = new BufferedImage(
-                    originalImage.getWidth(),
-                    originalImage.getHeight(),
-                    BufferedImage.TYPE_INT_ARGB
-            );
+            BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
             // Draw the original image
             Graphics2D g2d = newImage.createGraphics();
-            g2d.drawImage(originalImage, 0, 0, null);
+            g2d.drawImage(originalImage, 0, 0, width, height, null);
 
             // Configure text rendering
             g2d.setRenderingHint(
@@ -110,7 +127,6 @@ public class GenerateWallpaperInfoImage {
         // OS Information
         info.add("Operating System");
         info.add("   Name: " + System.getProperty("os.name"));
-        info.add("   Version: " + System.getProperty("os.version"));
         info.add("   Arch: " + System.getProperty("os.arch"));
         if (System.getProperty("os.name").toLowerCase().contains("linux")) {
             info.add("   Kernel: " + execute(Arrays.asList("uname", "-r")));
@@ -118,12 +134,14 @@ public class GenerateWallpaperInfoImage {
 
         // Java Version
         info.add("Java");
-        info.add("   Java Version: " + System.getProperty("java.runtime.version") + ", " + System.getProperty("java.vendor"));
-        info.add("   JavaFX Version: " + System.getProperty("javafx.runtime.version"));
+        info.add("   Version: " + System.getProperty("java.version"));
+        info.add("   Runtime: " + System.getProperty("java.runtime.version"));
+        info.add("   Vendor: " + System.getProperty("java.vendor"));
 
-        // Java Version
+        // Raspberry Pi info
+        var pi4j = Pi4J.newAutoContext();
         info.add("Raspberry Pi");
-        info.add("   Board model: " + execute(Arrays.asList("cat", "/proc/cpuinfo", "|", "grep", "'Revision'", "|", "awk", "'{print $3}'")));
+        info.add("   Board model: " + pi4j.boardInfo().getBoardModel().getLabel());
 
         // IP Addresses
         info.add("Network");
@@ -145,15 +163,16 @@ public class GenerateWallpaperInfoImage {
             info.add("Error retrieving network interfaces: " + e.getMessage());
         }
 
-        // System resources
-        Runtime runtime = Runtime.getRuntime();
-        long maxMemory = runtime.maxMemory() / (1024 * 1024);
-        long totalMemory = runtime.totalMemory() / (1024 * 1024);
-        long freeMemory = runtime.freeMemory() / (1024 * 1024);
-        info.add("Memory");
-        info.add("   Max: " + maxMemory + "MB");
-        info.add("   Total: " + totalMemory + "MB");
-        info.add("   Free: " + freeMemory + "MB");
+        // Overall system memory using OperatingSystemMXBean
+        OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+        long totalPhysicalMemorySize = osBean.getTotalPhysicalMemorySize() / (1024 * 1024);
+        long freePhysicalMemorySize = osBean.getFreePhysicalMemorySize() / (1024 * 1024);
+        info.add("System Memory");
+        info.add("   Total: " + totalPhysicalMemorySize + "MB");
+        info.add("   Free: " + freePhysicalMemorySize + "MB");
+
+        // Timestap
+        info.add("Generated on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
         return info;
     }
