@@ -39,7 +39,7 @@ public class GenerateWallpaperInfoImage {
 
     public static void main(String[] args) {
         var width = 500;
-        var height = 250;
+        var height = 300;
 
         var outputFile = generateSystemInfoImage("pi4j-logo.png", "wallpaper.png", width, height);
 
@@ -62,10 +62,10 @@ public class GenerateWallpaperInfoImage {
             // Info box
             int padding = 10;
             int lineHeight = 14;
-            List<String> systemInfo = getSystemInfo();
             int infoWidth = 300;
             int networkLineHeight = 24;
 
+            List<String> systemInfo = getSystemInfo();
             List<String> networkInfo = getNetworkInfo();
 
             // Read the input image
@@ -73,7 +73,6 @@ public class GenerateWallpaperInfoImage {
 
             // Create a copy of the image
             BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
             Graphics2D g2d = newImage.createGraphics();
 
             // Add semi-transparent background
@@ -172,8 +171,6 @@ public class GenerateWallpaperInfoImage {
         var pi4j = Pi4J.newAutoContext();
         info.add("Raspberry Pi");
         info.add("   Model: " + pi4j.boardInfo().getBoardModel().getLabel());
-
-
 
         // Overall system memory using OperatingSystemMXBean
         OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);

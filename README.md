@@ -25,6 +25,9 @@ This project provides some scripts to extend the official Raspberry Pi Operating
 An additional Java (JBang) script is available to turn the desktop wallpaper into an information screen. This script will take an image as input, overlay some useful info as text (IP, Java version, etc.), and save this as a new image. This generated image is then pushed as the new wallpaper to the desktop.
 
 1. To install the script, open the terminal and run this command:
+   ```shell
+   curl -sL https://raw.githubusercontent.com/Pi4J/pi4j-os/main/script/install-wallpaper.sh | bash
+    ```
 2. Open the script:
    ```shell
    sudo nano /etc/NetworkManager/dispatcher.d/99-ip-change-notify
