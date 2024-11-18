@@ -24,15 +24,13 @@ This project provides some scripts to extend the official Raspberry Pi Operating
 
 An additional Java (JBang) script is available to turn the desktop wallpaper into an information screen. This script will take an image as input, overlay some useful info as text (IP, Java version, etc.), and save this as a new image. This generated image is then pushed as the new wallpaper to the desktop.
 
-```shell
-mkdir wallpaper
-cd wallpaper
-wget https://raw.githubusercontent.com/Pi4J/pi4j-os/main/wallpaper/GenerateWallpaperInfoImage.java
-# Add an image, or download one of the examples
-wget https://raw.githubusercontent.com/Pi4J/pi4j-os/main/wallpaper/wallpaper-1-1920x1080.png
-# Run the command to test it
-jbang GenerateWallpaperInfoImage.java wallpaper-1-1920x1080.png wallpaper-out.png 1280 800
-```
+1. To install the script, open the terminal and run this command:
+2. Open the script:
+   ```shell
+   sudo nano /etc/NetworkManager/dispatcher.d/99-ip-change-notify
+   ````
+3. Adjust the `pi4j` username in the script (3 times) to match the one you use for your Raspberry Pi. E.g. on this line: `IP_FILE="/home/pi4j/wallpaper/current_ip_$interface.txt`.
+4. Save the file with `CTRL+X` + `y` + `ENTER`.
 
 This will generate a result like this:
 

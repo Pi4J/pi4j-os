@@ -34,6 +34,7 @@ sudo raspi-config nonint do_ssh 0
 sudo raspi-config nonint do_serial_hw 0
 sudo raspi-config nonint do_serial_cons 1
 sudo raspi-config nonint do_onewire 0
+sudo sed -i "$ a\dtoverlay=pwm-2chan" /boot/firmware/config.txt
 sudo systemctl disable hciuart
 sudo echo "dtoverlay=disable-bt" | tee -a /boot/firmware/config.txt
 
@@ -91,4 +92,7 @@ echo "   "
 echo "-------------------------"
 echo "   "
 
-echo "All done! Have fun..."
+echo "All done! Have fun when the board is restarted..."
+sudo reboot
+
+

@@ -33,36 +33,23 @@ import javax.imageio.ImageIO;
  *
  * Example usage to generate a wallpaper for a 1280x800 screen:
  * cd wallpaper
- * jbang GenerateWallpaperInfoImage.java wallpaper-2-1920x1080.png wallpaper-out.png 1280 800
+ * jbang GenerateWallpaperInfoImage.java
  */
 public class GenerateWallpaperInfoImage {
 
     public static void main(String[] args) {
-        if (args.length != 4) {
-            System.out.println("Usage: java <input-image-path> <output-image-path> <width> <height>");
-            return;
-        }
+        var width = 500;
+        var height = 250;
 
-        var width = 0;
-        var height = 0;
-
-        try {
-            width = Integer.parseInt(args[2]);
-            height = Integer.parseInt(args[3]);
-        } catch (Exception e) {
-            System.err.println("Could not parse the width and/or height");
-        }
-
-        var outputFile = generateSystemInfoImage(args[0], args[1], width, height);
+        var outputFile = generateSystemInfoImage("pi4j-logo.png", "wallpaper.png", width, height);
 
         if (outputFile == null) {
             System.err.println("No output image could be created...");
         } else {
             System.out.println("Image generated successfully");
-
             // Update the wallpaper on the screen
             try {
-                execute(Arrays.asList("pcmanfm", "--set-wallpaper", outputFile.getCanonicalPath()));
+                execute(Arrays.asList("pcmanfm", "--set-wallpaper", outputFile.getCanonicalPath(), "--wallpaper-mode" , "center"));
                 System.out.println("Wallpaper is updated");
             } catch (IOException e) {
                 System.err.println("Failed to update wallpaper");
@@ -72,41 +59,53 @@ public class GenerateWallpaperInfoImage {
 
     public static File generateSystemInfoImage(String inputImagePath, String outputImagePath, int width, int height) {
         try {
+            // Info box
+            int padding = 10;
+            int lineHeight = 14;
+            List<String> systemInfo = getSystemInfo();
+            int infoWidth = 300;
+            int networkLineHeight = 24;
+
+            List<String> networkInfo = getNetworkInfo();
+
             // Read the input image
             BufferedImage originalImage = ImageIO.read(new File(inputImagePath));
 
             // Create a copy of the image
             BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
-            // Draw the original image
             Graphics2D g2d = newImage.createGraphics();
-            g2d.drawImage(originalImage, 0, 0, width, height, null);
+
+            // Add semi-transparent background
+            g2d.setColor(new Color(100, 150, 150, 180));
+            g2d.fillRect(0, 0, width, height);
+
+            // Draw the original image
+            int imageSize = width - infoWidth - (2 * padding);
+            g2d.drawImage(originalImage, padding, padding, imageSize, imageSize, null);
 
             // Configure text rendering
             g2d.setRenderingHint(
                     RenderingHints.KEY_TEXT_ANTIALIASING,
                     RenderingHints.VALUE_TEXT_ANTIALIAS_ON
             );
-            g2d.setColor(Color.WHITE);
-            g2d.setFont(new Font("Arial", Font.BOLD, 16));
-
-            // Info box
-            int padding = 10;
-            int lineHeight = 20;
-            List<String> systemInfo = getSystemInfo();
-            int infoHeight = systemInfo.size() * lineHeight + (3 * padding);
-
-            // Add semi-transparent background for text
-            int startBoxY = newImage.getHeight() - infoHeight - 20;
-            g2d.setColor(new Color(0, 0, 0, 180));
-            g2d.fillRect(20, startBoxY, (newImage.getWidth() / 2) - 20, infoHeight);
+            g2d.setFont(new Font("Arial", Font.PLAIN, 12));
 
             // Add system information text
-            g2d.setColor(Color.WHITE);
-            int y = startBoxY + padding + lineHeight;
+            g2d.setColor(new Color(255, 255, 255));
+            int y = padding + lineHeight;
+            int x = width - infoWidth + padding;
             for (String info : systemInfo) {
-                g2d.drawString(info, padding + 20, y);
+                g2d.drawString(info, x , y);
                 y += lineHeight;
+            }
+
+            g2d.setFont(new Font("Arial", Font.BOLD, 18));
+            g2d.setColor(new Color(255, 255, 255));
+            y = imageSize + (2 * padding) + networkLineHeight;
+            for (String info : networkInfo) {
+                g2d.drawString(info, padding, y);
+                y += networkLineHeight;
             }
 
             g2d.dispose();
@@ -119,6 +118,37 @@ public class GenerateWallpaperInfoImage {
             System.err.println(e.getMessage());
         }
         return null;
+    }
+
+    private static List<String> getNetworkInfo() {
+        List<String> info = new ArrayList<>();
+
+        // IP Addresses
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface ni = interfaces.nextElement();
+                if (!ni.isLoopback() && ni.isUp()) {
+                    Enumeration<InetAddress> addresses = ni.getInetAddresses();
+                    while (addresses.hasMoreElements()) {
+                        InetAddress addr = addresses.nextElement();
+                        if (addr instanceof Inet4Address) {  // Only include IPv4 addresses
+                            info.add("IP (" + ni.getDisplayName() + "): " + addr.getHostAddress() + "@" + getSSID() );
+                        }
+                    }
+
+                }
+            }
+        } catch (Exception e) {
+            info.add("Error retrieving network interfaces: " + e.getMessage());
+        }
+
+        if(info.isEmpty()){
+            info.add("No network connections");
+        }
+
+        return info;
+
     }
 
     private static List<String> getSystemInfo() {
@@ -141,27 +171,9 @@ public class GenerateWallpaperInfoImage {
         // Raspberry Pi info
         var pi4j = Pi4J.newAutoContext();
         info.add("Raspberry Pi");
-        info.add("   Board model: " + pi4j.boardInfo().getBoardModel().getLabel());
+        info.add("   Model: " + pi4j.boardInfo().getBoardModel().getLabel());
 
-        // IP Addresses
-        info.add("Network");
-        try {
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-            while (interfaces.hasMoreElements()) {
-                NetworkInterface ni = interfaces.nextElement();
-                if (!ni.isLoopback() && ni.isUp()) {
-                    Enumeration<InetAddress> addresses = ni.getInetAddresses();
-                    while (addresses.hasMoreElements()) {
-                        InetAddress addr = addresses.nextElement();
-                        if (addr instanceof Inet4Address) {  // Only include IPv4 addresses
-                            info.add("   IP (" + ni.getDisplayName() + "): " + addr.getHostAddress());
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            info.add("Error retrieving network interfaces: " + e.getMessage());
-        }
+
 
         // Overall system memory using OperatingSystemMXBean
         OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
@@ -171,10 +183,16 @@ public class GenerateWallpaperInfoImage {
         info.add("   Total: " + totalPhysicalMemorySize + "MB");
         info.add("   Free: " + freePhysicalMemorySize + "MB");
 
-        // Timestap
-        info.add("Generated on " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-
         return info;
+    }
+
+    private static String getSSID() throws IOException, InterruptedException {
+        ProcessBuilder processBuilder = new ProcessBuilder("iwgetid", "-r");
+        Process process = processBuilder.start();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String ssid = reader.readLine();
+        process.waitFor();
+        return ssid;
     }
 
     private static String execute(List<String> command) {
@@ -207,3 +225,4 @@ public class GenerateWallpaperInfoImage {
         return result.toString();
     }
 }
+

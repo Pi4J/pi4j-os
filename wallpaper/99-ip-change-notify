@@ -1,0 +1,21 @@
+#!/bin/bash
+
+interface=$1
+
+# Get the current IP address
+current_ip=$(ip -4 addr show "$interface" | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+
+# Check and notify about the IP address change
+IP_FILE="/home/pi4j/wallpaper/current_ip_$interface.txt"
+
+if [ -f "$IP_FILE" ]; then
+    last_ip=$(cat "$IP_FILE")
+else
+    last_ip=""
+fi
+
+if [ "$current_ip" != "$last_ip" ]; then
+    echo "$current_ip" > "$IP_FILE"
+    cd /home/pi4j/wallpaper/
+    /home/pi4j/.sdkman/candidates/jbang/current/bin/jbang GenerateWallpaperInfoImage.java
+fi
