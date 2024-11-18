@@ -60,6 +60,7 @@ public class GenerateWallpaperInfoImage {
     public static File generateSystemInfoImage(String inputImagePath, String outputImagePath, int width, int height) {
         try {
             // Info box
+            int logoSize = 170;
             int padding = 10;
             int lineHeight = 14;
             int infoWidth = 300;
@@ -80,8 +81,8 @@ public class GenerateWallpaperInfoImage {
             g2d.fillRect(0, 0, width, height);
 
             // Draw the original image
-            int imageSize = width - infoWidth - (2 * padding);
-            g2d.drawImage(originalImage, padding, padding, imageSize, imageSize, null);
+            int imageWidth = width - infoWidth - (2 * padding);
+            g2d.drawImage(originalImage, padding, padding, logoSize, logoSize, null);
 
             // Configure text rendering
             g2d.setRenderingHint(
@@ -101,7 +102,7 @@ public class GenerateWallpaperInfoImage {
 
             g2d.setFont(new Font("Arial", Font.BOLD, 18));
             g2d.setColor(new Color(255, 255, 255));
-            y = imageSize + (2 * padding) + networkLineHeight;
+            y = height + (2 * padding) + networkLineHeight;
             for (String info : networkInfo) {
                 g2d.drawString(info, padding, y);
                 y += networkLineHeight;
