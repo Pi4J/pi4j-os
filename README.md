@@ -9,7 +9,7 @@ This project provides some scripts to extend the official Raspberry Pi Operating
 
 ### Script to Setup for Java
 
-1. Prepare an SD Card with the 64-bit version of the Raspberry Pi Operating System, see [the Pi4J website > Prepare a Raspberry Pi > Write OS to SD card](https://www.pi4j.com/prepare/sd-card/).
+1. Prepare an SD Card with the **64-bit version of the Raspberry Pi Operating System**, see [the Pi4J website > Prepare a Raspberry Pi > Write OS to SD card](https://www.pi4j.com/prepare/sd-card/).
 2. Put the SD Card in your Raspberry Pi and start it.
 3. The board will probably reboot to do some basic settings.
 4. Make sure the board is connected to WiFi or cabled internet.
