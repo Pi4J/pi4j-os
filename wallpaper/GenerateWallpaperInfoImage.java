@@ -1,6 +1,8 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
-//DEPS com.pi4j:pi4j-core:2.7.0
+//REPOS mavencentral,mavensnapshot=https://oss.sonatype.org/content/groups/public
+
+//DEPS com.pi4j:pi4j-core:3.0.0-SNAPSHOT
 
 import com.pi4j.Pi4J;
 import com.sun.management.OperatingSystemMXBean;
