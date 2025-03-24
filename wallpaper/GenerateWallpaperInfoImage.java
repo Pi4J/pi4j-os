@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -161,6 +162,7 @@ public class GenerateWallpaperInfoImage {
         if (System.getProperty("os.name").toLowerCase().contains("linux")) {
             info.add("   Kernel: " + execute(Arrays.asList("uname", "-r")));
         }
+        info.add("   Hostname: " + getHostName());
 
         // Java Version
         info.add("Java");
@@ -182,6 +184,73 @@ public class GenerateWallpaperInfoImage {
         info.add("   Free: " + freePhysicalMemorySize + "MB");
 
         return info;
+    }
+
+    private static String getHostName() {
+        String hostname = null;
+
+        // Method 1: Try InetAddress.getLocalHost().getHostName()
+        try {
+            hostname = InetAddress.getLocalHost().getHostName();
+            if (isValidHostname(hostname)) {
+                return hostname;
+            }
+        } catch (UnknownHostException e) {
+            // Silently proceed to next method
+        }
+
+        // Method 2: Try InetAddress.getLocalHost().getCanonicalHostName()
+        try {
+            hostname = InetAddress.getLocalHost().getCanonicalHostName();
+            if (isValidHostname(hostname)) {
+                return hostname;
+            }
+        } catch (UnknownHostException e) {
+            // Silently proceed to next method
+        }
+
+        // Method 3: Try system property
+        hostname = System.getProperty("hostname");
+        if (isValidHostname(hostname)) {
+            return hostname;
+        }
+
+        // Method 4: Try environment variables
+        hostname = System.getenv("COMPUTERNAME"); // Windows
+        if (isValidHostname(hostname)) {
+            return hostname;
+        }
+
+        hostname = System.getenv("HOSTNAME"); // Unix/Linux
+        if (isValidHostname(hostname)) {
+            return hostname;
+        }
+
+        // Method 5: Execute hostname command as last resort
+        try {
+            Process process;
+            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                process = Runtime.getRuntime().exec("hostname");
+            } else {
+                process = Runtime.getRuntime().exec(new String[]{"hostname"});
+            }
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                hostname = reader.readLine();
+                if (isValidHostname(hostname)) {
+                    return hostname;
+                }
+            }
+        } catch (IOException e) {
+            // Silently proceed to default return
+        }
+
+        // If all methods fail, return "unknown-host"
+        return "";
+    }
+
+    private static boolean isValidHostname(String hostname) {
+        return hostname != null && !hostname.isEmpty() && !hostname.trim().equals("localhost");
     }
 
     private static String getSSID() throws IOException, InterruptedException {
