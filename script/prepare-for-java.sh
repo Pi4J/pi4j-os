@@ -56,9 +56,9 @@ echo "   "
 # Install Java (SDK with JavaFX) and related tools
 
 echo "Install Java"
-wget https://cdn.azul.com/zulu/bin/zulu24.30.13-ca-fx-jdk24.0.1-linux_arm64.deb
-sudo dpkg -i zulu24.30.13-ca-fx-jdk24.0.1-linux_arm64.deb
-rm zulu24.30.13-ca-fx-jdk24.0.1-linux_arm64.deb
+wget https://cdn.azul.com/zulu/bin/zulu24.32.13-ca-fx-jdk24.0.2-linux_arm64.deb
+sudo dpkg -i zulu24.32.13-ca-fx-jdk24.0.2-linux_arm64.deb
+rm zulu24.32.13-ca-fx-jdk24.0.2-linux_arm64.deb
 echo "Installed Java version:"
 java -version
 
