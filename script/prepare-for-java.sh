@@ -28,9 +28,15 @@ echo "   "
 
 # Configuration changes
 
-echo "Apply configuration changes to easier interact with electronic components"
+echo "Enable SSH and VNC"
 sudo raspi-config nonint do_ssh 0
 sudo raspi-config nonint do_vnc 0
+
+echo "   "
+echo "-------------------------"
+echo "   "
+
+echo "Apply configuration changes to easier interact with electronic components"
 sudo raspi-config nonint do_i2c 0
 sudo raspi-config nonint do_spi 0
 sudo raspi-config nonint do_serial_hw 0
