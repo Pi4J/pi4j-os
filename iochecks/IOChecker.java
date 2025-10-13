@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * To execute all checks, run:
  * jbang https://github.com/pi4j/pi4j-os/blob/main/iochecks/IOChecker.java
  * <br><br>
- * Individuall checks can be executed by passing the check name as argument
+ * Individual checks can be executed by passing the check name as argument
  * <ul>
  *     <li>gpio</li>
  *     <li>pwm</li>

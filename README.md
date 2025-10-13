@@ -5,9 +5,7 @@
 
 This project provides some scripts to extend the official Raspberry Pi Operating System with additional tools to make it the perfect match for Java projects with Pi4J as described on [the Pi4J website > Prepare a Raspberry Pi](https://www.pi4j.com/prepare/).
 
-## How To Use
-
-### Script to Setup for Java
+## Hardware Configurations and Java Tools
 
 1. Prepare an SD Card with the **64-bit version of the Raspberry Pi Operating System**, see [the Pi4J website > Prepare a Raspberry Pi > Write OS to SD card](https://www.pi4j.com/prepare/sd-card/).
 2. Put the SD Card in your Raspberry Pi and start it.
@@ -20,7 +18,7 @@ This project provides some scripts to extend the official Raspberry Pi Operating
 6. Make sure you see `All done! Have fun...` if the script finished. If not, you may need to run it again as one of the intermediate steps has stopped it.
 7. You're done! Check [the Pi4J website > Getting Started With Pi4J](https://www.pi4j.com/getting-started/) for the next steps. Have fun with #JavaOnRaspberryPi.
 
-### Wallpaper
+## Wallpaper with System Information
 
 An additional Java (JBang) script is available to turn the desktop wallpaper into an information screen. This script will take an image as input, overlay some useful info as text (IP, Java version, etc.), and save this as a new image. This generated image is then pushed as the new wallpaper to the desktop.
 
@@ -38,6 +36,44 @@ An additional Java (JBang) script is available to turn the desktop wallpaper int
 This will generate a result like this:
 
 ![Screenshot of a generated wallpaper](screenshot/generated-wallpaper.png)
+
+## IO Checks
+
+This repository contains a tool to check the status of the Raspberry Pi's IO configurations. It can be used to check if the IO configurations are correct for your project.
+
+For each IO type, one or more checks are performed. You will get a result like this, indicating if the check passed or failed, with more info about the expected and found result:
+
+```text
+Results from PWM Detection
+  Configuration check for PWM in config.txt
+    Status: PASS
+	Expected: 
+	  dtoverlay=pwm (or dtoverlay=pwm-2chan for 2-channel PWM)
+	Result: 
+	  Found in /boot/firmware/config.txt: dtoverlay=pwm-2chan
+```
+
+1. Make sure JBang is installed on your Raspberry Pi. 
+2. You don't need to checkout the code, as JBang will download the script automatically from GitHub. 
+3. To execute all checks, run:
+  ```shell
+  jbang https://github.com/pi4j/pi4j-os/blob/main/iochecks/IOChecker.java
+  ```
+4. Individual checks can be executed by passing the check name as argument:
+    * gpio
+    * pwm
+    * i2c
+    * spi
+    * serial
+5. For example:
+    * Only PWM:
+    ```shell
+    jbang https://github.com/pi4j/pi4j-os/blob/main/iochecks/IOChecker.java pwm
+    ```
+    * I2C and SPI:
+    ```shell
+    jbang https://github.com/pi4j/pi4j-os/blob/main/iochecks/IOChecker.java i2c spi
+    ```
 
 ## History Of This Repository
 
