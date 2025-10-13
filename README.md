@@ -59,7 +59,7 @@ Results from PWM Detection
   ```shell
   jbang https://github.com/pi4j/pi4j-os/blob/main/iochecks/IOChecker.java
   ```
-4. Individual checks can be executed by passing the check name as argument:
+4. Individual checks can be executed by passing one or more check names as argument:
     * gpio
     * pwm
     * i2c
