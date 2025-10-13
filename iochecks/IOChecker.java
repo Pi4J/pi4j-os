@@ -756,7 +756,7 @@ public class IOChecker {
 
         public static CheckerResult detect() {
             return new CheckerResult("Serial Detection", List.of(
-                detectConfigSetting("enable_uart", "UART", "enable_uart=1"),
+                detectConfigSetting("dtparam=uart", "UART", "dtparam=uart0=on"),
                 detectInterfaceFromDeviceTree("uart", "UART serial controller"),
                 detectSerialPortAvailability()
             ));
