@@ -1,6 +1,6 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
-//SOURCES incl/*
+//SOURCES https://github.com/pi4j/pi4j-os/blob/main/iochecks/incl/*
 
 import java.nio.file.Files;
 import java.nio.file.Path;
