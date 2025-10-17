@@ -11,7 +11,20 @@ log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
 }
 
-log_message "Script started - Interface: $1, Action: $2"
+# Log EVERYTHING that comes in
+log_message() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
+}
+
+# Log EVERY invocation - don't filter yet
+log_message "=== SCRIPT INVOKED ==="
+log_message "Interface: $1"
+log_message "Action: $2"
+log_message "All environment vars:"
+env | while IFS= read -r line; do
+    log_message "  $line"
+done
+log_message "======================="
 
 # Get the actual user's home directory dynamically
 # This finds the user who owns the X session (the logged-in desktop user)
