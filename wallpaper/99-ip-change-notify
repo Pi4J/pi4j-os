@@ -81,12 +81,8 @@ elif [ "$action" = "down" ]; then
 fi
 
 # Trigger wallpaper update using jbang
-if command -v jbang &> /dev/null; then
-    su - $ACTUAL_USER -c "cd $WALLPAPER_DIR && jbang GenerateWallpaper"
-    log_message "JBang GenerateWallpaper executed in $WALLPAPER_DIR"
-else
-    log_message "JBang not found in PATH, skipping wallpaper update"
-fi
+su - $ACTUAL_USER -c "cd $WALLPAPER_DIR && jbang GenerateWallpaper"
+log_message "JBang GenerateWallpaper executed in $WALLPAPER_DIR"
 
 log_message "Script completed successfully"
 exit 0
