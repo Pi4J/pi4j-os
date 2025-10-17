@@ -3,6 +3,16 @@
 # NetworkManager dispatcher script to detect IP address changes
 # and update wallpaper information files
 
+# Logging setup
+LOG_FILE="/var/log/ip-change-notify.log"
+
+# Function to log messages
+log_message() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
+}
+
+log_message "Script started - Interface: $1, Action: $2"
+
 # Get the actual user's home directory dynamically
 # This finds the user who owns the X session (the logged-in desktop user)
 ACTUAL_USER=$(who | grep '(:0)' | awk '{print $1}' | head -n 1)
@@ -22,12 +32,19 @@ if [ -z "$ACTUAL_USER" ]; then
     ACTUAL_USER="pi4j"
 fi
 
+log_message "Detected user: $ACTUAL_USER"
+
 USER_HOME=$(eval echo ~$ACTUAL_USER)
 WALLPAPER_DIR="$USER_HOME/wallpaper"
+
+log_message "User home: $USER_HOME"
+log_message "Wallpaper dir: $WALLPAPER_DIR"
 
 # Ensure the wallpaper directory exists
 mkdir -p "$WALLPAPER_DIR"
 chown $ACTUAL_USER:$ACTUAL_USER "$WALLPAPER_DIR"
+
+log_message "Wallpaper directory created/verified"
 
 # NetworkManager passes these as arguments
 interface=$1
@@ -35,6 +52,7 @@ action=$2
 
 # Only proceed on interface up/down events
 if [ "$action" != "up" ] && [ "$action" != "down" ]; then
+    log_message "Action not 'up' or 'down', exiting"
     exit 0
 fi
 
@@ -44,21 +62,32 @@ IP_FILE="$WALLPAPER_DIR/current_ip_$interface.txt"
 if [ "$action" = "up" ]; then
     CURRENT_IP=$(ip addr show $interface | grep "inet " | awk '{print $2}' | cut -d/ -f1)
 
+    log_message "Interface $interface is up, IP: $CURRENT_IP"
+
     if [ -n "$CURRENT_IP" ]; then
         echo "$CURRENT_IP" > "$IP_FILE"
         chown $ACTUAL_USER:$ACTUAL_USER "$IP_FILE"
+        log_message "IP file created: $IP_FILE"
 
         # Trigger wallpaper update if the script exists
         WALLPAPER_SCRIPT="$WALLPAPER_DIR/update-wallpaper.sh"
         if [ -f "$WALLPAPER_SCRIPT" ] && [ -x "$WALLPAPER_SCRIPT" ]; then
             su - $ACTUAL_USER -c "$WALLPAPER_SCRIPT"
+            log_message "Wallpaper update script executed"
+        else
+            log_message "Wallpaper update script not found or not executable: $WALLPAPER_SCRIPT"
         fi
+    else
+        log_message "No IP address found for interface $interface"
     fi
 elif [ "$action" = "down" ]; then
+    log_message "Interface $interface is down, removing IP file"
     # Remove the IP file when interface goes down
     if [ -f "$IP_FILE" ]; then
         rm "$IP_FILE"
+        log_message "IP file removed: $IP_FILE"
     fi
 fi
 
+log_message "Script completed successfully"
 exit 0
