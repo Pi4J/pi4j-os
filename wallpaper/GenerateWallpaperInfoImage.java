@@ -117,6 +117,13 @@ public class GenerateWallpaperInfoImage {
     private static List<String> getNetworkInfo() {
         List<String> info = new ArrayList<>();
 
+        // Give the network stack time to update
+        try {
+            Thread.sleep(3_000);
+        } catch (InterruptedException e) {
+            // Should not arrive here
+        }
+
         info.add("Network Information");
 
         // IP Addresses
@@ -130,6 +137,7 @@ public class GenerateWallpaperInfoImage {
                         InetAddress addr = addresses.nextElement();
                         if (addr instanceof Inet4Address) {  // Only include IPv4 addresses
                             info.add("  IP (" + ni.getDisplayName() + "): " + addr.getHostAddress());
+                            System.out.println("Network found: " + ni.getDisplayName() + " - " + addr.getHostAddress());
                         }
                     }
 
