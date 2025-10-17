@@ -81,8 +81,11 @@ elif [ "$action" = "down" ]; then
 fi
 
 # Trigger wallpaper update using jbang
-su - $ACTUAL_USER -c "cd $WALLPAPER_DIR && jbang GenerateWallpaper"
-log_message "JBang GenerateWallpaper executed in $WALLPAPER_DIR"
+# Note: We need to run this with the user's full environment to access jbang
+# The -l flag ensures the user's .bashrc/.profile are loaded with PATH
+su -l $ACTUAL_USER -c "cd $WALLPAPER_DIR && jbang GenerateWallpaper" 2>&1 | while IFS= read -r line; do
+    log_message "JBang output: $line"
+done
 
 log_message "Script completed successfully"
 exit 0
