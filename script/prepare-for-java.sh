@@ -55,6 +55,9 @@ echo "   "
 echo "Install missing dependencies"
 sudo apt install -y i2c-tools vim git java-common libxi6 libxrender1 libxtst6
 
+echo "I2C dependency needed for FFM plugin"
+sudo apt install -y libi2c-dev
+
 echo "   "
 echo "-------------------------"
 echo "   "
