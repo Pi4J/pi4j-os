@@ -12,4 +12,4 @@ sudo chmod +x /etc/NetworkManager/dispatcher.d/99-ip-change-notify
 sudo chown root:root /etc/NetworkManager/dispatcher.d/99-ip-change-notify
 jbang GenerateWallpaperInfoImage.java
 
-echo "Wallpaper script is ready, make sure to adjust the username in the paths!"
+echo "Wallpaper script is ready"

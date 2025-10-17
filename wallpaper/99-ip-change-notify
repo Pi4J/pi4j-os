@@ -68,15 +68,6 @@ if [ "$action" = "up" ]; then
         echo "$CURRENT_IP" > "$IP_FILE"
         chown $ACTUAL_USER:$ACTUAL_USER "$IP_FILE"
         log_message "IP file created: $IP_FILE"
-
-        # Trigger wallpaper update if the script exists
-        WALLPAPER_SCRIPT="$WALLPAPER_DIR/update-wallpaper.sh"
-        if [ -f "$WALLPAPER_SCRIPT" ] && [ -x "$WALLPAPER_SCRIPT" ]; then
-            su - $ACTUAL_USER -c "$WALLPAPER_SCRIPT"
-            log_message "Wallpaper update script executed"
-        else
-            log_message "Wallpaper update script not found or not executable: $WALLPAPER_SCRIPT"
-        fi
     else
         log_message "No IP address found for interface $interface"
     fi
@@ -87,6 +78,14 @@ elif [ "$action" = "down" ]; then
         rm "$IP_FILE"
         log_message "IP file removed: $IP_FILE"
     fi
+fi
+
+# Trigger wallpaper update using jbang
+if command -v jbang &> /dev/null; then
+    su - $ACTUAL_USER -c "cd $WALLPAPER_DIR && jbang GenerateWallpaper"
+    log_message "JBang GenerateWallpaper executed in $WALLPAPER_DIR"
+else
+    log_message "JBang not found in PATH, skipping wallpaper update"
 fi
 
 log_message "Script completed successfully"

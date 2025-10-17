@@ -31,6 +31,19 @@ This will generate a result like this:
 
 ![Screenshot of a generated wallpaper](screenshot/generated-wallpaper.png)
 
+Script tests:
+
+```shell
+# Simulate interface up event for eth0
+sudo /etc/NetworkManager/dispatcher.d/99-ip-change-notify eth0 up
+
+# Simulate interface up event for wlan0 (WiFi)
+sudo /etc/NetworkManager/dispatcher.d/99-ip-change-notify wlan0 up
+
+# Check the logs immediately after
+sudo tail /var/log/ip-change-notify.log
+```
+
 ## IO Checks
 
 This repository contains a tool to check the status of the Raspberry Pi's IO configurations. It can be used to check if the IO configurations are correct for your project.
