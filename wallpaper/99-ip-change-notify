@@ -1,21 +1,64 @@
 #!/bin/bash
 
+# NetworkManager dispatcher script to detect IP address changes
+# and update wallpaper information files
+
+# Get the actual user's home directory dynamically
+# This finds the user who owns the X session (the logged-in desktop user)
+ACTUAL_USER=$(who | grep '(:0)' | awk '{print $1}' | head -n 1)
+
+# Fallback: if no X session found, try to get the user from the SUDO_USER environment
+if [ -z "$ACTUAL_USER" ]; then
+    ACTUAL_USER=$SUDO_USER
+fi
+
+# Fallback: if still empty, try loginctl
+if [ -z "$ACTUAL_USER" ]; then
+    ACTUAL_USER=$(loginctl list-sessions --no-legend | awk '{print $3}' | head -n 1)
+fi
+
+# Final fallback: default to pi4j if no user detected
+if [ -z "$ACTUAL_USER" ]; then
+    ACTUAL_USER="pi4j"
+fi
+
+USER_HOME=$(eval echo ~$ACTUAL_USER)
+WALLPAPER_DIR="$USER_HOME/wallpaper"
+
+# Ensure the wallpaper directory exists
+mkdir -p "$WALLPAPER_DIR"
+chown $ACTUAL_USER:$ACTUAL_USER "$WALLPAPER_DIR"
+
+# NetworkManager passes these as arguments
 interface=$1
+action=$2
 
-# Get the current IP address
-current_ip=$(ip -4 addr show "$interface" | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
-
-# Check and notify about the IP address change
-IP_FILE="/home/pi4j/wallpaper/current_ip_$interface.txt"
-
-if [ -f "$IP_FILE" ]; then
-    last_ip=$(cat "$IP_FILE")
-else
-    last_ip=""
+# Only proceed on interface up/down events
+if [ "$action" != "up" ] && [ "$action" != "down" ]; then
+    exit 0
 fi
 
-if [ "$current_ip" != "$last_ip" ]; then
-    echo "$current_ip" > "$IP_FILE"
-    cd /home/pi4j/wallpaper/
-    /home/pi4j/.sdkman/candidates/jbang/current/bin/jbang GenerateWallpaperInfoImage.java
+IP_FILE="$WALLPAPER_DIR/current_ip_$interface.txt"
+
+# Get current IP address for the interface
+if [ "$action" = "up" ]; then
+    CURRENT_IP=$(ip addr show $interface | grep "inet " | awk '{print $2}' | cut -d/ -f1)
+
+    if [ -n "$CURRENT_IP" ]; then
+        echo "$CURRENT_IP" > "$IP_FILE"
+        chown $ACTUAL_USER:$ACTUAL_USER "$IP_FILE"
+
+        # Trigger wallpaper update if the script exists
+        WALLPAPER_SCRIPT="$WALLPAPER_DIR/update-wallpaper.sh"
+        if [ -f "$WALLPAPER_SCRIPT" ] && [ -x "$WALLPAPER_SCRIPT" ]; then
+            su - $ACTUAL_USER -c "$WALLPAPER_SCRIPT"
+        fi
+    fi
+elif [ "$action" = "down" ]; then
+    # Remove the IP file when interface goes down
+    if [ -f "$IP_FILE" ]; then
+        rm "$IP_FILE"
+    fi
 fi
+
+exit 0
