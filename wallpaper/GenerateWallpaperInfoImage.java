@@ -48,12 +48,27 @@ public class GenerateWallpaperInfoImage {
             System.err.println("No output image could be created...");
         } else {
             System.out.println("Image generated successfully");
+
+            // Start PCManFM desktop manager if not running
+            try {
+                startPCManFMDesktop();
+                Thread.sleep(2000); // Give it time to start
+            } catch (Exception e) {
+                System.err.println("Failed to start PCManFM desktop: " + e.getMessage());
+            }
+
             // Update the wallpaper on the screen
             try {
-                execute(Arrays.asList("pcmanfm", "--set-wallpaper", outputFile.getCanonicalPath(), "--wallpaper-mode" , "center"));
-                System.out.println("Wallpaper is updated");
+                int exitCode = executeWithExitCode(Arrays.asList("pcmanfm", "--set-wallpaper",
+                        outputFile.getCanonicalPath(), "--wallpaper-mode", "center"));
+
+                if (exitCode == 0) {
+                    System.out.println("Wallpaper is updated");
+                } else {
+                    System.err.println("Failed to update wallpaper (exit code: " + exitCode + ")");
+                }
             } catch (IOException e) {
-                System.err.println("Failed to update wallpaper");
+                System.err.println("Failed to update wallpaper: " + e.getMessage());
             }
         }
     }
@@ -251,6 +266,43 @@ public class GenerateWallpaperInfoImage {
         return hostname != null && !hostname.isEmpty() && !hostname.trim().equals("localhost");
     }
 
+    private static void startPCManFMDesktop() throws IOException {
+        System.out.println("Starting PCManFM desktop manager...");
+
+        ProcessBuilder processBuilder = new ProcessBuilder("pcmanfm", "--desktop");
+        processBuilder.environment().put("DISPLAY", ":0");
+        processBuilder.start(); // Don't wait for it, let it run in background
+    }
+
+    private static int executeWithExitCode(List<String> command) throws IOException {
+        System.out.println("Executing: " + String.join(" ", command));
+
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+            processBuilder.environment().put("DISPLAY", ":0");
+            processBuilder.redirectErrorStream(true);
+
+            Process process = processBuilder.start();
+
+            // Read and display output
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                reader.lines().forEach(System.out::println);
+            }
+
+            // Wait for completion with timeout
+            if (process.waitFor(1, TimeUnit.MINUTES)) {
+                return process.exitValue();
+            } else {
+                process.destroyForcibly();
+                System.err.println("Process timed out");
+                return -1;
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return -1;
+        }
+    }
+
     private static String execute(List<String> command) {
         System.out.println("Excecuting: " + String.join(" ", command));
 
@@ -259,7 +311,6 @@ public class GenerateWallpaperInfoImage {
             // Create and configure ProcessBuilder
             ProcessBuilder processBuilder = new ProcessBuilder(command);
             processBuilder.redirectErrorStream(true);
-            processBuilder.environment().put("DISPLAY", ":0");
 
             // Start process
             Process process = processBuilder.start();
