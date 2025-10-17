@@ -259,6 +259,7 @@ public class GenerateWallpaperInfoImage {
             // Create and configure ProcessBuilder
             ProcessBuilder processBuilder = new ProcessBuilder(command);
             processBuilder.redirectErrorStream(true);
+            processBuilder.environment().put("DISPLAY", ":0");
 
             // Start process
             Process process = processBuilder.start();
