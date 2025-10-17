@@ -1,6 +1,6 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
-//DEPS com.pi4j:pi4j-core:3.0.1
+//DEPS com.pi4j:pi4j-core:3.0.3
 
 import com.pi4j.Pi4J;
 import com.sun.management.OperatingSystemMXBean;
