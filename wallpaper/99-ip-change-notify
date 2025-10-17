@@ -20,11 +20,6 @@ log_message() {
 log_message "=== SCRIPT INVOKED ==="
 log_message "Interface: $1"
 log_message "Action: $2"
-log_message "All environment vars:"
-env | while IFS= read -r line; do
-    log_message "  $line"
-done
-log_message "======================="
 
 # Get the actual user's home directory dynamically
 # This finds the user who owns the X session (the logged-in desktop user)
