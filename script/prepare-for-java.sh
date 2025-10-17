@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Ensure the script is running as sudo
-
 if [ "$EUID" -eq 0 ]; then
   echo "   "
   echo "Please do not run this script with sudo!"
@@ -10,8 +9,13 @@ if [ "$EUID" -eq 0 ]; then
   exit
 fi
 
-# System updates
+echo "   "
+echo "PREPARING FOR JAVA DEVELOPMENT! LET'S START..."
+echo "   "
+echo "-------------------------"
+echo "   "
 
+# System updates
 echo "Update the list of available packages and their versions"
 sudo apt update
 
