@@ -67,8 +67,9 @@ public class GenerateWallpaperInfoImage {
             int infoWidth = 300;
             int networkLineHeight = 24;
 
-            List<String> systemInfo = getSystemInfo();
-            List<String> networkInfo = getNetworkInfo();
+            List<String> infoItems = new ArrayList<>();
+            infoItems.addAll(getSystemInfo());
+            infoItems.addAll(getNetworkInfo());
 
             // Read the input image
             BufferedImage originalImage = ImageIO.read(new File(inputImagePath));
@@ -96,17 +97,9 @@ public class GenerateWallpaperInfoImage {
             g2d.setColor(new Color(255, 255, 255));
             int y = padding + lineHeight;
             int x = width - infoWidth + padding;
-            for (String info : systemInfo) {
+            for (String info : infoItems) {
                 g2d.drawString(info, x , y);
                 y += lineHeight;
-            }
-
-            g2d.setFont(new Font("Arial", Font.BOLD, 18));
-            g2d.setColor(new Color(255, 255, 255));
-            y = height + (2 * padding) + networkLineHeight;
-            for (String info : networkInfo) {
-                g2d.drawString(info, padding, y);
-                y += networkLineHeight;
             }
 
             g2d.dispose();
@@ -124,6 +117,8 @@ public class GenerateWallpaperInfoImage {
     private static List<String> getNetworkInfo() {
         List<String> info = new ArrayList<>();
 
+        info.add("Network Information");
+
         // IP Addresses
         try {
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
@@ -134,22 +129,17 @@ public class GenerateWallpaperInfoImage {
                     while (addresses.hasMoreElements()) {
                         InetAddress addr = addresses.nextElement();
                         if (addr instanceof Inet4Address) {  // Only include IPv4 addresses
-                            info.add("IP (" + ni.getDisplayName() + "): " + addr.getHostAddress() + "@" + getSSID() );
+                            info.add("  IP (" + ni.getDisplayName() + "): " + addr.getHostAddress());
                         }
                     }
 
                 }
             }
         } catch (Exception e) {
-            info.add("Error retrieving network interfaces: " + e.getMessage());
-        }
-
-        if(info.isEmpty()){
-            info.add("No network connections");
+            System.err.println(e.getMessage());
         }
 
         return info;
-
     }
 
     private static List<String> getSystemInfo() {
@@ -251,15 +241,6 @@ public class GenerateWallpaperInfoImage {
 
     private static boolean isValidHostname(String hostname) {
         return hostname != null && !hostname.isEmpty() && !hostname.trim().equals("localhost");
-    }
-
-    private static String getSSID() throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder("iwgetid", "-r");
-        Process process = processBuilder.start();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        String ssid = reader.readLine();
-        process.waitFor();
-        return ssid;
     }
 
     private static String execute(List<String> command) {

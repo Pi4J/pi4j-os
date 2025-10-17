@@ -46,44 +46,10 @@ chown $ACTUAL_USER:$ACTUAL_USER "$WALLPAPER_DIR"
 
 log_message "Wallpaper directory created/verified"
 
-# NetworkManager passes these as arguments
-interface=$1
-action=$2
-
-# Only proceed on interface up/down events
-if [ "$action" != "up" ] && [ "$action" != "down" ]; then
-    log_message "Action not 'up' or 'down', exiting"
-    exit 0
-fi
-
-IP_FILE="$WALLPAPER_DIR/current_ip_$interface.txt"
-
-# Get current IP address for the interface
-if [ "$action" = "up" ]; then
-    CURRENT_IP=$(ip addr show $interface | grep "inet " | awk '{print $2}' | cut -d/ -f1)
-
-    log_message "Interface $interface is up, IP: $CURRENT_IP"
-
-    if [ -n "$CURRENT_IP" ]; then
-        echo "$CURRENT_IP" > "$IP_FILE"
-        chown $ACTUAL_USER:$ACTUAL_USER "$IP_FILE"
-        log_message "IP file created: $IP_FILE"
-    else
-        log_message "No IP address found for interface $interface"
-    fi
-elif [ "$action" = "down" ]; then
-    log_message "Interface $interface is down, removing IP file"
-    # Remove the IP file when interface goes down
-    if [ -f "$IP_FILE" ]; then
-        rm "$IP_FILE"
-        log_message "IP file removed: $IP_FILE"
-    fi
-fi
-
 # Trigger wallpaper update using jbang
 # Note: We need to run this with the user's full environment to access jbang
 # The -l flag ensures the user's .bashrc/.profile are loaded with PATH
-su -l $ACTUAL_USER -c "cd $WALLPAPER_DIR && `which jbang` GenerateWallpaper.java" 2>&1 | while IFS= read -r line; do
+su -l $ACTUAL_USER -c "cd $WALLPAPER_DIR && ~/.sdkman/candidates/jbang/current/bin/jbang GenerateWallpaperInfoImage.java" 2>&1 | while IFS= read -r line; do
     log_message "JBang output: $line"
 done
 
