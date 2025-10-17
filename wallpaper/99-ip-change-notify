@@ -83,7 +83,7 @@ fi
 # Trigger wallpaper update using jbang
 # Note: We need to run this with the user's full environment to access jbang
 # The -l flag ensures the user's .bashrc/.profile are loaded with PATH
-su -l $ACTUAL_USER -c "cd $WALLPAPER_DIR && jbang GenerateWallpaper" 2>&1 | while IFS= read -r line; do
+su -l $ACTUAL_USER -c "cd $WALLPAPER_DIR && `which jbang` GenerateWallpaper" 2>&1 | while IFS= read -r line; do
     log_message "JBang output: $line"
 done
 
