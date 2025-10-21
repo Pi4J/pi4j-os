@@ -51,8 +51,9 @@ public class GenerateWallpaperInfoImage {
 
             // Update the wallpaper on the screen
             try {
-                int exitCode = executeWithExitCode(Arrays.asList("pcmanfm", "--desktop", "--set-wallpaper",
-                        outputFile.getCanonicalPath(), "--wallpaper-mode", "center"));
+                int exitCode = executeWithExitCode(Arrays.asList("pcmanfm",
+                        "--set-wallpaper", outputFile.getCanonicalPath(),
+                        "--wallpaper-mode", "center"));
 
                 if (exitCode == 0) {
                     System.out.println("Wallpaper is updated");
