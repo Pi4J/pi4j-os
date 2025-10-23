@@ -718,19 +718,19 @@ public class IOChecker {
                 if (sensors.isEmpty()) {
                     return new CheckerResult.Check(CheckerResult.ResultStatus.TO_EVALUATE,
                             "Pi4J Drivers SensorDetector",
-                            "One or more connected I2C devices on bus " + bus, "No sensors could be detected, maybe there are none, or they could not be recognized by the Pi4J Drivers library.");
+                            "I2C sensors on bus " + bus, "No sensors could be detected, maybe there are none, or they could not be recognized by the Pi4J Drivers library.");
                 }
 
                 return new CheckerResult.Check(CheckerResult.ResultStatus.PASS,
                         "Pi4J Drivers SensorDetector",
-                        "One or more connected I2C devices on bus " + bus + " were recognized by the Pi4J Drivers library",
+                        "One or more I2C sensors on bus " + bus + " were recognized by the Pi4J Drivers library",
                         sensors.stream()
                                 .map(s -> s.getClass().getSimpleName() + "\n" + getSensorValues(s))
                                 .collect(Collectors.joining("\n")));
             } catch (Exception e) {
                 return new CheckerResult.Check(CheckerResult.ResultStatus.FAIL,
                         "Pi4J Drivers SensorDetector",
-                        "One or more connected I2C devices on bus " + bus, e.getMessage());
+                        "I2C sensors on bus " + bus, e.getMessage());
             } finally {
                 if (pi4j != null) {
                     pi4j.shutdown();
@@ -739,7 +739,11 @@ public class IOChecker {
         }
 
         private static String getSensorValues(Sensor sensor) {
-            String rt = "";
+            String rt = "   " + sensor.getDescriptor().getI2cAddresses().stream()
+                    .map(a -> String.format("%02X", a))
+                    .collect(Collectors.joining(", "))
+                + "\n";
+
             List<SensorDescriptor.Value> valueDescriptors = sensor.getDescriptor().getValues();
 
             float[] values = new float[valueDescriptors.size()];
