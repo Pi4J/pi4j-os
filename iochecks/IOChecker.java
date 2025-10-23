@@ -717,19 +717,19 @@ public class IOChecker {
 
                 if (sensors.isEmpty()) {
                     return new CheckerResult.Check(CheckerResult.ResultStatus.TO_EVALUATE,
-                            "Pi4J Drivers SensorDetector",
+                            "Pi4J Drivers SensorDetector on bus " + bus,
                             "I2C sensors on bus " + bus, "No sensors could be detected, maybe there are none, or they could not be recognized by the Pi4J Drivers library.");
                 }
 
                 return new CheckerResult.Check(CheckerResult.ResultStatus.PASS,
-                        "Pi4J Drivers SensorDetector",
+                        "Pi4J Drivers SensorDetector on bus " + bus,
                         "One or more I2C sensors on bus " + bus + " were recognized by the Pi4J Drivers library",
                         sensors.stream()
                                 .map(s -> s.getClass().getSimpleName() + "\n" + getSensorValues(s))
                                 .collect(Collectors.joining("\n")));
             } catch (Exception e) {
                 return new CheckerResult.Check(CheckerResult.ResultStatus.FAIL,
-                        "Pi4J Drivers SensorDetector",
+                        "Pi4J Drivers SensorDetector on bus " + bus,
                         "I2C sensors on bus " + bus, e.getMessage());
             } finally {
                 if (pi4j != null) {
