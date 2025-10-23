@@ -716,14 +716,14 @@ public class IOChecker {
                 var sensors = SensorDetector.detectI2cSensors(pi4j, bus);
 
                 if (sensors.isEmpty()) {
-                    return new CheckerResult.Check(CheckerResult.ResultStatus.FAIL,
+                    return new CheckerResult.Check(CheckerResult.ResultStatus.TO_EVALUATE,
                             "Pi4J Drivers SensorDetector",
-                            "One or more connected I2C devices on bus " + bus, "");
+                            "One or more connected I2C devices on bus " + bus, "No sensors could be detected, maybe there are none, or they could not be recognized by the Pi4J Drivers library.");
                 }
 
                 return new CheckerResult.Check(CheckerResult.ResultStatus.PASS,
                         "Pi4J Drivers SensorDetector",
-                        "One or more connected I2C devices on bus " + bus,
+                        "One or more connected I2C devices on bus " + bus + " were recognized by the Pi4J Drivers library",
                         sensors.stream()
                                 .map(s -> s.getClass().getSimpleName() + "\n" + getSensorValues(s))
                                 .collect(Collectors.joining("\n")));
