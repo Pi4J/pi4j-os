@@ -20,8 +20,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import com.pi4j.Pi4J;
-import com.pi4j.drivers.sensor.Sensor;
-import com.pi4j.drivers.sensor.SensorDescriptor;
 import com.pi4j.drivers.sensor.SensorDetector;
 
 /**
@@ -568,12 +566,14 @@ public class IOChecker {
             var result = new CheckerResult("I2C Detection", new ArrayList<>(List.of(
                 detectConfigSetting("dtparam=i2c", "I2C", "dtparam=i2c_arm=on"),
                 detectInterfaceFromDeviceTree("i2c", "I2C bus controller"),
-                detectI2CDevicesWithCommand(devices),
-                    detectSensors()
+                detectI2CDevicesWithCommand(devices)
             )));
 
             if (!devices.isEmpty()) {
-                devices.forEach(d -> result.addResult(detectI2CUsedAddresses(d)));
+                devices.forEach(d -> {
+                    result.addResult(detectI2CUsedAddresses(d));
+                    result.addResult(detectSensors(d.getBusNumber()));
+                });
             }
 
             return result;
@@ -705,28 +705,30 @@ public class IOChecker {
             return devices;
         }
 
-        private static CheckerResult.Check detectSensors() {
+        private static CheckerResult.Check detectSensors(int bus) {
             try {
                 var pi4j = Pi4J.newAutoContext();
-                var sensors = SensorDetector.detectI2cSensors(pi4j, 1);
+                var sensors = SensorDetector.detectI2cSensors(pi4j, bus);
                 pi4j.shutdown();
 
                 if (sensors.isEmpty()) {
                     return new CheckerResult.Check(CheckerResult.ResultStatus.FAIL,
                             "Pi4J Drivers SensorDetector",
-                            "One or more connected I2C devices on bus 1", "");
+                            "One or more connected I2C devices on bus " + bus, "");
                 }
 
                 return new CheckerResult.Check(CheckerResult.ResultStatus.PASS,
                         "Pi4J Drivers SensorDetector",
-                        "One or more connected I2C devices on bus 1",
+                        "One or more connected I2C devices on bus " + bus,
                         sensors.stream()
-                                .map(s -> s.getClass().getSimpleName())
+                                .map(s -> s.getClass().getSimpleName() 
+                                + " " 
+                                + s.getDescriptor().getI2cAddresses().stream().map(String::valueOf).collect(Collectors.joining(",")))
                                 .collect(Collectors.joining("\n")));
             } catch (Exception e) {
                 return new CheckerResult.Check(CheckerResult.ResultStatus.FAIL,
                         "Pi4J Drivers SensorDetector",
-                        "One or more connected I2C devices on bus 1", e.getMessage());
+                        "One or more connected I2C devices on bus " + bus, e.getMessage());
             }
         }
 
