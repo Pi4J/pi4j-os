@@ -1,4 +1,7 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
+//REPOS mavencentral,mavensnapshot=https://central.sonatype.com/repository/maven-snapshots/
+
+//DEPS com.pi4j:pi4j-drivers:0.0.1-SNAPSHOT
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +18,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import com.pi4j.Pi4J;
+import com.pi4j.drivers.sensor.Sensor;
+import com.pi4j.drivers.sensor.SensorDescriptor;
+import com.pi4j.drivers.sensor.SensorDetector;
 
 /**
  * Make sure JBang is installed on your system! More info on the
@@ -560,7 +568,8 @@ public class IOChecker {
             var result = new CheckerResult("I2C Detection", new ArrayList<>(List.of(
                 detectConfigSetting("dtparam=i2c", "I2C", "dtparam=i2c_arm=on"),
                 detectInterfaceFromDeviceTree("i2c", "I2C bus controller"),
-                detectI2CDevicesWithCommand(devices)
+                detectI2CDevicesWithCommand(devices),
+                    detectSensors()
             )));
 
             if (!devices.isEmpty()) {
@@ -694,6 +703,31 @@ public class IOChecker {
             }
 
             return devices;
+        }
+
+        private static CheckerResult.Check detectSensors() {
+            try {
+                var pi4j = Pi4J.newAutoContext();
+                var sensors = SensorDetector.detectI2cSensors(pi4j, 1);
+                pi4j.shutdown();
+
+                if (sensors.isEmpty()) {
+                    return new CheckerResult.Check(CheckerResult.ResultStatus.FAIL,
+                            "Pi4J Drivers SensorDetector",
+                            "One or more connected I2C devices on bus 1", "");
+                }
+
+                return new CheckerResult.Check(CheckerResult.ResultStatus.PASS,
+                        "Pi4J Drivers SensorDetector",
+                        "One or more connected I2C devices on bus 1",
+                        sensors.stream()
+                                .map(s -> s.getClass().getSimpleName())
+                                .collect(Collectors.joining("\n")));
+            } catch (Exception e) {
+                return new CheckerResult.Check(CheckerResult.ResultStatus.FAIL,
+                        "Pi4J Drivers SensorDetector",
+                        "One or more connected I2C devices on bus 1", e.getMessage());
+            }
         }
 
         private record I2CDevice(String bus, String type, String name, String description) {
