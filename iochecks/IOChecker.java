@@ -20,6 +20,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import com.pi4j.Pi4J;
+import com.pi4j.context.Context;
+import com.pi4j.drivers.sensor.Sensor;
+import com.pi4j.drivers.sensor.SensorDescriptor;
 import com.pi4j.drivers.sensor.SensorDetector;
 
 /**
@@ -706,10 +709,11 @@ public class IOChecker {
         }
 
         private static CheckerResult.Check detectSensors(int bus) {
+            Context pi4j = null;
+            
             try {
-                var pi4j = Pi4J.newAutoContext();
+                pi4j = Pi4J.newAutoContext();
                 var sensors = SensorDetector.detectI2cSensors(pi4j, bus);
-                pi4j.shutdown();
 
                 if (sensors.isEmpty()) {
                     return new CheckerResult.Check(CheckerResult.ResultStatus.FAIL,
@@ -721,15 +725,31 @@ public class IOChecker {
                         "Pi4J Drivers SensorDetector",
                         "One or more connected I2C devices on bus " + bus,
                         sensors.stream()
-                                .map(s -> s.getClass().getSimpleName() 
-                                + " " 
-                                + s.getDescriptor().getI2cAddresses().stream().map(String::valueOf).collect(Collectors.joining(",")))
+                                .map(s -> s.getClass().getSimpleName() + "\n" + getSensorValues(s))
                                 .collect(Collectors.joining("\n")));
             } catch (Exception e) {
                 return new CheckerResult.Check(CheckerResult.ResultStatus.FAIL,
                         "Pi4J Drivers SensorDetector",
                         "One or more connected I2C devices on bus " + bus, e.getMessage());
+            } finally {
+                if (pi4j != null) {
+                    pi4j.shutdown();
+                }
             }
+        }
+
+        private static String getSensorValues(Sensor sensor) {
+            String rt = "";
+            List<SensorDescriptor.Value> valueDescriptors = sensor.getDescriptor().getValues();
+
+            float[] values = new float[valueDescriptors.size()];
+            sensor.readMeasurement(values);
+
+            for (SensorDescriptor.Value valueDescriptor : valueDescriptors) {
+                rt += " - " + valueDescriptor.getKind() + ": " + values[valueDescriptor.getIndex()] + "\n";
+            }
+
+            return rt;
         }
 
         private record I2CDevice(String bus, String type, String name, String description) {
