@@ -739,8 +739,8 @@ public class IOChecker {
         }
 
         private static String getSensorValues(Sensor sensor) {
-            String rt = "   " + sensor.getDescriptor().getI2cAddresses().stream()
-                    .map(a -> String.format("%02X", a))
+            String rt = "- Addresses: " + sensor.getDescriptor().getI2cAddresses().stream()
+                    .map(a -> "0x" + String.format("%02X", a))
                     .collect(Collectors.joining(", "))
                 + "\n";
 
