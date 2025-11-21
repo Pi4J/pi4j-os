@@ -100,17 +100,6 @@ echo "   "
 echo "-------------------------"
 echo "   "
 
-echo "STEP: Install Visual Studio Code"
-echo "   "
-sudo apt install -y code
-echo "   "
-echo "Installed Visual Studio Code, you will need to add the Java extensions within VSC yourself..."
-echo "For more information, see https://www.pi4j.com/documentation/development/install-vsc-ide/"
-
-echo "   "
-echo "-------------------------"
-echo "   "
-
 echo "ALL DONE! HAVE FUN WHEN THE BOARD HAS RESTARTED..."
 sudo reboot
 
