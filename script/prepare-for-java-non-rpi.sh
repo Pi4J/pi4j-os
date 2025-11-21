@@ -50,20 +50,11 @@ echo "   "
 echo "-------------------------"
 echo "   "
 
-# Install Java (SDK with JavaFX) and related tools
-
-echo "STEP: Install Java"
-echo "   "
-wget https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-fx-jdk25.0.0-linux_arm64.deb
-sudo dpkg -i zulu25.28.85-ca-fx-jdk25.0.0-linux_arm64.deb
-rm zulu25.28.85-ca-fx-jdk25.0.0-linux_arm64.deb
-echo "   "
-echo "Installed Java version:"
-java -version
-
 echo "   "
 echo "-------------------------"
 echo "   "
+
+# Install SDKMAN and use it to install Java (SDK with JavaFX) and related tools
 
 echo "STEP: Install SDKMAN"
 echo "   "
@@ -71,6 +62,17 @@ curl -s "https://get.sdkman.io" | bash
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 echo "Installed SDKMAN version:"
 sdk version
+
+echo "   "
+echo "-------------------------"
+echo "   "
+
+echo "STEP: Install Java"
+echo "   "
+sdk install java 25.fx-zulu
+echo "   "
+echo "Installed Java version:"
+java -version
 
 echo "   "
 echo "-------------------------"
