@@ -7,13 +7,19 @@ This project provides some scripts to extend the official Raspberry Pi Operating
 
 ## Hardware Configurations and Java Tools
 
-1. Prepare an SD Card with the **64-bit version of the Raspberry Pi Operating System**, see [the Pi4J website > Prepare a Raspberry Pi > Write OS to SD card](https://www.pi4j.com/prepare/sd-card/).
+1. Prepare an SD Card with 
+   * For Raspberry Pi: The **64-bit version of the Raspberry Pi Operating System**, see [the Pi4J website > Prepare a Raspberry Pi > Write OS to SD card](https://www.pi4j.com/prepare/sd-card/).
+   * For other type of 
 2. Put the SD Card in your Raspberry Pi and start it.
 3. The board will probably reboot to do some basic settings.
 4. Make sure the board is connected to WiFi or cabled internet.
 5. Open the terminal and run this command:
     ```shell
     curl -sL https://raw.githubusercontent.com/Pi4J/pi4j-os/main/script/prepare-for-java.sh | bash
+    ```
+   Or, if you are trying this out on a non-Raspberry-Pi-board:
+    ```shell
+    curl -sL https://raw.githubusercontent.com/Pi4J/pi4j-os/main/script/prepare-for-java-non-rpi.sh | bash
     ```
 6. Make sure you see `All done! Have fun...` if the script finished. If not, you may need to run it again as one of the intermediate steps has stopped it.
 7. You're done! Check [the Pi4J website > Getting Started With Pi4J](https://www.pi4j.com/getting-started/) for the next steps. Have fun with #JavaOnRaspberryPi.
