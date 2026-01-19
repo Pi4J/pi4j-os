@@ -7,6 +7,10 @@ This project provides some scripts to extend the official Raspberry Pi Operating
 
 ## Hardware Configurations and Java Tools
 
+### With Raspberry Pi OS
+
+Follow these steps to prepare your Raspberry Pi for Java development when you use the official Raspberry Pi operating system:
+
 1. Prepare an SD Card with 
    * For Raspberry Pi: The **64-bit version of the Raspberry Pi Operating System**, see [the Pi4J website > Prepare a Raspberry Pi > Write OS to SD card](https://www.pi4j.com/prepare/sd-card/).
    * For other type of 
@@ -17,12 +21,28 @@ This project provides some scripts to extend the official Raspberry Pi Operating
     ```shell
     curl -sL https://raw.githubusercontent.com/Pi4J/pi4j-os/main/script/prepare-for-java.sh | bash
     ```
-   Or, if you are trying this out on a non-Raspberry-Pi-board:
-    ```shell
-    curl -sL https://raw.githubusercontent.com/Pi4J/pi4j-os/main/script/prepare-for-java-non-rpi.sh | bash
-    ```
 6. Make sure you see `All done! Have fun...` if the script finished. If not, you may need to run it again as one of the intermediate steps has stopped it.
 7. You're done! Check [the Pi4J website > Getting Started With Pi4J](https://www.pi4j.com/getting-started/) for the next steps. Have fun with #JavaOnRaspberryPi.
+
+### With Other Linux Distributions and/or Boards
+
+In case you are using Debian, Ubuntu, or another Linux operating system on a Raspberry Pi, or you are using a Linux distribution on another type of single board computer with GPIOs, you can may need one of the following scripts.
+
+To install Java 25, JBang, and various other tools related to Java development, open the terminal and run this command:
+```shell
+curl -sL https://raw.githubusercontent.com/Pi4J/pi4j-os/main/script/prepare-for-java-non-rpi.sh | bash
+```
+
+When you get one of these messages:
+
+* `No groups for provider is present in the system`
+* `Current user does not belong to required groups!`
+
+Open the terminal and run this command to configure the required permissions for the FFM plugin in Pi4J V4:
+
+```shell
+curl -sL https://raw.githubusercontent.com/Pi4J/pi4j-os/main/script/setup-permissions.sh | bash
+```
 
 ## Wallpaper with System Information
 
