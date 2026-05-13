@@ -61,7 +61,7 @@ echo "   "
 
 echo "STEP: Install missing dependencies"
 echo "   "
-sudo apt install --no-install-recommends --no-install-suggests -y i2c-tools vim git java-common libxi6 libxrender1 libxtst6
+sudo apt install -y i2c-tools vim git java-common libxi6 libxrender1 libxtst6 fontconfig-config  fonts-freefont-ttf  libfontconfig1  libfreetype6 || die
 
 echo "   "
 echo "-------------------------"
