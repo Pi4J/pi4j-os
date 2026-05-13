@@ -32,11 +32,36 @@ echo "   "
 echo "-------------------------"
 echo "   "
 
+# Configuration changes
+
+echo "STEP: Enable SSH and VNC"
+echo "   "
+sudo raspi-config nonint do_ssh 0
+
+echo "   "
+echo "-------------------------"
+echo "   "
+
+echo "STEP: Apply configuration changes to easier interact with electronic components"
+echo "   "
+sudo raspi-config nonint do_i2c 0
+sudo raspi-config nonint do_spi 0
+sudo raspi-config nonint do_serial_hw 0
+sudo raspi-config nonint do_serial_cons 1
+sudo raspi-config nonint do_onewire 0
+sudo sed -i "$ a\dtoverlay=pwm-2chan" /boot/firmware/config.txt
+sudo systemctl disable hciuart
+sudo echo "dtoverlay=disable-bt" | tee -a /boot/firmware/config.txt
+
+echo "   "
+echo "-------------------------"
+echo "   "
+
 # Missing dependencies
 
 echo "STEP: Install missing dependencies"
 echo "   "
-sudo apt install -y i2c-tools vim git java-common libxi6 libxrender1 libxtst6
+sudo apt install --no-install-recommends --no-install-suggests -y i2c-tools vim git java-common libxi6 libxrender1 libxtst6
 
 echo "   "
 echo "-------------------------"
@@ -50,11 +75,20 @@ echo "   "
 echo "-------------------------"
 echo "   "
 
+# Install Java (SDK with JavaFX) and related tools
+
+echo "STEP: Install Java"
+echo "   "
+wget https://cdn.azul.com/zulu/bin/zulu25.34.17-ca-jdk25.0.3-linux_arm64.deb
+sudo dpkg -i zulu25.34.17-ca-jdk25.0.3-linux_arm64.deb
+rm zulu25.34.17-ca-jdk25.0.3-linux_arm64.deb
+echo "   "
+echo "Installed Java version:"
+java -version
+
 echo "   "
 echo "-------------------------"
 echo "   "
-
-# Install SDKMAN and use it to install Java (SDK with JavaFX) and related tools
 
 echo "STEP: Install SDKMAN"
 echo "   "
@@ -62,17 +96,6 @@ curl -s "https://get.sdkman.io" | bash
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 echo "Installed SDKMAN version:"
 sdk version
-
-echo "   "
-echo "-------------------------"
-echo "   "
-
-echo "STEP: Install Java"
-echo "   "
-sdk install java 25.fx-zulu
-echo "   "
-echo "Installed Java version:"
-java -version
 
 echo "   "
 echo "-------------------------"
