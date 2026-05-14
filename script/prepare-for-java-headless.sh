@@ -18,7 +18,7 @@ echo "   "
 # System updates
 echo "STEP: Update the list of available packages and their versions"
 echo "   "
-sudo apt update
+sudo apt update || die
 
 echo "   "
 echo "-------------------------"
@@ -26,7 +26,7 @@ echo "   "
 
 echo "STEP: Install the newest versions of all currently installed packages that have available updates"
 echo "   "
-sudo apt upgrade -y
+sudo apt upgrade -y || die
 
 echo "   "
 echo "-------------------------"
@@ -36,8 +36,7 @@ echo "   "
 
 echo "STEP: Enable SSH and VNC"
 echo "   "
-sudo raspi-config nonint do_ssh 0
-sudo raspi-config nonint do_vnc 0
+sudo raspi-config nonint do_ssh 0 || die
 
 echo "   "
 echo "-------------------------"
@@ -45,12 +44,12 @@ echo "   "
 
 echo "STEP: Apply configuration changes to easier interact with electronic components"
 echo "   "
-sudo raspi-config nonint do_i2c 0
-sudo raspi-config nonint do_spi 0
-sudo raspi-config nonint do_serial_hw 0
-sudo raspi-config nonint do_serial_cons 1
-sudo raspi-config nonint do_onewire 0
-sudo sed -i "$ a\dtoverlay=pwm-2chan" /boot/firmware/config.txt
+sudo raspi-config nonint do_i2c 0 || die
+sudo raspi-config nonint do_spi 0 || die
+sudo raspi-config nonint do_serial_hw 0 || die
+sudo raspi-config nonint do_serial_cons 1 || die
+sudo raspi-config nonint do_onewire 0 || die
+sudo sed -i "$ a\dtoverlay=pwm-2chan" /boot/firmware/config.txt || die
 sudo systemctl disable hciuart
 sudo echo "dtoverlay=disable-bt" | tee -a /boot/firmware/config.txt
 
@@ -62,7 +61,7 @@ echo "   "
 
 echo "STEP: Install missing dependencies"
 echo "   "
-sudo apt install -y i2c-tools vim git java-common libxi6 libxrender1 libxtst6
+sudo apt install -y i2c-tools vim git java-common libxi6 libxrender1 libxtst6 fontconfig-config  fonts-freefont-ttf  libfontconfig1  libfreetype6 || die
 
 echo "   "
 echo "-------------------------"
@@ -70,7 +69,7 @@ echo "   "
 
 echo "STEP: I2C dependency needed for FFM plugin"
 echo "   "
-sudo apt install -y libi2c-dev
+sudo apt install -y libi2c-dev || die
 
 echo "   "
 echo "-------------------------"
@@ -80,12 +79,12 @@ echo "   "
 
 echo "STEP: Install Java"
 echo "   "
-wget https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-fx-jdk25.0.0-linux_arm64.deb
-sudo dpkg -i zulu25.28.85-ca-fx-jdk25.0.0-linux_arm64.deb
-rm zulu25.28.85-ca-fx-jdk25.0.0-linux_arm64.deb
+wget https://cdn.azul.com/zulu/bin/zulu25.34.17-ca-jdk25.0.3-linux_arm64.deb || die
+sudo dpkg -i zulu25.34.17-ca-jdk25.0.3-linux_arm64.deb || die
+rm zulu25.34.17-ca-jdk25.0.3-linux_arm64.deb || die
 echo "   "
 echo "Installed Java version:"
-java -version
+java -version || die
 
 echo "   "
 echo "-------------------------"
@@ -93,10 +92,10 @@ echo "   "
 
 echo "STEP: Install SDKMAN"
 echo "   "
-curl -s "https://get.sdkman.io" | bash
+curl -s "https://get.sdkman.io" | bash || die
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 echo "Installed SDKMAN version:"
-sdk version
+sdk version || die
 
 echo "   "
 echo "-------------------------"
@@ -104,10 +103,10 @@ echo "   "
 
 echo "STEP: Install Maven"
 echo "   "
-sdk install maven
+sdk install maven || die
 echo "   "
 echo "Installed Maven version:"
-mvn -v
+mvn -v || die
 
 echo "   "
 echo "-------------------------"
@@ -115,21 +114,10 @@ echo "   "
 
 echo "STEP: Install JBang"
 echo "   "
-sdk install jbang
+sdk install jbang || die
 echo "   "
 echo "Installed JBang version:"
-jbang --version
-
-echo "   "
-echo "-------------------------"
-echo "   "
-
-echo "STEP: Install Visual Studio Code"
-echo "   "
-sudo apt install -y code
-echo "   "
-echo "Installed Visual Studio Code, you will need to add the Java extensions within VSC yourself..."
-echo "For more information, see https://www.pi4j.com/documentation/development/install-vsc-ide/"
+jbang --version || die
 
 echo "   "
 echo "-------------------------"
