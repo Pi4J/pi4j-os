@@ -33,7 +33,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-CURRENT_USER="$(logname)"
+CURRENT_USER="$(whoami)"
 
 echo
 echo -e "Checking groups..."
