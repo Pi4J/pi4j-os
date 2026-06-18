@@ -9,7 +9,7 @@ echo -e "* It will add new users for working with hardware and udev rules for ne
 echo -e "* $(tput bold)$(tput setaf 3)WARNING:$(tput sgr0) script require root permissions to work.                                     *"
 echo    "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 echo
-read -n 1 -r -p "$(tput bold)Continue? [Y/n]$(tput sgr0) " prompt_input
+read -n 1 -r -p "$(tput bold)Continue? [Y/n]$(tput sgr0) " prompt_input < /dev/tty
 echo
 
 # Check the user input using a case statement for clarity
