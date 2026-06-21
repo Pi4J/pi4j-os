@@ -1,6 +1,13 @@
 #!/bin/bash
 # tputcolors
 
+AUTO_YES=false
+for arg in "$@"; do
+  case "$arg" in
+    -y|--yes) AUTO_YES=true ;;
+  esac
+done
+
 echo -e "$(tput bold)$(tput sgr 0 1)Pi4j Permission installation script$(tput sgr0)"
 echo
 echo    "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
@@ -9,7 +16,11 @@ echo -e "* It will add new users for working with hardware and udev rules for ne
 echo -e "* $(tput bold)$(tput setaf 3)WARNING:$(tput sgr0) script require root permissions to work.                                     *"
 echo    "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 echo
-read -n 1 -r -p "$(tput bold)Continue? [Y/n]$(tput sgr0) " prompt_input < /dev/tty
+if $AUTO_YES; then
+  prompt_input="y"
+else
+  read -n 1 -r -p "$(tput bold)Continue? [Y/n]$(tput sgr0) " prompt_input < /dev/tty
+fi
 echo
 
 # Check the user input using a case statement for clarity
