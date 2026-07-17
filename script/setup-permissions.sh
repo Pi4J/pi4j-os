@@ -44,7 +44,7 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-CURRENT_USER="$(whoami)"
+CURRENT_USER="$(who am i | awk '{print $1}')"
 
 echo
 echo -e "Checking groups..."
