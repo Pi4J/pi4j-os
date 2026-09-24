@@ -12,8 +12,8 @@ echo -e "$(tput bold)$(tput sgr 0 1)Pi4j Permission installation script$(tput sg
 echo
 echo    "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 echo -e "* $(tput setaf 2)This script will install essential permissions to work with Pi4J (https://pi4j.com/)$(tput sgr0)  *"
-echo -e "* It will add new users for working with hardware and udev rules for new devices.       *"
-echo -e "* $(tput bold)$(tput setaf 3)WARNING:$(tput sgr0) script require root permissions to work.                                     *"
+echo -e "* It will add new groups for working with hardware and udev rules for new devices.      *"
+echo -e "* $(tput bold)$(tput setaf 3)WARNING:$(tput sgr0) script requires root permissions to work.                                    *"
 echo    "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
 echo
 if $AUTO_YES; then
@@ -241,7 +241,7 @@ fi
 
 if [ -z "$PWM_MATCH" ] || [ -z "$SPI_MATCH" ] || [ -z "$GPIO_MATCH" ]; then
   echo -ne "[4] Reloading udev rules: "
-  if udevadm control --reload-rules && sudo udevadm trigger; then
+  if udevadm control --reload-rules && udevadm trigger; then
     echo "$(tput bold)$(tput setaf 2)Done$(tput sgr0)"
   else
     echo "$(tput bold)$(tput setaf 1)Failed!$(tput sgr0)"
