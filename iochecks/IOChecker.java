@@ -1,7 +1,7 @@
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //REPOS mavencentral,mavensnapshot=https://central.sonatype.com/repository/maven-snapshots/
 
-//DEPS com.pi4j:pi4j-drivers:0.0.1-SNAPSHOT
+//DEPS com.pi4j:pi4j-drivers:2.0.0-SNAPSHOT
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -112,11 +112,11 @@ public class IOChecker {
 
             } catch (IOException ex) {
                 errorMessage = "IOException while executing command: " + ex.getMessage();
-                System.err.printf("IOException during command execution '%s': %s", command, ex.getMessage(), ex);
+                System.err.printf("IOException during command execution '%s': %s", command, ex.getMessage());
             } catch (InterruptedException ex) {
                 errorMessage = "InterruptedException during command execution: " + ex.getMessage();
                 Thread.currentThread().interrupt(); // Restore the interrupted status.
-                System.err.printf("InterruptedException during command execution '%s': %s", command, ex.getMessage(), ex);
+                System.err.printf("InterruptedException during command execution '%s': %s", command, ex.getMessage());
             }
 
             if (!finished || !errorMessage.isEmpty()) {
@@ -142,7 +142,7 @@ public class IOChecker {
                 }
             } catch (IOException ex) {
                 content.append("ERROR: ").append(ex.getMessage());
-                System.err.printf("Error reading stream: %s", ex.getMessage(), ex);
+                System.err.printf("Error reading stream: %s", ex.getMessage());
             }
             return content.toString().trim(); // Trim trailing line separator.
         }
@@ -319,7 +319,7 @@ public class IOChecker {
                             expectedOutput, output.getOutputMessage());
                 }
             } catch (Exception e) {
-                System.out.printf("Error detecting SPI devices with command '{}': {}", command, e.getMessage());
+                System.out.printf("Error detecting SPI devices with command %s : %s", command, e.getMessage());
             }
             return new CheckerResult.Check(CheckerResult.ResultStatus.TO_EVALUATE, "No info returned by '" + command + "'", expectedOutput, "");
         }
@@ -747,7 +747,7 @@ public class IOChecker {
 
             List<SensorDescriptor.Value> valueDescriptors = sensor.getDescriptor().getValues();
 
-            float[] values = new float[valueDescriptors.size()];
+            double[] values = new double[valueDescriptors.size()];
             sensor.readMeasurement(values);
 
             for (SensorDescriptor.Value valueDescriptor : valueDescriptors) {
